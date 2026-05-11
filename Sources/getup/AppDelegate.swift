@@ -1,0 +1,135 @@
+import AppKit
+import Combine
+import Foundation
+
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    private var statusItem: NSStatusItem!
+    private let overlay = OverlayController()
+    private let settings = SettingsStore()
+    private let settingsWindow = SettingsWindowController()
+    private let wizard = WizardWindowController()
+    private var scheduler: StretchScheduler!
+    private var audioModeCancellable: AnyCancellable?
+    private var dockPolicyCancellable: AnyCancellable?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        applyActivationPolicy(showInDock: settings.current.showInDock)
+
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        statusItem.button?.title = "🚶"
+
+        rebuildMenu()
+
+        // refresh menu checkmark when audioMode changes from the Settings window
+        audioModeCancellable = settings.$current
+            .map(\.audioMode)
+            .removeDuplicates()
+            .dropFirst()
+            .sink { [weak self] _ in self?.rebuildMenu() }
+
+        // toggle Dock presence + ⌘Tab when user flips the Show-in-Dock setting
+        dockPolicyCancellable = settings.$current
+            .map(\.showInDock)
+            .removeDuplicates()
+            .dropFirst()
+            .sink { [weak self] show in self?.applyActivationPolicy(showInDock: show) }
+
+        scheduler = StretchScheduler(
+            fireMinute: { [weak self] in self?.settings.current.fireMinute ?? 50 },
+            onFire: { [weak self] in
+                guard let self else { return }
+                self.overlay.show(audioMode: self.settings.current.audioMode,
+                                  volume: self.settings.current.volume)
+            }
+        )
+        scheduler.start()
+
+        // Show wizard for fresh installs. Returning users were marked complete in SettingsStore.init.
+        wizard.showIfNeeded(store: settings) { [weak self] in
+            // Audio mode may have just changed — refresh menu checkmark.
+            self?.rebuildMenu()
+        }
+    }
+
+    /// Dock-icon click (and ⌘Tab activation when Dock is hidden) opens Settings.
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        openSettings()
+        return true
+    }
+
+    /// Right-click on the Dock icon mirrors the status-bar menu so the Dock-mode user
+    /// has the same quick actions without going to the menu bar.
+    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
+        buildMenu()
+    }
+
+    /// `LSUIElement = true` ships in Info.plist as the baseline (menu-bar-only). At runtime
+    /// we promote to `.regular` when the user opts into the Dock — this overrides LSUIElement
+    /// without re-launch. Demoting back to `.accessory` removes the Dock icon immediately.
+    private func applyActivationPolicy(showInDock: Bool) {
+        NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
+    }
+
+    private func buildMenu() -> NSMenu {
+        let menu = NSMenu()
+
+        let stretchNow = NSMenuItem(title: String(localized: "Stretch now"),
+                                    action: #selector(stretchNow),
+                                    keyEquivalent: "")
+        stretchNow.target = self
+        menu.addItem(stretchNow)
+
+        let settingsItem = NSMenuItem(title: String(localized: "Settings…"),
+                                      action: #selector(openSettings),
+                                      keyEquivalent: ",")
+        settingsItem.target = self
+        menu.addItem(settingsItem)
+
+        menu.addItem(.separator())
+
+        // Audio mode quick-pick submenu (also reachable from Settings window)
+        let audioRoot = NSMenuItem(title: String(localized: "Audio mode"),
+                                   action: nil, keyEquivalent: "")
+        let audioSub = NSMenu()
+        for mode in AudioMode.allCases {
+            let item = NSMenuItem(title: mode.displayName,
+                                  action: #selector(setAudioMode(_:)),
+                                  keyEquivalent: "")
+            item.target = self
+            item.representedObject = mode.rawValue
+            item.state = (mode == settings.current.audioMode) ? .on : .off
+            audioSub.addItem(item)
+        }
+        audioRoot.submenu = audioSub
+        menu.addItem(audioRoot)
+
+        menu.addItem(.separator())
+
+        let quit = NSMenuItem(title: String(localized: "Quit getup"),
+                              action: #selector(NSApp.terminate(_:)),
+                              keyEquivalent: "q")
+        menu.addItem(quit)
+
+        return menu
+    }
+
+    private func rebuildMenu() {
+        statusItem.menu = buildMenu()
+    }
+
+    @objc private func stretchNow() {
+        overlay.show(audioMode: settings.current.audioMode,
+                     volume: settings.current.volume)
+    }
+
+    @objc private func setAudioMode(_ sender: NSMenuItem) {
+        guard let raw = sender.representedObject as? String,
+              let mode = AudioMode(rawValue: raw) else { return }
+        settings.current.audioMode = mode   // didSet auto-persists; sink rebuilds menu
+        NSLog("getup: audioMode set to \(mode.rawValue)")
+    }
+
+    @objc private func openSettings() {
+        settingsWindow.show(store: settings)
+    }
+}

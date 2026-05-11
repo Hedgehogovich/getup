@@ -1,0 +1,60 @@
+/* getup — Japanese */
+
+"Stretch now" = "今すぐストレッチ";
+"Settings…" = "設定…";
+"Audio mode" = "オーディオモード";
+"Quit getup" = "getup を終了";
+
+"Headphones only" = "ヘッドホンのみ";
+"Always (any output)" = "常に（すべての出力）";
+"Silent (UI only)" = "サイレント（UI のみ）";
+
+"General" = "一般";
+"Audio" = "オーディオ";
+"About" = "情報";
+
+"Schedule" = "スケジュール";
+"Fire at minute" = "発火する分";
+"Apple Watch Stand reminders fire at xx:50." = "Apple Watch のスタンド通知は毎時 50 分に届きます。";
+
+"When to play audio" = "音を鳴らす条件";
+"Mode" = "モード";
+"Volume" = "音量";
+"Voice & phrase" = "音声とフレーズ";
+"Voice" = "音声";
+"Phrase" = "フレーズ";
+"Preview" = "プレビュー";
+"Updating audio…" = "音声を更新中…";
+"Audio updated ✓" = "音声を更新しました ✓";
+"Audio update failed" = "音声の更新に失敗しました";
+"%@ (not installed)" = "%@（インストールされていません）";
+
+"Hourly stretch reminders for macOS" = "macOS 用 1 時間ごとのストレッチ通知";
+"Open log folder" = "ログフォルダを開く";
+"Open audio folder" = "オーディオフォルダを開く";
+
+"GET UP & STRETCH" = "立ってストレッチ！";
+"click anywhere or press Esc to dismiss" = "クリックまたは Esc で閉じる";
+
+/* Language picker (added in Step 3 follow-up) */
+"Language" = "言語";
+"System default" = "システムのデフォルト";
+"Restart now to apply" = "再起動して適用";
+
+/* First-run wizard (Step 8) */
+"Welcome to getup" = "getup へようこそ";
+"When should I play audio?" = "音を鳴らすタイミング";
+"Get started" = "はじめる";
+
+/* Wizard navigation (Step 8 update) */
+"Continue" = "次へ";
+
+/* Startup section (login item toggle) */
+"Startup" = "起動";
+"Run at startup" = "ログイン時に起動";
+"When off, getup runs only when launched manually." = "オフのときは手動で起動したときだけ動作します。";
+
+/* Appearance section (Dock visibility toggle) */
+"Appearance" = "外観";
+"Show in Dock" = "Dock に表示";
+"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "オンにすると、getup は Dock と ⌘Tab にも表示されます。カメラのノッチでメニューバーのアイコンが隠れるときに便利です。";

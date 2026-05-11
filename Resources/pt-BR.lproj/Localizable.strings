@@ -1,0 +1,67 @@
+/* getup — Portuguese (Brazil) */
+
+"Stretch now" = "Alongar agora";
+"Settings…" = "Configurações…";
+"Audio mode" = "Modo de áudio";
+"Quit getup" = "Sair do getup";
+
+"Headphones only" = "Somente fones";
+"Always (any output)" = "Sempre (qualquer saída)";
+"Silent (UI only)" = "Silencioso (só interface)";
+
+"General" = "Geral";
+"Audio" = "Áudio";
+"About" = "Sobre";
+
+"Schedule" = "Agendamento";
+"Fire at minute" = "Disparar no minuto";
+"Apple Watch Stand reminders fire at xx:50." = "Os lembretes “De pé” do Apple Watch tocam às xx:50.";
+
+"When to play audio" = "Quando tocar áudio";
+"Mode" = "Modo";
+"Volume" = "Volume";
+"Voice & phrase" = "Voz e frase";
+"Voice" = "Voz";
+"Phrase" = "Frase";
+"Preview" = "Pré-visualizar";
+"Updating audio…" = "Atualizando áudio…";
+"Audio updated ✓" = "Áudio atualizado ✓";
+"Audio update failed" = "Falha ao atualizar o áudio";
+"%@ (not installed)" = "%@ (não instalada)";
+
+"Hourly stretch reminders for macOS" = "Lembretes de alongamento por hora para macOS";
+"Open log folder" = "Abrir pasta de logs";
+"Open audio folder" = "Abrir pasta de áudio";
+
+"GET UP & STRETCH" = "LEVANTE E ALONGUE";
+"click anywhere or press Esc to dismiss" = "clique ou pressione Esc para fechar";
+
+/* Language picker (added in Step 3 follow-up) */
+"Language" = "Idioma";
+"System default" = "Padrão do sistema";
+"Restart now to apply" = "Reiniciar para aplicar";
+
+/* First-run wizard (Step 8) */
+"Welcome to getup" = "Bem-vindo ao getup";
+"When should I play audio?" = "Quando tocar áudio?";
+"Get started" = "Começar";
+
+/* Wizard navigation (Step 8 update) */
+"Continue" = "Continuar";
+
+/* Startup section (login item toggle) */
+"Startup" = "Inicialização";
+"Run at startup" = "Iniciar ao entrar";
+"When off, getup runs only when launched manually." = "Quando desligado, o getup só roda quando aberto manualmente.";
+
+/* Appearance section (Dock visibility toggle) */
+"Appearance" = "Aparência";
+"Show in Dock" = "Mostrar no Dock";
+"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Quando ligado, o getup também aparece no Dock e no ⌘Tab. Útil quando o entalhe da câmera esconde os ícones da barra de menus.";
+
+/* Wizard step 3 — voice & phrase */
+"Pick a voice and phrase" = "Escolha uma voz e uma frase";
+"This is what I will say each hour." = "Isto é o que eu direi a cada hora.";
+
+/* First-run loop phrase — spoken aloud each hour. */
+"defaultPhrase" = "Protocolo de movimento iniciado. Por favor, levante-se e alongue-se. A resistência é fútil.";

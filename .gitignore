@@ -1,0 +1,44 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Build output (build.sh produces ./getup.app/)
+/getup.app/
+/getup
+*.dSYM/
+*.o
+*.swiftmodule
+*.swiftdoc
+*.swiftsourceinfo
+
+# Swift Package Manager (not used today, future-proof)
+/.build/
+/.swiftpm/
+/Packages/
+Package.resolved
+
+# Xcode (not used, future-proof)
+xcuserdata/
+*.xcuserstate
+DerivedData/
+
+# Claude Code
+.claude/
+.agents/
+CLAUDE.md
+skills-lock.json
+
+# Internal docs
+docs
+
+# Editor / IDE
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Logs (only relevant if anyone redirects daemon output here; canonical logs live in ~/Library/Application Support/getup/)
+*.log

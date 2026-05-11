@@ -1,0 +1,75 @@
+/* getup — English (base) */
+
+/* Menu bar */
+"Stretch now" = "Stretch now";
+"Settings…" = "Settings…";
+"Audio mode" = "Audio mode";
+"Quit getup" = "Quit getup";
+
+/* Audio mode display names */
+"Headphones only" = "Headphones only";
+"Always (any output)" = "Always (any output)";
+"Silent (UI only)" = "Silent (UI only)";
+
+/* Settings tabs */
+"General" = "General";
+"Audio" = "Audio";
+"About" = "About";
+
+/* General tab */
+"Schedule" = "Schedule";
+"Fire at minute" = "Fire at minute";
+"Apple Watch Stand reminders fire at xx:50." = "Apple Watch Stand reminders fire at xx:50.";
+
+/* Audio tab */
+"When to play audio" = "When to play audio";
+"Mode" = "Mode";
+"Volume" = "Volume";
+"Voice & phrase" = "Voice & phrase";
+"Voice" = "Voice";
+"Phrase" = "Phrase";
+"Preview" = "Preview";
+"Updating audio…" = "Updating audio…";
+"Audio updated ✓" = "Audio updated ✓";
+"Audio update failed" = "Audio update failed";
+"%@ (not installed)" = "%@ (not installed)";
+
+/* About tab */
+"Hourly stretch reminders for macOS" = "Hourly stretch reminders for macOS";
+"Open log folder" = "Open log folder";
+"Open audio folder" = "Open audio folder";
+
+/* Overlay */
+"GET UP & STRETCH" = "GET UP & STRETCH";
+"click anywhere or press Esc to dismiss" = "click anywhere or press Esc to dismiss";
+
+/* Language picker (added in Step 3 follow-up) */
+"Language" = "Language";
+"System default" = "System default";
+"Restart now to apply" = "Restart now to apply";
+
+/* First-run wizard (Step 8) */
+"Welcome to getup" = "Welcome to getup";
+"When should I play audio?" = "When should I play audio?";
+"Get started" = "Get started";
+
+/* Wizard navigation (Step 8 update) */
+"Continue" = "Continue";
+
+/* Wizard step 3 — voice & phrase */
+"Pick a voice and phrase" = "Pick a voice and phrase";
+"This is what I will say each hour." = "This is what I will say each hour.";
+
+/* First-run default loop phrase. Resolved per-locale before the wizard writes sound.aiff,
+   so users hear the loop in their picked language. Must be a complete sentence; ~80 chars or less reads best. */
+"defaultPhrase" = "Movement protocol initiated. Please stand and stretch. Resistance is futile.";
+
+/* Startup section (login item toggle) */
+"Startup" = "Startup";
+"Run at startup" = "Run at startup";
+"When off, getup runs only when launched manually." = "When off, getup runs only when launched manually.";
+
+/* Appearance section (Dock visibility toggle) */
+"Appearance" = "Appearance";
+"Show in Dock" = "Show in Dock";
+"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons.";

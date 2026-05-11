@@ -1,0 +1,67 @@
+/* getup — Russian */
+
+"Stretch now" = "Размяться сейчас";
+"Settings…" = "Настройки…";
+"Audio mode" = "Режим звука";
+"Quit getup" = "Выйти из getup";
+
+"Headphones only" = "Только наушники";
+"Always (any output)" = "Всегда (любой выход)";
+"Silent (UI only)" = "Без звука (только интерфейс)";
+
+"General" = "Основные";
+"Audio" = "Аудио";
+"About" = "О программе";
+
+"Schedule" = "Расписание";
+"Fire at minute" = "Срабатывать на минуте";
+"Apple Watch Stand reminders fire at xx:50." = "Напоминания «Встать» на Apple Watch срабатывают в xx:50.";
+
+"When to play audio" = "Когда воспроизводить звук";
+"Mode" = "Режим";
+"Volume" = "Громкость";
+"Voice & phrase" = "Голос и фраза";
+"Voice" = "Голос";
+"Phrase" = "Фраза";
+"Preview" = "Прослушать";
+"Updating audio…" = "Обновление звука…";
+"Audio updated ✓" = "Звук обновлён ✓";
+"Audio update failed" = "Не удалось обновить звук";
+"%@ (not installed)" = "%@ (не установлен)";
+
+"Hourly stretch reminders for macOS" = "Ежечасные напоминания о разминке для macOS";
+"Open log folder" = "Открыть папку логов";
+"Open audio folder" = "Открыть папку со звуком";
+
+"GET UP & STRETCH" = "ВСТАНЬ И РАЗОМНИСЬ";
+"click anywhere or press Esc to dismiss" = "кликните или нажмите Esc, чтобы закрыть";
+
+/* Language picker (added in Step 3 follow-up) */
+"Language" = "Язык";
+"System default" = "По умолчанию системы";
+"Restart now to apply" = "Перезапустить для применения";
+
+/* First-run wizard (Step 8) */
+"Welcome to getup" = "Добро пожаловать в getup";
+"When should I play audio?" = "Когда воспроизводить звук?";
+"Get started" = "Начать";
+
+/* Wizard navigation (Step 8 update) */
+"Continue" = "Далее";
+
+/* Startup section (login item toggle) */
+"Startup" = "Запуск";
+"Run at startup" = "Запускать при входе";
+"When off, getup runs only when launched manually." = "Если отключено, getup запускается только вручную.";
+
+/* Appearance section (Dock visibility toggle) */
+"Appearance" = "Внешний вид";
+"Show in Dock" = "Показывать в Dock";
+"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Если включено, getup также появляется в Dock и в ⌘Tab. Удобно, когда вырез камеры скрывает значки строки меню.";
+
+/* Wizard step 3 — voice & phrase */
+"Pick a voice and phrase" = "Выберите голос и фразу";
+"This is what I will say each hour." = "Вот что я буду говорить каждый час.";
+
+/* First-run loop phrase — spoken aloud each hour. */
+"defaultPhrase" = "Протокол движения активирован. Пожалуйста, встаньте и потянитесь. Сопротивление бесполезно.";

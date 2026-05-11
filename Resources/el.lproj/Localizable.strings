@@ -1,0 +1,60 @@
+/* getup — Greek */
+
+"Stretch now" = "Τέντωμα τώρα";
+"Settings…" = "Ρυθμίσεις…";
+"Audio mode" = "Λειτουργία ήχου";
+"Quit getup" = "Έξοδος από το getup";
+
+"Headphones only" = "Μόνο ακουστικά";
+"Always (any output)" = "Πάντα (οποιαδήποτε έξοδος)";
+"Silent (UI only)" = "Σιωπηλά (μόνο διεπαφή)";
+
+"General" = "Γενικά";
+"Audio" = "Ήχος";
+"About" = "Σχετικά";
+
+"Schedule" = "Πρόγραμμα";
+"Fire at minute" = "Ενεργοποίηση στο λεπτό";
+"Apple Watch Stand reminders fire at xx:50." = "Οι ειδοποιήσεις «Σήκω» του Apple Watch χτυπούν στο xx:50.";
+
+"When to play audio" = "Πότε να παίζει ήχος";
+"Mode" = "Λειτουργία";
+"Volume" = "Ένταση";
+"Voice & phrase" = "Φωνή και φράση";
+"Voice" = "Φωνή";
+"Phrase" = "Φράση";
+"Preview" = "Προεπισκόπηση";
+"Updating audio…" = "Ενημέρωση ήχου…";
+"Audio updated ✓" = "Ο ήχος ενημερώθηκε ✓";
+"Audio update failed" = "Η ενημέρωση ήχου απέτυχε";
+"%@ (not installed)" = "%@ (μη εγκατεστημένη)";
+
+"Hourly stretch reminders for macOS" = "Ωριαίες υπενθυμίσεις τεντώματος για το macOS";
+"Open log folder" = "Άνοιγμα φακέλου log";
+"Open audio folder" = "Άνοιγμα φακέλου ήχου";
+
+"GET UP & STRETCH" = "ΣΗΚΩ ΚΑΙ ΤΕΝΤΩΣΟΥ";
+"click anywhere or press Esc to dismiss" = "κάνε κλικ ή πάτα Esc για κλείσιμο";
+
+/* Language picker (added in Step 3 follow-up) */
+"Language" = "Γλώσσα";
+"System default" = "Προεπιλογή συστήματος";
+"Restart now to apply" = "Επανεκκίνηση για εφαρμογή";
+
+/* First-run wizard (Step 8) */
+"Welcome to getup" = "Καλώς ήρθες στο getup";
+"When should I play audio?" = "Πότε να παίζει ήχος;";
+"Get started" = "Ξεκίνα";
+
+/* Wizard navigation (Step 8 update) */
+"Continue" = "Συνέχεια";
+
+/* Startup section (login item toggle) */
+"Startup" = "Εκκίνηση";
+"Run at startup" = "Εκκίνηση κατά τη σύνδεση";
+"When off, getup runs only when launched manually." = "Όταν είναι εκτός, το getup τρέχει μόνο με χειροκίνητη εκκίνηση.";
+
+/* Appearance section (Dock visibility toggle) */
+"Appearance" = "Εμφάνιση";
+"Show in Dock" = "Εμφάνιση στο Dock";
+"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Όταν είναι ενεργό, το getup εμφανίζεται και στο Dock και στο ⌘Tab. Χρήσιμο όταν η εγκοπή της κάμερας κρύβει εικονίδια της γραμμής μενού.";
