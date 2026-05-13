@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build & test (macOS, Xcode)
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          xcode-select -p
+          xcodebuild -version
+          swift --version
+
+      - name: Build (release)
+        run: swift build -c release
+
+      - name: Test
+        run: swift test --parallel
+
+      - name: Assemble app bundle
+        env:
+          REDEPLOY: "0" # don't try to copy to ~/Applications or kickstart launchd on CI
+        run: ./build.sh
+
+      - name: Sanity-check bundle layout
+        run: |
+          test -x getup.app/Contents/MacOS/getup
+          test -f getup.app/Contents/Info.plist
+          test -f getup.app/Contents/PkgInfo
+          # Every locale we ship must land in the bundle.
+          for L in de el en es fr it ja pt-BR ru zh-Hans; do
+            test -f "getup.app/Contents/Resources/${L}.lproj/Localizable.strings" \
+              || { echo "missing locale: ${L}"; exit 1; }
+          done
+          echo "Bundle OK"
