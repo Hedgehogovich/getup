@@ -13,9 +13,18 @@ enum SaySynth {
         var voices: [SayVoice] = []
         for raw in text.split(separator: "\n") {
             let line = String(raw)
-            let beforeHash = line.split(separator: "#", maxSplits: 1).first.map(String.init) ?? line
+            // Pass `omittingEmptySubsequences: false` so a line starting with `#` produces
+            // a LEADING empty segment — otherwise Swift's default would drop it and the
+            // comment body would be read as voice content (parsed "# foo bar" as 2 tokens).
+            let beforeHash = line
+                .split(separator: "#", maxSplits: 1, omittingEmptySubsequences: false)
+                .first
+                .map(String.init) ?? line
             let trimmed = beforeHash.trimmingCharacters(in: .whitespaces)
-            let tokens = trimmed.split(separator: " ", omittingEmptySubsequences: true).map(String.init)
+            // Apple's `say -v ?` output uses runs of spaces between columns, but external
+            // callers / different shells / pasted fixtures may use tabs. Split on any
+            // whitespace character so both work.
+            let tokens = trimmed.split(whereSeparator: \.isWhitespace).map(String.init)
             guard tokens.count >= 2 else { continue }
             let locale = tokens.last!
             let name = tokens.dropLast().joined(separator: " ")

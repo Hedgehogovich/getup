@@ -120,7 +120,12 @@ struct SettingsStoreTests {
         // init reconciles AppleLanguages with stored language — so it's still ["el"]
         #expect(defaults.array(forKey: "AppleLanguages") as? [String] == ["el"])
         store.current.language = nil
-        #expect(defaults.object(forKey: "AppleLanguages") == nil)
+        // Check the suite's OWN persistent domain rather than `object(forKey:)`, because
+        // UserDefaults reads cascade through NSGlobalDomain and Apple's other domains —
+        // CI runners ship with `AppleLanguages=["en-US"]` in NSGlobalDomain, which would
+        // bubble up to a cascaded read even after our suite's key is removed.
+        let storedDomain = UserDefaults().persistentDomain(forName: suite) ?? [:]
+        #expect(storedDomain["AppleLanguages"] == nil)
     }
 
     @Test func markFirstRunComplete_persists() {

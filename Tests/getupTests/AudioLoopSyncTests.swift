@@ -45,11 +45,14 @@ struct AudioLoopSyncTests {
     }
 
     @Test func successTransitionsToSucceededThenIdle() async throws {
-        let (sync, _) = Self.make(debounceMS: 30, fadeMS: 50, result: true)
+        // Wider fade window than other timing tests — virtualized CI macOS runners exhibit
+        // ~20–50 ms of Task.sleep jitter, which routinely pushed the t=60 ms read past a
+        // 30+50=80 ms fade-end and into `.idle`. 250 ms fade gives a comfortable read window.
+        let (sync, _) = Self.make(debounceMS: 30, fadeMS: 250, result: true)
         sync.schedule(voice: "Alex", phrase: "hello")
-        try await Task.sleep(for: .milliseconds(60))
+        try await Task.sleep(for: .milliseconds(100))   // past debounce + jitter, before fade end
         #expect(sync.status == .succeeded)
-        try await Task.sleep(for: .milliseconds(80))
+        try await Task.sleep(for: .milliseconds(350))   // past fade + jitter
         #expect(sync.status == .idle)
     }
 
