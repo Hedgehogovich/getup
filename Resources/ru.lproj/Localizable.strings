@@ -24,6 +24,7 @@
 "Voice" = "Голос";
 "Phrase" = "Фраза";
 "Preview" = "Прослушать";
+"Stop" = "Стоп";
 "Updating audio…" = "Обновление звука…";
 "Audio updated ✓" = "Звук обновлён ✓";
 "Audio update failed" = "Не удалось обновить звук";

@@ -12,6 +12,8 @@ final class OverlayController {
     func show(audioMode: AudioMode, volume: Double) {
         guard !isShowing else { return }
 
+        MainActor.assumeIsolated { PreviewPlayer.shared.stop() }
+
         let screens = NSScreen.screens
         NSLog("getup: showing on \(screens.count) screen(s), audioMode=\(audioMode.rawValue), volume=\(volume)")
         for (i, screen) in screens.enumerated() {

@@ -4,6 +4,7 @@ struct SettingsView: View {
     @ObservedObject var store: SettingsStore
 
     @StateObject private var loopSync = AudioLoopSync()
+    @ObservedObject private var preview = PreviewPlayer.shared
 
     @State private var voices: [SayVoice] = []
     @State private var languageRestartPending = false
@@ -128,7 +129,10 @@ struct SettingsView: View {
         .onChange(of: store.current.customPhrase) { _, _ in
             if !store.current.useCustomAudio { scheduleRegen() }
         }
-        .onDisappear { loopSync.cancel() }
+        .onDisappear {
+            loopSync.cancel()
+            preview.stop()
+        }
         .alert(customAudioErrorTitle, isPresented: $showCustomAudioError) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -153,14 +157,7 @@ struct SettingsView: View {
                     .lineLimit(2...4)
                     .textFieldStyle(.roundedBorder)
                 HStack {
-                    Button {
-                        SaySynth.preview(voice: store.current.voice,
-                                         phrase: store.current.customPhrase)
-                    } label: {
-                        Label("Preview", systemImage: "play.fill")
-                    }
-                    .disabled(store.current.customPhrase.isEmpty)
-
+                    previewToggleButton(generated: true)
                     audioStatusIndicator
                     Spacer()
                 }
@@ -182,13 +179,7 @@ struct SettingsView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
             HStack {
-                Button {
-                    CustomAudio.previewCurrent()
-                } label: {
-                    Label("Preview", systemImage: "play.fill")
-                }
-                .disabled(AppPaths.existingSoundFile == nil)
-
+                previewToggleButton(generated: false)
                 Button("Use generated audio instead") { revertCustomAudio() }
                 Spacer()
             }
@@ -197,6 +188,34 @@ struct SettingsView: View {
 
     private func scheduleRegen() {
         loopSync.schedule(voice: store.current.voice, phrase: store.current.customPhrase)
+    }
+
+    @ViewBuilder
+    private func previewToggleButton(generated: Bool) -> some View {
+        Button {
+            if preview.isPlaying {
+                preview.stop()
+            } else if generated {
+                preview.playSay(voice: store.current.voice,
+                                phrase: store.current.customPhrase)
+            } else {
+                preview.playFile()
+            }
+        } label: {
+            if preview.isPlaying {
+                Label("Stop", systemImage: "stop.fill")
+            } else {
+                Label("Preview", systemImage: "play.fill")
+            }
+        }
+        .disabled(previewDisabled(generated: generated))
+    }
+
+    private func previewDisabled(generated: Bool) -> Bool {
+        if preview.isPlaying { return false }
+        return generated
+            ? store.current.customPhrase.isEmpty
+            : AppPaths.existingSoundFile == nil
     }
 
     private func pickCustomAudio() {

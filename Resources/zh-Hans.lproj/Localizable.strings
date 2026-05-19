@@ -24,6 +24,7 @@
 "Voice" = "语音";
 "Phrase" = "短语";
 "Preview" = "预览";
+"Stop" = "停止";
 "Updating audio…" = "正在更新音频…";
 "Audio updated ✓" = "音频已更新 ✓";
 "Audio update failed" = "音频更新失败";

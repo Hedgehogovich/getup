@@ -29,6 +29,7 @@
 "Voice" = "Voice";
 "Phrase" = "Phrase";
 "Preview" = "Preview";
+"Stop" = "Stop";
 "Updating audio…" = "Updating audio…";
 "Audio updated ✓" = "Audio updated ✓";
 "Audio update failed" = "Audio update failed";

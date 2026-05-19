@@ -24,6 +24,7 @@
 "Voice" = "音声";
 "Phrase" = "フレーズ";
 "Preview" = "プレビュー";
+"Stop" = "停止";
 "Updating audio…" = "音声を更新中…";
 "Audio updated ✓" = "音声を更新しました ✓";
 "Audio update failed" = "音声の更新に失敗しました";

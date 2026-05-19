@@ -24,6 +24,7 @@
 "Voice" = "Voz";
 "Phrase" = "Frase";
 "Preview" = "Pré-visualizar";
+"Stop" = "Parar";
 "Updating audio…" = "Atualizando áudio…";
 "Audio updated ✓" = "Áudio atualizado ✓";
 "Audio update failed" = "Falha ao atualizar o áudio";
