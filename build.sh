@@ -22,9 +22,25 @@ mkdir -p "${CONTENTS}/MacOS" "${CONTENTS}/Resources"
 # `import` statements and the macOS 14 platform target in Package.swift. Resources
 # (`.lproj/Localizable.strings`) are NOT a SwiftPM resource — they're copied into the
 # bundle below at assembly time, same as before.
+#
+# Universal binary: build for arm64 + x86_64 separately, then lipo them into one fat binary
+# so the same .app runs natively on Apple Silicon AND Intel Macs (still relevant through
+# ~2027 for the existing Intel install base). Opt out for fast local iteration with
+# UNIVERSAL=0 ./build.sh — that path skips the x86_64 build and copies only the native arch.
 SWIFT_BIN="${SWIFT_BIN:-/Library/Developer/CommandLineTools/usr/bin/swift}"
-"$SWIFT_BIN" build -c release
-cp ".build/release/${APP_NAME}" "${CONTENTS}/MacOS/${APP_NAME}"
+if [ "${UNIVERSAL:-1}" = "1" ]; then
+    "$SWIFT_BIN" build -c release --arch arm64
+    "$SWIFT_BIN" build -c release --arch x86_64
+    lipo -create \
+        ".build/arm64-apple-macosx/release/${APP_NAME}" \
+        ".build/x86_64-apple-macosx/release/${APP_NAME}" \
+        -output "${CONTENTS}/MacOS/${APP_NAME}"
+    echo "Architectures: $(lipo -archs "${CONTENTS}/MacOS/${APP_NAME}")"
+else
+    "$SWIFT_BIN" build -c release
+    cp ".build/release/${APP_NAME}" "${CONTENTS}/MacOS/${APP_NAME}"
+    echo "Architecture: $(lipo -archs "${CONTENTS}/MacOS/${APP_NAME}") (single-arch dev build)"
+fi
 
 # Copy localizations: every Resources/<lang>.lproj/ goes into the bundle's Resources/.
 LOCALES=()
