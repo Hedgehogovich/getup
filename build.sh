@@ -5,8 +5,15 @@ cd "$(dirname "$0")"
 APP_NAME="getup"            # executable filename + bundle filename ("getup.app"). Stays lowercase — matches macOS convention that the binary name matches the bundle filename, and the LaunchAgent + log paths still grep'able.
 BUNDLE_ID="com.ychachilo.getup"
 DISPLAY_NAME="Getup"        # CFBundleDisplayName + CFBundleName — what Finder, Dock, Cmd-Tab, About box show.
-VERSION="0.1"
-BUILD="1"
+
+# Version sourced from version.txt (release-please owns this file). Falls back to a dev marker
+# so untagged source checkouts still build. CFBundleVersion is the App-Store-monotonic build
+# number — using commits-since-root guarantees it always grows and never repeats across releases.
+VERSION="$(cat version.txt 2>/dev/null | head -1 | tr -d '[:space:]')"
+[ -z "$VERSION" ] && VERSION="0.0.0-dev"
+BUILD="$(git rev-list --count HEAD 2>/dev/null)"
+[ -z "$BUILD" ] && BUILD="1"
+
 MIN_MACOS="14.0"
 
 BUNDLE="${APP_NAME}.app"
