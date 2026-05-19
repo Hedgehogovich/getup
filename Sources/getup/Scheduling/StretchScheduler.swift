@@ -1,8 +1,7 @@
 import Foundation
 
-/// One-shot timer re-armed after each fire to the next `xx:<fireMinute>`.
 final class StretchScheduler {
-    private let fireMinute: () -> Int       // closure so menu/prefs changes pick up live
+    private let fireMinute: () -> Int   // closure so live setting changes affect the next fire.
     private let onFire: () -> Void
     private var timer: Timer?
 
@@ -13,9 +12,7 @@ final class StretchScheduler {
 
     func start() { scheduleNext() }
 
-    /// Pure: compute the next `xx:<fireMinute>:00` that is strictly after `now`.
-    /// Extracted for unit tests — feed canned `now` + minute, assert the returned date.
-    /// `fireMinute` is clamped to `0...59`.
+    /// Next `xx:<fireMinute>:00` strictly after `now`. Pure for unit tests. fireMinute clamped to 0...59.
     static func nextFireDate(after now: Date, fireMinute: Int, calendar: Calendar = .current) -> Date {
         var comps = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: now)
         comps.minute = max(0, min(59, fireMinute))

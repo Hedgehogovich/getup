@@ -18,12 +18,9 @@ final class SettingsStore: ObservableObject {
     private let firstRunKey: String
     private let defaults: UserDefaults
 
-    /// True when first-run wizard hasn't been completed (or dismissed) yet.
     var isFirstRun: Bool { !defaults.bool(forKey: firstRunKey) }
     func markFirstRunComplete() { defaults.set(true, forKey: firstRunKey) }
 
-    /// Designated init. Parameterized for tests; production path uses defaults that match
-    /// the bundled-app domain. `legacySuiteName` triggers the one-time pre-bundle migration.
     init(
         defaults: UserDefaults = .standard,
         storeKey: String = "getup.settings.v1",
@@ -34,8 +31,7 @@ final class SettingsStore: ObservableObject {
         self.storeKey = storeKey
         self.firstRunKey = firstRunKey
 
-        // One-time migration: pre-bundle binary stored under the suite "getup" (executable name).
-        // After bundling, our suite is "com.ychachilo.getup" via CFBundleIdentifier.
+        // Pre-bundle binary stored under suite "getup" (executable name); now "com.ychachilo.getup".
         var hadLegacy = false
         if defaults.data(forKey: storeKey) == nil,
            let suite = legacySuiteName,
@@ -53,13 +49,10 @@ final class SettingsStore: ObservableObject {
         } else {
             self.current = Settings()
         }
-        // Returning users (any prior settings on disk) skip the wizard.
         if hasPriorData && !defaults.bool(forKey: firstRunKey) {
             defaults.set(true, forKey: firstRunKey)
             NSLog("getup: returning user, skipping first-run wizard")
         }
-        // Reconcile AppleLanguages with our setting at launch — handles users who manually
-        // wrote AppleLanguages with `defaults` and then reinstalled.
         applyLanguageOverride(current.language)
     }
 
@@ -69,8 +62,7 @@ final class SettingsStore: ObservableObject {
         }
     }
 
-    /// Writes/clears the per-app `AppleLanguages` override. Takes effect on next process launch
-    /// because NSLocalizedString resolves the bundle's locale at startup.
+    // AppleLanguages override takes effect on next launch — Bundle locale resolves at startup.
     private func applyLanguageOverride(_ lang: String?) {
         if let lang {
             defaults.set([lang], forKey: "AppleLanguages")

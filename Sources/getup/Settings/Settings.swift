@@ -1,19 +1,17 @@
 import Foundation
 
 struct Settings: Codable, Equatable {
-    var audioMode: AudioMode = .headphonesOnly  // headphones-only is the safe default for shared spaces
-    var fireMinute: Int = 50                    // matches Apple Watch Stand reminders
-    var volume: Double = 0.7                    // 0.0 ... 1.0; applied to AVAudioPlayer
-    var voice: String = "Zarvox"                // `say -v <voice>` — must exist locally
+    var audioMode: AudioMode = .headphonesOnly
+    var fireMinute: Int = 50
+    var volume: Double = 0.7
+    var voice: String = "Zarvox"
     var customPhrase: String = "Movement protocol initiated. Please stand and stretch. Resistance is futile."
-    var language: String? = nil                 // nil = follow macOS; otherwise a CFBundleLocalizations code (en, es, el, ...)
-    var showInDock: Bool = false                // false = LSUIElement-only (menu bar); true = also show in Dock + Cmd-Tab
+    var language: String? = nil  // nil = system default; otherwise a CFBundleLocalizations code
+    var showInDock: Bool = false
 
-    // Forward-compat: decodeIfPresent on every field so adding new non-optional fields doesn't
-    // discard a returning user's existing JSON. Synthesized init(from:) would throw on the first
-    // missing key — see SettingsCodableTests.decodesLegacyJSONMissingNewField.
     init() {}
 
+    // decodeIfPresent on every field so adding non-optional fields doesn't discard returning users' JSON.
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         let d = Settings()

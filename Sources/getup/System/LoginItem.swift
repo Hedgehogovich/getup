@@ -1,7 +1,6 @@
 import Foundation
 
-/// LaunchAgent install/uninstall from inside the app. The plist's presence is the source of
-/// truth for the "Run at startup" toggle — there is no separate Settings field.
+/// Plist presence is the source of truth for "Run at startup" — no separate Settings field.
 enum LoginItem {
     static let label = "com.ychachilo.getup"
 
@@ -14,8 +13,6 @@ enum LoginItem {
         FileManager.default.fileExists(atPath: plistURL.path)
     }
 
-    /// Writes the LaunchAgent plist + tries to bootstrap. Idempotent: re-running with the agent
-    /// already loaded fails the bootstrap step harmlessly (we ignore the result).
     static func enable() {
         guard let exec = Bundle.main.executablePath else {
             NSLog("getup: LoginItem.enable — Bundle.main.executablePath nil")
@@ -73,8 +70,7 @@ enum LoginItem {
         }
     }
 
-    /// Removes the LaunchAgent plist file. Does NOT `bootout` — that would kill the running
-    /// daemon mid-toggle. The current session continues until the user quits; next login is silent.
+    // No `bootout` — that would kill the running daemon mid-toggle. Plist removal stops auto-start next login.
     static func disable() {
         do {
             if FileManager.default.fileExists(atPath: plistURL.path) {

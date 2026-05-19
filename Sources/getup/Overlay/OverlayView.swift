@@ -41,7 +41,7 @@ final class OverlayView: NSView {
     }
 
     override func mouseDown(with event: NSEvent) {
-        // defer to next tick — closing window inside its own event handler segfaults
+        // Closing the window inside its own event handler segfaults — defer.
         DispatchQueue.main.async { [weak self] in self?.onDismiss?() }
     }
 

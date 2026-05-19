@@ -1,8 +1,7 @@
 import CoreAudio
 import Foundation
 
-/// 'hdpn' fourCC = headphone-jack data source on built-in audio.
-private let kDataSourceHeadphone: UInt32 = 0x6864706E
+private let kDataSourceHeadphone: UInt32 = 0x6864706E  // 'hdpn' fourCC, built-in headphone-jack data source
 
 func defaultOutputDeviceID() -> AudioDeviceID? {
     var deviceID = AudioDeviceID(0)
@@ -43,9 +42,8 @@ func outputDataSource(of device: AudioDeviceID) -> UInt32? {
     return status == noErr ? value : nil
 }
 
-/// Closed-fail headphone classifier. Unknown / HDMI / DisplayPort / AirPlay → false.
-/// Built-in transport is only "headphones" when the data source reports `'hdpn'`.
-/// Bluetooth / USB / FireWire / Thunderbolt are treated as headphones unconditionally.
+/// Closed-fail: unknown / HDMI / DisplayPort / AirPlay → false. Built-in only counts when the
+/// data source is `'hdpn'`. BT / USB / FireWire / Thunderbolt → true unconditionally.
 func isHeadphoneOutput() -> Bool {
     guard let dev = defaultOutputDeviceID(),
           let transport = transportType(of: dev) else {

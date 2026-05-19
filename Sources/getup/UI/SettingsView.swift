@@ -3,9 +3,6 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var store: SettingsStore
 
-    /// Owned by the view: schedules a debounced `say -o` regeneration of `sound.aiff` whenever
-    /// voice or phrase changes, so settings + audio file stay in lockstep without a save button.
-    /// `@StateObject` so the debounce task survives across body re-renders.
     @StateObject private var loopSync = AudioLoopSync()
 
     @State private var voices: [SayVoice] = []
@@ -89,7 +86,7 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .onAppear {
             pickerLanguage = store.current.language
-            openAtLogin = LoginItem.isInstalled    // re-sync in case install.sh / uninstall changed state
+            openAtLogin = LoginItem.isInstalled   // re-sync in case install.sh / uninstall changed it.
         }
     }
 
@@ -143,8 +140,6 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        // Debounced auto-regen of sound.aiff. Initial onAppear-driven mutations don't fire
-        // here (two-closure onChange skips the initial value); only true edits trigger.
         .onChange(of: store.current.voice) { _, _ in scheduleRegen() }
         .onChange(of: store.current.customPhrase) { _, _ in scheduleRegen() }
         .onDisappear { loopSync.cancel() }
@@ -173,9 +168,6 @@ struct SettingsView: View {
 
     private var aboutTab: some View {
         VStack(spacing: 10) {
-            // Pull the actual app icon (Resources/getup.icns surfaced via CFBundleIconFile)
-            // so this matches what Finder, Cmd-Tab, and the Dock show. Falls back silently to
-            // an empty image if the named system image can't be resolved (sandbox edge case).
             if let icon = NSImage(named: "NSApplicationIcon") {
                 Image(nsImage: icon)
                     .resizable()

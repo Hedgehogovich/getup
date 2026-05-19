@@ -2,9 +2,8 @@ import AppKit
 import Foundation
 
 enum DaemonRestart {
-    /// Spawns a detached `launchctl kickstart -k` after a short delay, then quits the current
-    /// process cleanly. The kickstart fires after we've exited and brings up a fresh instance
-    /// that re-reads `AppleLanguages` at startup.
+    /// Detached `launchctl kickstart -k` after we've quit — brings up a fresh process that
+    /// re-reads `AppleLanguages` at startup (the only way to apply a language switch live).
     static func restart() {
         let uid = getuid()
         let task = Process()

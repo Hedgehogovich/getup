@@ -2,8 +2,6 @@ import SwiftUI
 
 struct WizardView: View {
     @ObservedObject var store: SettingsStore
-    /// Called when user clicks Get started. `languageChanged` = true if they picked anything
-    /// other than System default — the controller uses that to decide whether to relaunch.
     let onComplete: (_ languageChanged: Bool) -> Void
 
     @State private var step: Step = .language
@@ -25,11 +23,9 @@ struct WizardView: View {
         .frame(width: 420, height: 460)
         .onAppear {
             pickedLanguage = store.current.language
-            // Resolve step 1 against the system-preferred .lproj rather than `Bundle.main`.
-            // Why: Cocoa caches `.main`'s localization at process startup from `AppleLanguages`,
-            // so a stale override left over from a previous run forces step 1 into the wrong
-            // language until the daemon restarts. Looking up via `Bundle.preferredLocalizations`
-            // matches the user's current system preference even with cruft in our domain.
+            // Cocoa caches Bundle.main's localization at process startup from AppleLanguages, so
+            // a stale override forces step 1 into the wrong language. Bundle.preferredLocalizations
+            // resolves to the system preference even with cruft in our domain.
             let bundleLocs = Bundle.main.localizations.filter { $0 != "Base" }
             if let pref = Bundle.preferredLocalizations(from: bundleLocs).first,
                let b = LocaleHelper.bundle(forLocale: pref) {
@@ -37,10 +33,6 @@ struct WizardView: View {
             }
         }
         .task {
-            // Load voices once for the wizard (used by step 3 picker AND by seedDefaults
-            // so an X-close from any step picks a locale-appropriate voice). Phrase + voice
-            // are seeded together: if the locale lacks either a translation OR a matching
-            // voice, both fall back to English — we never mix.
             if voices.isEmpty {
                 let list = await Task.detached(priority: .userInitiated) { SaySynth.listVoices() }.value
                 voices = list
@@ -49,9 +41,6 @@ struct WizardView: View {
         }
     }
 
-    /// Step 1 — render against `localeBundle` (seeded to system-preferred .lproj on appear)
-    /// so the wizard greets the user in their actual system language even when our process
-    /// has a stale `AppleLanguages` override from a previous session.
     private var languageStep: some View {
         VStack(spacing: 18) {
             appIconHeader
@@ -88,7 +77,6 @@ struct WizardView: View {
         .padding(28)
     }
 
-    /// Step 2 — render against `localeBundle` so labels appear in the just-picked language.
     private var audioStep: some View {
         VStack(spacing: 18) {
             appIconHeader
@@ -116,8 +104,6 @@ struct WizardView: View {
             .toggleStyle(.checkbox)
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            // Bound directly to the store so the AppDelegate Combine sink flips
-            // NSApp.setActivationPolicy live as the user toggles — no deferred apply needed.
             Toggle(isOn: $store.current.showInDock) {
                 Text("Show in Dock", bundle: localeBundle)
             }
@@ -138,8 +124,6 @@ struct WizardView: View {
         .padding(28)
     }
 
-    /// Step 3 — voice + phrase + preview. On Get started we auto-write `sound.aiff` if no
-    /// sound file exists yet, so a returning user with default mode hears something at xx:50.
     private var voiceStep: some View {
         VStack(spacing: 14) {
             appIconHeader
@@ -200,17 +184,14 @@ struct WizardView: View {
     }
 
     private func applyLanguagePick() {
-        store.current.language = pickedLanguage   // didSet writes AppleLanguages override
+        store.current.language = pickedLanguage
         if let lang = pickedLanguage, let b = LocaleHelper.bundle(forLocale: lang) {
             localeBundle = b
         } else {
             localeBundle = .main
         }
-        // Re-seed defaults so the user, having just picked a language, sees a phrase + voice
-        // matching that language when they reach step 3 (or, if they X-close, gets a sound.aiff
-        // in the right language). Step 1 → step 2 is the only place language can change inside
-        // the wizard, so the user has not yet seen / edited the voice & phrase TextField — safe
-        // to overwrite.
+        // Safe to overwrite voice/phrase: step 1 → step 2 is the only path that gets here,
+        // and the user hasn't seen the TextField yet.
         seedDefaults(language: pickedLanguage)
     }
 
@@ -220,7 +201,6 @@ struct WizardView: View {
         if let v = pair.voice { store.current.voice = v }
     }
 
-    /// Shared header for all three wizard steps — same brand mark Finder / Dock show.
     @ViewBuilder
     private var appIconHeader: some View {
         if let icon = NSImage(named: "NSApplicationIcon") {

@@ -16,9 +16,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         applyActivationPolicy(showInDock: settings.current.showInDock)
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        // `isTemplate = true` lets AppKit recolor for dark mode / hover / disabled states.
         if let img = NSImage(systemSymbolName: "figure.walk.motion", accessibilityDescription: "Getup") {
-            img.isTemplate = true
+            img.isTemplate = true   // adapt to dark mode / hover / disabled
             statusItem.button?.image = img
         } else {
             statusItem.button?.title = "🚶"
@@ -49,26 +48,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         scheduler.start()
 
         wizard.showIfNeeded(store: settings) { [weak self] in
-            // Wizard may have changed audio mode — refresh menu checkmark.
             self?.rebuildMenu()
         }
     }
 
-    /// Dock-icon click opens Settings.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         openSettings()
         return true
     }
 
-    /// Right-click on Dock icon mirrors the status-bar menu.
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
         buildMenu()
     }
 
-    /// Switching from `.regular` to `.accessory` at runtime hides the app's visible windows
-    /// (the demoted app is treated as background-only). User toggles this from Settings, so
-    /// without re-fronting the window vanishes underneath them. Capture-then-restore.
     private func applyActivationPolicy(showInDock: Bool) {
+        // .regular → .accessory at runtime hides visible windows; re-front to keep Settings up.
         let visibleBefore = NSApp.windows.filter { $0.isVisible }
         NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
         guard !showInDock else { return }
@@ -134,7 +128,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     @objc private func setAudioMode(_ sender: NSMenuItem) {
         guard let raw = sender.representedObject as? String,
               let mode = AudioMode(rawValue: raw) else { return }
-        settings.current.audioMode = mode   // didSet auto-persists; sink rebuilds menu
+        settings.current.audioMode = mode
         NSLog("getup: audioMode set to \(mode.rawValue)")
     }
 

@@ -21,16 +21,14 @@ final class OverlayController {
             NSLog("getup:   screen[\(i)] \(screen.localizedName) frame=\(screen.frame) winFrame=\(win.frame)")
         }
 
-        // Make the first window key so Esc + click are caught while focused
         if let first = windows.first {
             NSApp.activate(ignoringOtherApps: true)
             first.makeKeyAndOrderFront(nil)
         }
 
-        // Local Esc fallback if our app receives the event
         localKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             if event.keyCode == 53 {
-                // defer — removing the monitor inside its own callback is unsafe
+                // Removing the monitor inside its own callback is unsafe.
                 DispatchQueue.main.async { self?.dismiss() }
                 return nil
             }
@@ -55,29 +53,28 @@ final class OverlayController {
         let frame = screen.frame
         let cardW: CGFloat = 520
         let cardH: CGFloat = 150
-        // contentRect is GLOBAL coordinates. Build absolute position spanning all screens.
+        // contentRect is in GLOBAL coords. Don't pass `screen:` — it would double-offset by screen.origin.
         let x = frame.origin.x + (frame.width - cardW) / 2
         let y = frame.origin.y + frame.height - cardH - 90
 
-        // Don't pass screen: param — it shifts contentRect by screen.origin again, double-offsetting.
         let win = OverlayWindow(
             contentRect: NSRect(x: x, y: y, width: cardW, height: cardH),
             styleMask: .borderless,
             backing: .buffered,
             defer: false
         )
-        win.setFrameOrigin(NSPoint(x: x, y: y))   // belt + braces against any auto-relocate
-        win.level = .screenSaver   // above fullscreen apps; renders on all displays (shielding-level only routes to one)
+        win.setFrameOrigin(NSPoint(x: x, y: y))
+        win.level = .screenSaver   // .shielding would route the window to a single display only.
         win.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
         win.backgroundColor = .clear
         win.isOpaque = false
         win.hasShadow = true
-        win.sharingType = .none           // invisible to Teams / QuickTime / any screen capture
+        win.sharingType = .none   // hides from Teams / QuickTime / any screen capture.
         win.ignoresMouseEvents = false
         win.isMovable = false
         win.acceptsMouseMovedEvents = false
         win.hidesOnDeactivate = false
-        win.isReleasedWhenClosed = false   // we hold the ref, avoid double-release on close()
+        win.isReleasedWhenClosed = false   // we hold the ref; default true would over-release on close().
 
         let view = OverlayView(frame: NSRect(x: 0, y: 0, width: cardW, height: cardH))
         view.onDismiss = { [weak self] in self?.dismiss() }

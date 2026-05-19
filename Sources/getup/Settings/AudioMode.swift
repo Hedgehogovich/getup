@@ -14,8 +14,7 @@ enum AudioMode: String, Codable, CaseIterable {
         }
     }
 
-    /// SwiftUI `LocalizedStringKey` form, used when we need to resolve the label against
-    /// a specific `Bundle` (e.g. wizard step 2 rendering in the just-picked language).
+    /// LocalizedStringKey form for resolving against a specific `Bundle` (wizard's pre-restart preview).
     var displayKey: LocalizedStringKey {
         switch self {
         case .headphonesOnly: return "Headphones only"

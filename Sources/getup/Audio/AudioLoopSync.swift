@@ -1,13 +1,6 @@
 import Foundation
 
-/// Debounced regenerator for `sound.aiff`. Settings auto-saves voice + phrase mutations to
-/// disk, but the actual audio file is a separate ~2-second AIFF rendered by `say -o`. This
-/// type bridges the two: every voice/phrase mutation schedules a `say` invocation after a
-/// quiet period (default 1.5s of no further changes), so the user gets a working audio
-/// loop matching what they just typed without ever clicking a "Save" button.
-///
-/// `status` drives a small UI indicator: regenerating shows a spinner, succeeded shows
-/// "Audio updated ✓" then auto-fades to idle, failed sticks until the next mutation.
+/// Debounces voice/phrase edits in Settings → one `say -o` regen of `sound.aiff` per quiet period.
 @MainActor
 final class AudioLoopSync: ObservableObject {
     enum Status: Equatable {
@@ -24,9 +17,6 @@ final class AudioLoopSync: ObservableObject {
     private let succeededFade: Duration
     private let saver: @Sendable (String, String, @escaping @Sendable (Bool) -> Void) -> Void
 
-    /// - `debounce`: quiet period before the next `say` invocation. Default 1.5s.
-    /// - `succeededFade`: how long the "Audio updated ✓" indicator lingers before resetting.
-    /// - `saver`: injected for tests. Production passes `SaySynth.saveLoop`.
     init(
         debounce: Duration = .seconds(1.5),
         succeededFade: Duration = .seconds(3),
@@ -37,9 +27,6 @@ final class AudioLoopSync: ObservableObject {
         self.saver = saver
     }
 
-    /// Schedule a regen. Called from `SettingsView.onChange` for voice + phrase. Repeated
-    /// calls within the debounce window collapse — only the last call's voice+phrase reach
-    /// the saver. Empty phrase cancels any pending work and resets to `.idle`.
     func schedule(voice: String, phrase: String) {
         guard !phrase.isEmpty else {
             cancel()
@@ -61,8 +48,6 @@ final class AudioLoopSync: ObservableObject {
         }
     }
 
-    /// Cancel any pending or in-flight regen. Status is left as-is — caller decides whether
-    /// to reset. Used from `SettingsView.onDisappear`.
     func cancel() {
         debounceTask?.cancel()
         debounceTask = nil

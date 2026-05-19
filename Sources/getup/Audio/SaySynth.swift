@@ -6,24 +6,17 @@ struct SayVoice: Hashable {
 }
 
 enum SaySynth {
-    /// Pure parser for `say -v '?'` output. Lines look like:
-    ///     Albert              en_US    # I have a frog in my throat. ...
-    /// Split out from `listVoices()` so it can be unit-tested with canned input.
+    /// Parse `say -v '?'` output. Format per line: `Name  locale  # sample text`.
     static func parseVoices(from text: String) -> [SayVoice] {
         var voices: [SayVoice] = []
         for raw in text.split(separator: "\n") {
             let line = String(raw)
-            // Pass `omittingEmptySubsequences: false` so a line starting with `#` produces
-            // a LEADING empty segment — otherwise Swift's default would drop it and the
-            // comment body would be read as voice content (parsed "# foo bar" as 2 tokens).
+            // omittingEmptySubsequences: false — comment-only lines must produce an empty leading segment, otherwise the comment body parses as voice content.
             let beforeHash = line
                 .split(separator: "#", maxSplits: 1, omittingEmptySubsequences: false)
                 .first
                 .map(String.init) ?? line
             let trimmed = beforeHash.trimmingCharacters(in: .whitespaces)
-            // Apple's `say -v ?` output uses runs of spaces between columns, but external
-            // callers / different shells / pasted fixtures may use tabs. Split on any
-            // whitespace character so both work.
             let tokens = trimmed.split(whereSeparator: \.isWhitespace).map(String.init)
             guard tokens.count >= 2 else { continue }
             let locale = tokens.last!
@@ -33,7 +26,6 @@ enum SaySynth {
         return voices.sorted { $0.name.lowercased() < $1.name.lowercased() }
     }
 
-    /// Run `say -v '?'` and parse its output. Returns [] on failure.
     static func listVoices() -> [SayVoice] {
         let p = Process()
         p.launchPath = "/usr/bin/say"
@@ -47,7 +39,6 @@ enum SaySynth {
         return parseVoices(from: text)
     }
 
-    /// Speak the phrase through default output device. Fire-and-forget.
     @discardableResult
     static func preview(voice: String, phrase: String) -> Process? {
         NSLog("getup: SaySynth.preview voice=\(voice) phraseLen=\(phrase.count)")
@@ -67,9 +58,7 @@ enum SaySynth {
         return p
     }
 
-    /// Generate `sound.aiff` only when the user has no existing `sound.{mp3,m4a,wav,aiff}`.
-    /// Used by the first-run wizard so closing it via Get started OR the title-bar X still
-    /// leaves the user with a working audio loop. Never overwrites a user-supplied file.
+    /// No-op when a user-supplied `sound.{aiff,mp3,m4a,wav}` already exists.
     static func saveLoopIfMissing(voice: String, phrase: String) {
         let exists = AppPaths.soundFileCandidates.contains { FileManager.default.fileExists(atPath: $0.path) }
         guard !exists else {
@@ -81,7 +70,7 @@ enum SaySynth {
         }
     }
 
-    /// Generate `sound.aiff` in the support dir. Removes other extensions so it wins the loader's priority.
+    /// Writes `sound.aiff` and removes other extensions so the audio loader picks this one.
     static func saveLoop(voice: String, phrase: String, completion: @escaping (Bool) -> Void) {
         DispatchQueue.global().async {
             let dir = AppPaths.supportDir
@@ -90,9 +79,7 @@ enum SaySynth {
                 try? FileManager.default.removeItem(at: dir.appendingPathComponent("sound.\(ext)"))
             }
             let target = AppPaths.loopAIFF
-            // Append `say` tagged silence so AVAudioPlayer.numberOfLoops = -1 produces a
-            // discernible gap between repetitions instead of running phrases together
-            // ("...resistance is futilemovement protocol initiated...").
+            // [[slnc 2000]] = 2s silence baked into the AIFF; without it AVAudioPlayer loops with no gap.
             let phraseWithGap = phrase + " [[slnc 2000]]"
             let p = Process()
             p.launchPath = "/usr/bin/say"
