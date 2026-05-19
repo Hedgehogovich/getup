@@ -58,7 +58,8 @@ enum SaySynth {
         return p
     }
 
-    /// No-op when a user-supplied `sound.{aiff,mp3,m4a,wav}` already exists.
+    /// Wizard safety net: if the user X-closes before step 3, this still writes a default
+    /// sound.aiff so they hear audio at xx:50. Never overwrites a user-placed sound file.
     static func saveLoopIfMissing(voice: String, phrase: String) {
         let exists = AppPaths.soundFileCandidates.contains { FileManager.default.fileExists(atPath: $0.path) }
         guard !exists else {

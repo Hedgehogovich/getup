@@ -13,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var dockPolicyCancellable: AnyCancellable?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        LogRotation.rotateIfNeeded()
         applyActivationPolicy(showInDock: settings.current.showInDock)
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
