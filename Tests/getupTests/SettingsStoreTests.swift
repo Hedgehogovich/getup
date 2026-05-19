@@ -128,6 +128,105 @@ struct SettingsStoreTests {
         #expect(storedDomain["AppleLanguages"] == nil)
     }
 
+    @Test func customAudioBackfill_detectsPreExistingMP3() throws {
+        let (defaults, suite) = Self.makeDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        let detectedURL = URL(fileURLWithPath: "/tmp/sound.mp3")
+        let store = SettingsStore(
+            defaults: defaults,
+            storeKey: "test.settings",
+            firstRunKey: "test.firstRun",
+            legacySuiteName: nil,
+            customAudioBackfillKey: "test.customAudioBackfill",
+            customAudioDetector: { detectedURL }
+        )
+
+        #expect(store.current.useCustomAudio == true)
+        #expect(store.current.customAudioFilename == "sound.mp3")
+        #expect(defaults.bool(forKey: "test.customAudioBackfill") == true)
+    }
+
+    @Test func customAudioBackfill_isIdempotent() {
+        let (defaults, suite) = Self.makeDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        // Mark backfill done before init. Detector returning an mp3 must NOT re-flip the flag.
+        defaults.set(true, forKey: "test.customAudioBackfill")
+
+        let store = SettingsStore(
+            defaults: defaults,
+            storeKey: "test.settings",
+            firstRunKey: "test.firstRun",
+            legacySuiteName: nil,
+            customAudioBackfillKey: "test.customAudioBackfill",
+            customAudioDetector: { URL(fileURLWithPath: "/tmp/sound.mp3") }
+        )
+
+        #expect(store.current.useCustomAudio == false)
+        #expect(store.current.customAudioFilename == nil)
+    }
+
+    @Test func customAudioBackfill_ignoresAIFF() {
+        let (defaults, suite) = Self.makeDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        // AIFF = generated. Backfill must NOT misclassify it as custom.
+        let store = SettingsStore(
+            defaults: defaults,
+            storeKey: "test.settings",
+            firstRunKey: "test.firstRun",
+            legacySuiteName: nil,
+            customAudioBackfillKey: "test.customAudioBackfill",
+            customAudioDetector: { URL(fileURLWithPath: "/tmp/sound.aiff") }
+        )
+
+        #expect(store.current.useCustomAudio == false)
+        #expect(store.current.customAudioFilename == nil)
+        // Flag still gets set so we don't re-run the detector forever.
+        #expect(defaults.bool(forKey: "test.customAudioBackfill") == true)
+    }
+
+    @Test func customAudioBackfill_noFileNoOp() {
+        let (defaults, suite) = Self.makeDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        let store = SettingsStore(
+            defaults: defaults,
+            storeKey: "test.settings",
+            firstRunKey: "test.firstRun",
+            legacySuiteName: nil,
+            customAudioBackfillKey: "test.customAudioBackfill",
+            customAudioDetector: { nil }
+        )
+
+        #expect(store.current.useCustomAudio == false)
+        #expect(defaults.bool(forKey: "test.customAudioBackfill") == true)
+    }
+
+    @Test func customAudioBackfill_doesNotOverrideExplicitTrue() throws {
+        let (defaults, suite) = Self.makeDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+
+        // User explicitly picked an mp3 via the picker — useCustomAudio already true.
+        // The detector finding a different file MUST NOT clobber the persisted filename.
+        var seed = Settings()
+        seed.useCustomAudio = true
+        seed.customAudioFilename = "user-pick.mp3"
+        defaults.set(try JSONEncoder().encode(seed), forKey: "test.settings")
+
+        let store = SettingsStore(
+            defaults: defaults,
+            storeKey: "test.settings",
+            firstRunKey: "test.firstRun",
+            legacySuiteName: nil,
+            customAudioBackfillKey: "test.customAudioBackfill",
+            customAudioDetector: { URL(fileURLWithPath: "/tmp/something-else.wav") }
+        )
+
+        #expect(store.current.customAudioFilename == "user-pick.mp3")
+    }
+
     @Test func markFirstRunComplete_persists() {
         let (defaults, suite) = Self.makeDefaults()
         defer { defaults.removePersistentDomain(forName: suite) }

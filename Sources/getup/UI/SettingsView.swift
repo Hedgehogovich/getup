@@ -10,6 +10,9 @@ struct SettingsView: View {
     @State private var pickerLanguage: String? = nil
     @State private var openAtLogin: Bool = LoginItem.isInstalled
     @State private var logsCopied = false
+    @State private var showCustomAudioError = false
+    @State private var customAudioErrorTitle = ""
+    @State private var customAudioErrorMessage = ""
 
     private let fireMinuteOptions = [0, 15, 30, 45, 50]
 
@@ -112,6 +115,29 @@ struct SettingsView: View {
                 }
                 .disabled(store.current.audioMode == .silent)
             }
+            if store.current.useCustomAudio {
+                customAudioSection
+            } else {
+                generatedAudioSection
+            }
+        }
+        .formStyle(.grouped)
+        .onChange(of: store.current.voice) { _, _ in
+            if !store.current.useCustomAudio { scheduleRegen() }
+        }
+        .onChange(of: store.current.customPhrase) { _, _ in
+            if !store.current.useCustomAudio { scheduleRegen() }
+        }
+        .onDisappear { loopSync.cancel() }
+        .alert(customAudioErrorTitle, isPresented: $showCustomAudioError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(customAudioErrorMessage)
+        }
+    }
+
+    private var generatedAudioSection: some View {
+        Group {
             Section("Voice & phrase") {
                 Picker("Voice", selection: $store.current.voice) {
                     if !voices.contains(where: { $0.name == store.current.voice }) {
@@ -139,15 +165,77 @@ struct SettingsView: View {
                     Spacer()
                 }
             }
+            Section("Audio source") {
+                Button("Use custom audio file…") { pickCustomAudio() }
+                Text("Replaces the generated audio. Supports .aiff, .mp3, .m4a, .wav.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
-        .formStyle(.grouped)
-        .onChange(of: store.current.voice) { _, _ in scheduleRegen() }
-        .onChange(of: store.current.customPhrase) { _, _ in scheduleRegen() }
-        .onDisappear { loopSync.cancel() }
+    }
+
+    private var customAudioSection: some View {
+        Section("Audio source") {
+            Text(String(format: NSLocalizedString("Using custom audio: %@",
+                                                  comment: "Caption beneath the custom audio button"),
+                        store.current.customAudioFilename ?? "—"))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            HStack {
+                Button {
+                    CustomAudio.previewCurrent()
+                } label: {
+                    Label("Preview", systemImage: "play.fill")
+                }
+                .disabled(AppPaths.existingSoundFile == nil)
+
+                Button("Use generated audio instead") { revertCustomAudio() }
+                Spacer()
+            }
+        }
     }
 
     private func scheduleRegen() {
         loopSync.schedule(voice: store.current.voice, phrase: store.current.customPhrase)
+    }
+
+    private func pickCustomAudio() {
+        guard let url = CustomAudio.showOpenPanel() else { return }
+        do {
+            let filename = try CustomAudio.install(from: url)
+            loopSync.cancel()
+            // Single struct reassign → one didSet, one JSON encode.
+            var next = store.current
+            next.customAudioFilename = filename
+            next.useCustomAudio = true
+            store.current = next
+        } catch CustomAudio.InstallError.unsupportedExtension {
+            customAudioErrorTitle = NSLocalizedString("Unsupported audio format",
+                                                      comment: "Alert title when picked file is not aiff/mp3/m4a/wav")
+            customAudioErrorMessage = NSLocalizedString("Use .aiff, .mp3, .m4a, or .wav.",
+                                                        comment: "Alert body for unsupported audio format")
+            showCustomAudioError = true
+        } catch CustomAudio.InstallError.ioFailure(let detail) {
+            customAudioErrorTitle = NSLocalizedString("Could not install audio",
+                                                      comment: "Alert title when copy fails")
+            customAudioErrorMessage = detail
+            showCustomAudioError = true
+        } catch {
+            customAudioErrorTitle = NSLocalizedString("Could not install audio",
+                                                      comment: "Alert title when copy fails")
+            customAudioErrorMessage = error.localizedDescription
+            showCustomAudioError = true
+        }
+    }
+
+    private func revertCustomAudio() {
+        CustomAudio.revertToGenerated()
+        var next = store.current
+        next.useCustomAudio = false
+        next.customAudioFilename = nil
+        store.current = next
+        SaySynth.saveLoopIfMissing(voice: store.current.voice,
+                                   phrase: store.current.customPhrase)
     }
 
     @ViewBuilder

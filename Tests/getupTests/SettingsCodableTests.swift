@@ -20,6 +20,8 @@ struct SettingsCodableTests {
         s.customPhrase = "stand up"
         s.language = "el"
         s.showInDock = true
+        s.useCustomAudio = true
+        s.customAudioFilename = "bell.mp3"
         let data = try JSONEncoder().encode(s)
         let decoded = try JSONDecoder().decode(Settings.self, from: data)
         #expect(decoded == s)
@@ -63,6 +65,25 @@ struct SettingsCodableTests {
         #expect(decoded.showInDock == false)            // default kicks in
         #expect(decoded.audioMode == .always)           // existing fields preserved
         #expect(decoded.language == "fr")
+    }
+
+    /// Forward-compat: useCustomAudio + customAudioFilename added in the custom-audio
+    /// picker feature. Pre-feature JSON must decode and default useCustomAudio to false.
+    @Test func decodesLegacyJSONMissingUseCustomAudio() throws {
+        let json = Data("""
+        {
+          "audioMode": "headphonesOnly",
+          "fireMinute": 50,
+          "volume": 0.7,
+          "voice": "Zarvox",
+          "customPhrase": "hi",
+          "showInDock": false
+        }
+        """.utf8)
+        let decoded = try JSONDecoder().decode(Settings.self, from: json)
+        #expect(decoded.useCustomAudio == false)
+        #expect(decoded.customAudioFilename == nil)
+        #expect(decoded.voice == "Zarvox")
     }
 
     @Test func decodingGarbageThrows() {

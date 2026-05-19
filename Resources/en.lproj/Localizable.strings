@@ -34,6 +34,17 @@
 "Audio update failed" = "Audio update failed";
 "%@ (not installed)" = "%@ (not installed)";
 
+/* Audio source — custom audio picker */
+"Audio source" = "Audio source";
+"Use custom audio file…" = "Use custom audio file…";
+"Use generated audio instead" = "Use generated audio instead";
+"Replaces the generated audio. Supports .aiff, .mp3, .m4a, .wav." = "Replaces the generated audio. Supports .aiff, .mp3, .m4a, .wav.";
+"Using custom audio: %@" = "Using custom audio: %@";
+"Choose an audio file to play during the reminder." = "Choose an audio file to play during the reminder.";
+"Unsupported audio format" = "Unsupported audio format";
+"Use .aiff, .mp3, .m4a, or .wav." = "Use .aiff, .mp3, .m4a, or .wav.";
+"Could not install audio" = "Could not install audio";
+
 /* About tab */
 "Hourly stretch reminders for macOS" = "Hourly stretch reminders for macOS";
 "Open support folder" = "Open support folder";

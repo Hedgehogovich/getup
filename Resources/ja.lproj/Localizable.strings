@@ -29,6 +29,17 @@
 "Audio update failed" = "音声の更新に失敗しました";
 "%@ (not installed)" = "%@（インストールされていません）";
 
+/* Audio source — custom audio picker */
+"Audio source" = "オーディオソース";
+"Use custom audio file…" = "カスタムオーディオファイルを使用…";
+"Use generated audio instead" = "生成された音声に戻す";
+"Replaces the generated audio. Supports .aiff, .mp3, .m4a, .wav." = "生成された音声を置き換えます。.aiff、.mp3、.m4a、.wav に対応。";
+"Using custom audio: %@" = "カスタム音声を使用中: %@";
+"Choose an audio file to play during the reminder." = "リマインダーで再生する音声ファイルを選んでね。";
+"Unsupported audio format" = "未対応の音声フォーマット";
+"Use .aiff, .mp3, .m4a, or .wav." = ".aiff、.mp3、.m4a または .wav を使ってね。";
+"Could not install audio" = "音声をインストールできませんでした";
+
 "Hourly stretch reminders for macOS" = "macOS 用 1 時間ごとのストレッチ通知";
 "Open support folder" = "サポートフォルダを開く";
 "Copy logs" = "ログをコピー";

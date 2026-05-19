@@ -13,9 +13,11 @@ final class SettingsStore: ObservableObject {
     }
 
     static let firstRunKey = "getup.hasCompletedFirstRun.v1"
+    static let customAudioBackfillKey = "getup.customAudioBackfillDone.v1"
 
     private let storeKey: String
     private let firstRunKey: String
+    private let customAudioBackfillKey: String
     private let defaults: UserDefaults
 
     var isFirstRun: Bool { !defaults.bool(forKey: firstRunKey) }
@@ -25,11 +27,14 @@ final class SettingsStore: ObservableObject {
         defaults: UserDefaults = .standard,
         storeKey: String = "getup.settings.v1",
         firstRunKey: String = SettingsStore.firstRunKey,
-        legacySuiteName: String? = "getup"
+        legacySuiteName: String? = "getup",
+        customAudioBackfillKey: String = SettingsStore.customAudioBackfillKey,
+        customAudioDetector: () -> URL? = { AppPaths.existingSoundFile }
     ) {
         self.defaults = defaults
         self.storeKey = storeKey
         self.firstRunKey = firstRunKey
+        self.customAudioBackfillKey = customAudioBackfillKey
 
         // Pre-bundle binary stored under suite "getup" (executable name); now "com.ychachilo.getup".
         var hadLegacy = false
@@ -54,6 +59,22 @@ final class SettingsStore: ObservableObject {
             NSLog("getup: returning user, skipping first-run wizard")
         }
         applyLanguageOverride(current.language)
+        runCustomAudioBackfill(detector: customAudioDetector)
+    }
+
+    /// One-time: if a pre-existing non-aiff sound.* sits in the support folder (user
+    /// manually placed it before the picker UI shipped), tag it as custom audio so
+    /// AudioLoopSync doesn't silently overwrite it on the next voice/phrase edit.
+    private func runCustomAudioBackfill(detector: () -> URL?) {
+        guard !defaults.bool(forKey: customAudioBackfillKey) else { return }
+        defer { defaults.set(true, forKey: customAudioBackfillKey) }
+        guard !current.useCustomAudio,
+              let url = detector(),
+              url.pathExtension.lowercased() != "aiff"
+        else { return }
+        current.useCustomAudio = true
+        current.customAudioFilename = url.lastPathComponent
+        NSLog("getup: backfilled custom audio from pre-existing \(url.lastPathComponent)")
     }
 
     private func persist() {

@@ -29,6 +29,17 @@
 "Audio update failed" = "Не удалось обновить звук";
 "%@ (not installed)" = "%@ (не установлен)";
 
+/* Audio source — custom audio picker */
+"Audio source" = "Источник звука";
+"Use custom audio file…" = "Свой аудиофайл…";
+"Use generated audio instead" = "Вернуть сгенерированный звук";
+"Replaces the generated audio. Supports .aiff, .mp3, .m4a, .wav." = "Заменит сгенерированный звук. Поддерживаются .aiff, .mp3, .m4a, .wav.";
+"Using custom audio: %@" = "Свой звук: %@";
+"Choose an audio file to play during the reminder." = "Выберите аудиофайл для напоминания.";
+"Unsupported audio format" = "Формат не поддерживается";
+"Use .aiff, .mp3, .m4a, or .wav." = "Используйте .aiff, .mp3, .m4a или .wav.";
+"Could not install audio" = "Не удалось установить аудио";
+
 "Hourly stretch reminders for macOS" = "Ежечасные напоминания о разминке для macOS";
 "Open support folder" = "Открыть папку приложения";
 "Copy logs" = "Копировать логи";

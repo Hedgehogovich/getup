@@ -13,6 +13,11 @@ enum AppPaths {
         soundExtensions.map { supportDir.appendingPathComponent("sound.\($0)") }
     }
 
+    /// First match wins — same order as the AVAudioPlayer loader at fire time.
+    static var existingSoundFile: URL? {
+        soundFileCandidates.first { FileManager.default.fileExists(atPath: $0.path) }
+    }
+
     static var loopAIFF: URL {
         supportDir.appendingPathComponent("sound.aiff")
     }

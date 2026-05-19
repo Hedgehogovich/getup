@@ -29,6 +29,17 @@
 "Audio update failed" = "Η ενημέρωση ήχου απέτυχε";
 "%@ (not installed)" = "%@ (μη εγκατεστημένη)";
 
+/* Audio source — custom audio picker */
+"Audio source" = "Πηγή ήχου";
+"Use custom audio file…" = "Χρήση προσαρμοσμένου αρχείου ήχου…";
+"Use generated audio instead" = "Επιστροφή στον δημιουργημένο ήχο";
+"Replaces the generated audio. Supports .aiff, .mp3, .m4a, .wav." = "Αντικαθιστά τον δημιουργημένο ήχο. Υποστηρίζει .aiff, .mp3, .m4a, .wav.";
+"Using custom audio: %@" = "Προσαρμοσμένος ήχος: %@";
+"Choose an audio file to play during the reminder." = "Επίλεξε ένα αρχείο ήχου για την υπενθύμιση.";
+"Unsupported audio format" = "Μη υποστηριζόμενη μορφή ήχου";
+"Use .aiff, .mp3, .m4a, or .wav." = "Χρησιμοποίησε .aiff, .mp3, .m4a ή .wav.";
+"Could not install audio" = "Αποτυχία εγκατάστασης ήχου";
+
 "Hourly stretch reminders for macOS" = "Ωριαίες υπενθυμίσεις τεντώματος για το macOS";
 "Open support folder" = "Άνοιγμα φακέλου δεδομένων";
 "Copy logs" = "Αντιγραφή αρχείων log";

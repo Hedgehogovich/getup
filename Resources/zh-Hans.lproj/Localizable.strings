@@ -29,6 +29,17 @@
 "Audio update failed" = "音频更新失败";
 "%@ (not installed)" = "%@(未安装)";
 
+/* Audio source — custom audio picker */
+"Audio source" = "音频来源";
+"Use custom audio file…" = "使用自定义音频文件…";
+"Use generated audio instead" = "改用生成的音频";
+"Replaces the generated audio. Supports .aiff, .mp3, .m4a, .wav." = "替换生成的音频。支持 .aiff、.mp3、.m4a、.wav。";
+"Using custom audio: %@" = "正在使用自定义音频：%@";
+"Choose an audio file to play during the reminder." = "选择提醒时播放的音频文件。";
+"Unsupported audio format" = "不支持的音频格式";
+"Use .aiff, .mp3, .m4a, or .wav." = "请使用 .aiff、.mp3、.m4a 或 .wav。";
+"Could not install audio" = "无法安装音频";
+
 "Hourly stretch reminders for macOS" = "macOS 每小时拉伸提醒";
 "Open support folder" = "打开应用支持文件夹";
 "Copy logs" = "复制日志";
