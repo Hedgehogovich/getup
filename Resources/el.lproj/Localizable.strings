@@ -30,8 +30,7 @@
 "%@ (not installed)" = "%@ (μη εγκατεστημένη)";
 
 "Hourly stretch reminders for macOS" = "Ωριαίες υπενθυμίσεις τεντώματος για το macOS";
-"Open log folder" = "Άνοιγμα φακέλου log";
-"Open audio folder" = "Άνοιγμα φακέλου ήχου";
+"Open support folder" = "Άνοιγμα φακέλου δεδομένων";
 
 "GET UP & STRETCH" = "ΣΗΚΩ ΚΑΙ ΤΕΝΤΩΣΟΥ";
 "click anywhere or press Esc to dismiss" = "κάνε κλικ ή πάτα Esc για κλείσιμο";

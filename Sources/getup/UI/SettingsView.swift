@@ -186,10 +186,7 @@ struct SettingsView: View {
                 .foregroundStyle(.secondary)
             Text("v0.1").font(.caption).foregroundStyle(.secondary)
             Spacer().frame(height: 8)
-            HStack {
-                Button("Open log folder") { openSupportFolder() }
-                Button("Open audio folder") { openSupportFolder() }
-            }
+            Button("Open support folder") { openSupportFolder() }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.top, 16)

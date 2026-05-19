@@ -30,8 +30,7 @@
 "%@ (not installed)" = "%@（インストールされていません）";
 
 "Hourly stretch reminders for macOS" = "macOS 用 1 時間ごとのストレッチ通知";
-"Open log folder" = "ログフォルダを開く";
-"Open audio folder" = "オーディオフォルダを開く";
+"Open support folder" = "サポートフォルダを開く";
 
 "GET UP & STRETCH" = "立ってストレッチ！";
 "click anywhere or press Esc to dismiss" = "クリックまたは Esc で閉じる";

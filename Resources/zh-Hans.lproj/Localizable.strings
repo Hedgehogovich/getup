@@ -30,8 +30,7 @@
 "%@ (not installed)" = "%@(未安装)";
 
 "Hourly stretch reminders for macOS" = "macOS 每小时拉伸提醒";
-"Open log folder" = "打开日志文件夹";
-"Open audio folder" = "打开音频文件夹";
+"Open support folder" = "打开应用支持文件夹";
 
 "GET UP & STRETCH" = "起身拉伸！";
 "click anywhere or press Esc to dismiss" = "点击或按 Esc 关闭";

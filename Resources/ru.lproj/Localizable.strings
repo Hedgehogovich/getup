@@ -30,8 +30,7 @@
 "%@ (not installed)" = "%@ (не установлен)";
 
 "Hourly stretch reminders for macOS" = "Ежечасные напоминания о разминке для macOS";
-"Open log folder" = "Открыть папку логов";
-"Open audio folder" = "Открыть папку со звуком";
+"Open support folder" = "Открыть папку приложения";
 
 "GET UP & STRETCH" = "ВСТАНЬ И РАЗОМНИСЬ";
 "click anywhere or press Esc to dismiss" = "кликните или нажмите Esc, чтобы закрыть";

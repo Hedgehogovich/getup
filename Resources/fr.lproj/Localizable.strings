@@ -30,8 +30,7 @@
 "%@ (not installed)" = "%@ (non installée)";
 
 "Hourly stretch reminders for macOS" = "Rappels d'étirement horaires pour macOS";
-"Open log folder" = "Ouvrir le dossier des journaux";
-"Open audio folder" = "Ouvrir le dossier audio";
+"Open support folder" = "Ouvrir le dossier de l'application";
 
 "GET UP & STRETCH" = "LEVEZ-VOUS ET ÉTIREZ-VOUS";
 "click anywhere or press Esc to dismiss" = "cliquez ou appuyez sur Échap pour fermer";
