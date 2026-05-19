@@ -75,8 +75,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// `LSUIElement = true` ships in Info.plist as the baseline (menu-bar-only). At runtime
     /// we promote to `.regular` when the user opts into the Dock — this overrides LSUIElement
     /// without re-launch. Demoting back to `.accessory` removes the Dock icon immediately.
+    ///
+    /// Gotcha: transitioning a running app from `.regular` to `.accessory` causes AppKit to
+    /// hide the app's windows (the demoted app is treated like a background-only app, which
+    /// shouldn't be "frontmost"). The user toggling Show-in-Dock OFF is doing so FROM the
+    /// Settings window — so without intervention, the window they're looking at vanishes.
+    /// We capture visible windows before the switch, then re-front them on the next runloop
+    /// so the Settings (or Wizard) window stays put.
     private func applyActivationPolicy(showInDock: Bool) {
+        let visibleBefore = NSApp.windows.filter { $0.isVisible }
         NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
+        guard !showInDock else { return }
+        DispatchQueue.main.async {
+            for w in visibleBefore where !w.isVisible {
+                w.makeKeyAndOrderFront(nil)
+            }
+            NSApp.activate(ignoringOtherApps: true)
+        }
     }
 
     private func buildMenu() -> NSMenu {
