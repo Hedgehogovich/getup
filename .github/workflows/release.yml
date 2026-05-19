@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    name: release-please (PR / tag / GitHub Release)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write          # create tags + GitHub Releases
+      pull-requests: write     # open / update the "Release PR"
+    outputs:
+      release_created: ${{ steps.rp.outputs.release_created }}
+      tag_name: ${{ steps.rp.outputs.tag_name }}
+      version: ${{ steps.rp.outputs.version }}
+    steps:
+      - name: release-please
+        id: rp
+        uses: googleapis/release-please-action@v4
+        with:
+          # Default GITHUB_TOKEN is fine — release-please uses it to open the Release PR,
+          # update version.txt + CHANGELOG.md, then create the tag + GitHub Release once
+          # the Release PR is merged. The PR opened by GITHUB_TOKEN won't trigger CI workflows
+          # (GitHub's loop-prevention), which is fine: the underlying tree on main is already
+          # green from the merging PR's run.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  build-and-attach:
+    name: Build & attach release artifact
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: macos-15
+    permissions:
+      contents: write   # upload assets to the release
+    env:
+      # Pin release-please outputs into env vars at job level so individual run: blocks don't
+      # interpolate untrusted template expressions inline (defense-in-depth even though these
+      # values come from a trusted Google action, not from user input).
+      TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+      VERSION:  ${{ needs.release-please.outputs.version }}
+    steps:
+      - name: Checkout the freshly-tagged commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG_NAME }}
+          fetch-depth: 0   # build.sh uses `git rev-list --count HEAD` for CFBundleVersion
+
+      - name: Show toolchain
+        run: |
+          xcode-select -p
+          xcodebuild -version
+          swift --version
+
+      - name: Build app bundle (no redeploy)
+        env:
+          REDEPLOY: "0"
+        run: ./build.sh
+
+      - name: Zip the .app preserving xattrs + symlinks
+        # `ditto` is Apple's recommended way to archive .app bundles — `zip` mangles symlinks
+        # and resource forks. `--sequesterRsrc` is mandatory for any future codesign roundtrip.
+        run: |
+          ARTIFACT="Getup-${VERSION}.zip"
+          ditto -c -k --sequesterRsrc --keepParent getup.app "$ARTIFACT"
+          ls -la "$ARTIFACT"
+          shasum -a 256 "$ARTIFACT"
+
+      - name: Attach to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload "$TAG_NAME" "Getup-${VERSION}.zip" --clobber
