@@ -16,7 +16,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         applyActivationPolicy(showInDock: settings.current.showInDock)
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusItem.button?.title = "🚶"
+        // SF Symbol = native menu-bar look. `isTemplate = true` makes AppKit render it in the
+        // single colour the menu bar wants (light/dark mode aware, inverts on hover, dims when
+        // disabled). Falls back to the original emoji glyph if the symbol can't be resolved —
+        // belt-and-braces for hypothetical OS variants where `figure.walk.motion` was removed.
+        if let img = NSImage(systemSymbolName: "figure.walk.motion", accessibilityDescription: "Getup") {
+            img.isTemplate = true
+            statusItem.button?.image = img
+        } else {
+            statusItem.button?.title = "🚶"
+        }
 
         rebuildMenu()
 
@@ -105,7 +114,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        let quit = NSMenuItem(title: String(localized: "Quit getup"),
+        let quit = NSMenuItem(title: String(localized: "Quit Getup"),
                               action: #selector(NSApp.terminate(_:)),
                               keyEquivalent: "q")
         menu.addItem(quit)

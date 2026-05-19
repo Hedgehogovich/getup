@@ -12,7 +12,7 @@ final class SettingsWindowController {
         }
         let host = NSHostingController(rootView: SettingsView(store: store))
         let w = NSWindow(contentViewController: host)
-        w.title = "getup"
+        w.title = "Getup"
         w.styleMask = [.titled, .closable]
         w.isReleasedWhenClosed = false
         w.center()

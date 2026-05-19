@@ -1,4 +1,4 @@
-# getup
+# Getup
 
 Stand up every hour. Stretch. Sit back down. Repeat.
 
@@ -8,7 +8,7 @@ A macOS menu-bar app that pops a full-screen reminder once an hour and gets out 
 
 ## Why
 
-You sit too much. Apple Watch's Stand reminder helps if you wear one. Calendar nudges get muted. Notifications get trained out. `getup` is impossible to ignore for half a second and trivial to dismiss — that's the whole point.
+You sit too much. Apple Watch's Stand reminder helps if you wear one. Calendar nudges get muted. Notifications get trained out. Getup is impossible to ignore for half a second and trivial to dismiss — that's the whole point.
 
 ## Features
 
@@ -34,13 +34,13 @@ cd getup
 ./build.sh && ./install.sh
 ```
 
-Look for the 🚶 in your menu bar.
+Look for the walking-figure icon in your menu bar.
 
 A signed `.dmg` is on the roadmap; for now, source-build is the only path.
 
 ## Usage
 
-The first launch walks you through three screens: language, audio mode + run-at-startup, voice + phrase + preview. After that, `getup` lives in your menu bar and fires once an hour at the configured minute.
+The first launch walks you through three screens: language, audio mode + run-at-startup, voice + phrase + preview. After that, Getup lives in your menu bar and fires once an hour at the configured minute.
 
 When the reminder appears: click anywhere or press <kbd>Esc</kbd> to dismiss.
 
@@ -49,7 +49,7 @@ Menu bar icon gives you:
 - **Stretch now** — fire the reminder immediately (good for testing)
 - **Settings…** — open the configuration window (also <kbd>⌘,</kbd>)
 - **Audio mode** — quick-pick submenu mirroring the Settings option
-- **Quit getup** — exits cleanly; won't auto-restart until next login
+- **Quit Getup** — exits cleanly; won't auto-restart until next login
 
 ## Configuration
 
@@ -91,7 +91,7 @@ The spoken phrase matches your language when a translation and a compatible syst
 
 ## Privacy
 
-`getup` runs entirely on your machine. It opens no network connections, sends no telemetry, has no analytics, and bundles no third-party SDKs. The only external process it ever spawns is `/usr/bin/say` for offline voice synthesis. Logs are written to `~/Library/Application Support/getup/` and never leave your computer.
+Getup runs entirely on your machine. It opens no network connections, sends no telemetry, has no analytics, and bundles no third-party SDKs. The only external process it ever spawns is `/usr/bin/say` for offline voice synthesis. Logs are written to `~/Library/Application Support/getup/` and never leave your computer.
 
 ## Uninstall
 
@@ -102,7 +102,7 @@ The spoken phrase matches your language when a translation and a compatible syst
 
 ## Known limits
 
-**Screen sharing with system audio.** The reminder window is invisible to standard screen capture (Zoom, Teams, QuickTime, ScreenCaptureKit-based tools). The audio is not — Teams in particular has an "Include system audio" toggle that taps the system audio mix before any device routing happens. If you've explicitly enabled that and you're on headphones with `getup` audio playing, your call participants will hear the loop. Quit `getup` or mute before sharing in that situation.
+**Screen sharing with system audio.** The reminder window is invisible to standard screen capture (Zoom, Teams, QuickTime, ScreenCaptureKit-based tools). The audio is not — Teams in particular has an "Include system audio" toggle that taps the system audio mix before any device routing happens. If you've explicitly enabled that and you're on headphones with Getup audio playing, your call participants will hear the loop. Quit Getup or mute before sharing in that situation.
 
 ## Development
 
@@ -141,9 +141,9 @@ To be decided before the first tagged release.
 ## Roadmap
 
 - [x] SwiftPM target + unit tests
-- [ ] App icon
+- [x] App icon
+- [x] GitHub Actions CI
 - [ ] First tagged GitHub release
-- [ ] GitHub Actions CI
 - [ ] Apple Developer Program (codesign + notarize)
 - [ ] Sandboxed App Store target with `SMAppService` for the login item
 - [ ] Distribution via Gumroad

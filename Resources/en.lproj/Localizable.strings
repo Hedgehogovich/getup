@@ -1,10 +1,10 @@
-/* getup — English (base) */
+/* Getup — English (base) */
 
 /* Menu bar */
 "Stretch now" = "Stretch now";
 "Settings…" = "Settings…";
 "Audio mode" = "Audio mode";
-"Quit getup" = "Quit getup";
+"Quit Getup" = "Quit Getup";
 
 /* Audio mode display names */
 "Headphones only" = "Headphones only";
@@ -49,7 +49,7 @@
 "Restart now to apply" = "Restart now to apply";
 
 /* First-run wizard (Step 8) */
-"Welcome to getup" = "Welcome to getup";
+"Welcome to Getup" = "Welcome to Getup";
 "When should I play audio?" = "When should I play audio?";
 "Get started" = "Get started";
 
@@ -67,9 +67,9 @@
 /* Startup section (login item toggle) */
 "Startup" = "Startup";
 "Run at startup" = "Run at startup";
-"When off, getup runs only when launched manually." = "When off, getup runs only when launched manually.";
+"When off, Getup runs only when launched manually." = "When off, Getup runs only when launched manually.";
 
 /* Appearance section (Dock visibility toggle) */
 "Appearance" = "Appearance";
 "Show in Dock" = "Show in Dock";
-"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons.";
+"When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons.";

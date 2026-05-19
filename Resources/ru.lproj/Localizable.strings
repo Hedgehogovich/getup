@@ -1,9 +1,9 @@
-/* getup — Russian */
+/* Getup — Russian */
 
 "Stretch now" = "Размяться сейчас";
 "Settings…" = "Настройки…";
 "Audio mode" = "Режим звука";
-"Quit getup" = "Выйти из getup";
+"Quit Getup" = "Выйти из Getup";
 
 "Headphones only" = "Только наушники";
 "Always (any output)" = "Всегда (любой выход)";
@@ -42,7 +42,7 @@
 "Restart now to apply" = "Перезапустить для применения";
 
 /* First-run wizard (Step 8) */
-"Welcome to getup" = "Добро пожаловать в getup";
+"Welcome to Getup" = "Добро пожаловать в Getup";
 "When should I play audio?" = "Когда воспроизводить звук?";
 "Get started" = "Начать";
 
@@ -52,12 +52,12 @@
 /* Startup section (login item toggle) */
 "Startup" = "Запуск";
 "Run at startup" = "Запускать при входе";
-"When off, getup runs only when launched manually." = "Если отключено, getup запускается только вручную.";
+"When off, Getup runs only when launched manually." = "Если отключено, Getup запускается только вручную.";
 
 /* Appearance section (Dock visibility toggle) */
 "Appearance" = "Внешний вид";
 "Show in Dock" = "Показывать в Dock";
-"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Если включено, getup также появляется в Dock и в ⌘Tab. Удобно, когда вырез камеры скрывает значки строки меню.";
+"When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Если включено, Getup также появляется в Dock и в ⌘Tab. Удобно, когда вырез камеры скрывает значки строки меню.";
 
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Выберите голос и фразу";

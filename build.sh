@@ -2,9 +2,9 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-APP_NAME="getup"
+APP_NAME="getup"            # executable filename + bundle filename ("getup.app"). Stays lowercase — matches macOS convention that the binary name matches the bundle filename, and the LaunchAgent + log paths still grep'able.
 BUNDLE_ID="com.ychachilo.getup"
-DISPLAY_NAME="getup"
+DISPLAY_NAME="Getup"        # CFBundleDisplayName + CFBundleName — what Finder, Dock, Cmd-Tab, About box show.
 VERSION="0.1"
 BUILD="1"
 MIN_MACOS="14.0"
@@ -36,6 +36,17 @@ if [ -d Resources ]; then
     done
 fi
 
+# Copy the app icon. CFBundleIconFile (no extension) tells launchd/Finder/Dock to look up
+# Resources/getup.icns. Skip cleanly if the file is missing so a half-set-up dev checkout
+# still builds (with a generic placeholder icon).
+ICON_KEY_XML=""
+if [ -f Resources/getup.icns ]; then
+    cp Resources/getup.icns "${CONTENTS}/Resources/getup.icns"
+    ICON_KEY_XML="    <key>CFBundleIconFile</key>
+    <string>getup</string>
+"
+fi
+
 # Build the CFBundleLocalizations array entries from $LOCALES
 LOC_XML=""
 for L in "${LOCALES[@]}"; do
@@ -54,7 +65,7 @@ cat > "${CONTENTS}/Info.plist" <<EOF
     <string>${DISPLAY_NAME}</string>
     <key>CFBundleExecutable</key>
     <string>${APP_NAME}</string>
-    <key>CFBundleIdentifier</key>
+${ICON_KEY_XML}    <key>CFBundleIdentifier</key>
     <string>${BUNDLE_ID}</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
@@ -62,7 +73,7 @@ cat > "${CONTENTS}/Info.plist" <<EOF
     <array>
 ${LOC_XML}    </array>
     <key>CFBundleName</key>
-    <string>${APP_NAME}</string>
+    <string>${DISPLAY_NAME}</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>

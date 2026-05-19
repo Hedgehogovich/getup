@@ -1,9 +1,9 @@
-/* getup — Japanese */
+/* Getup — Japanese */
 
 "Stretch now" = "今すぐストレッチ";
 "Settings…" = "設定…";
 "Audio mode" = "オーディオモード";
-"Quit getup" = "getup を終了";
+"Quit Getup" = "Getup を終了";
 
 "Headphones only" = "ヘッドホンのみ";
 "Always (any output)" = "常に（すべての出力）";
@@ -42,7 +42,7 @@
 "Restart now to apply" = "再起動して適用";
 
 /* First-run wizard (Step 8) */
-"Welcome to getup" = "getup へようこそ";
+"Welcome to Getup" = "Getup へようこそ";
 "When should I play audio?" = "音を鳴らすタイミング";
 "Get started" = "はじめる";
 
@@ -52,9 +52,9 @@
 /* Startup section (login item toggle) */
 "Startup" = "起動";
 "Run at startup" = "ログイン時に起動";
-"When off, getup runs only when launched manually." = "オフのときは手動で起動したときだけ動作します。";
+"When off, Getup runs only when launched manually." = "オフのときは手動で起動したときだけ動作します。";
 
 /* Appearance section (Dock visibility toggle) */
 "Appearance" = "外観";
 "Show in Dock" = "Dock に表示";
-"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "オンにすると、getup は Dock と ⌘Tab にも表示されます。カメラのノッチでメニューバーのアイコンが隠れるときに便利です。";
+"When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "オンにすると、Getup は Dock と ⌘Tab にも表示されます。カメラのノッチでメニューバーのアイコンが隠れるときに便利です。";

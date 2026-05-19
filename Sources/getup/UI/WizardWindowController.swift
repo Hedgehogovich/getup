@@ -24,7 +24,7 @@ final class WizardWindowController: NSObject, NSWindowDelegate {
             }
         })
         let w = NSWindow(contentViewController: host)
-        w.title = "getup"
+        w.title = "Getup"
         w.styleMask = [.titled, .closable]
         w.isReleasedWhenClosed = false
         w.delegate = self

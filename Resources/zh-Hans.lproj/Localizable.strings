@@ -1,9 +1,9 @@
-/* getup — Simplified Chinese */
+/* Getup — Simplified Chinese */
 
 "Stretch now" = "立即拉伸";
 "Settings…" = "设置…";
 "Audio mode" = "音频模式";
-"Quit getup" = "退出 getup";
+"Quit Getup" = "退出 Getup";
 
 "Headphones only" = "仅耳机";
 "Always (any output)" = "始终(任意输出)";
@@ -42,7 +42,7 @@
 "Restart now to apply" = "重启以应用";
 
 /* First-run wizard (Step 8) */
-"Welcome to getup" = "欢迎使用 getup";
+"Welcome to Getup" = "欢迎使用 Getup";
 "When should I play audio?" = "何时播放音频？";
 "Get started" = "开始使用";
 
@@ -52,9 +52,9 @@
 /* Startup section (login item toggle) */
 "Startup" = "启动";
 "Run at startup" = "登录时启动";
-"When off, getup runs only when launched manually." = "关闭后，仅在手动启动时运行。";
+"When off, Getup runs only when launched manually." = "关闭后，仅在手动启动时运行。";
 
 /* Appearance section (Dock visibility toggle) */
 "Appearance" = "外观";
 "Show in Dock" = "在程序坞中显示";
-"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "开启后，getup 也会出现在程序坞和 ⌘Tab 中。当摄像头凹槽遮挡菜单栏图标时很有用。";
+"When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "开启后，Getup 也会出现在程序坞和 ⌘Tab 中。当摄像头凹槽遮挡菜单栏图标时很有用。";

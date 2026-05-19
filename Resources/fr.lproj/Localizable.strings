@@ -1,9 +1,9 @@
-/* getup — French */
+/* Getup — French */
 
 "Stretch now" = "Étirez-vous maintenant";
 "Settings…" = "Réglages…";
 "Audio mode" = "Mode audio";
-"Quit getup" = "Quitter getup";
+"Quit Getup" = "Quitter Getup";
 
 "Headphones only" = "Casque uniquement";
 "Always (any output)" = "Toujours (toute sortie)";
@@ -42,7 +42,7 @@
 "Restart now to apply" = "Redémarrer pour appliquer";
 
 /* First-run wizard (Step 8) */
-"Welcome to getup" = "Bienvenue dans getup";
+"Welcome to Getup" = "Bienvenue dans Getup";
 "When should I play audio?" = "Quand jouer le son ?";
 "Get started" = "Commencer";
 
@@ -52,12 +52,12 @@
 /* Startup section (login item toggle) */
 "Startup" = "Démarrage";
 "Run at startup" = "Lancer au démarrage";
-"When off, getup runs only when launched manually." = "Désactivé, getup ne tourne qu’au lancement manuel.";
+"When off, Getup runs only when launched manually." = "Désactivé, Getup ne tourne qu’au lancement manuel.";
 
 /* Appearance section (Dock visibility toggle) */
 "Appearance" = "Apparence";
 "Show in Dock" = "Afficher dans le Dock";
-"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Activé, getup apparaît aussi dans le Dock et ⌘Tab. Utile quand l’encoche de la caméra masque les icônes de la barre des menus.";
+"When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Activé, Getup apparaît aussi dans le Dock et ⌘Tab. Utile quand l’encoche de la caméra masque les icônes de la barre des menus.";
 
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Choisissez une voix et une phrase";

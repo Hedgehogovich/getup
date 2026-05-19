@@ -75,13 +75,13 @@ struct SettingsView: View {
                     .onChange(of: openAtLogin) { _, new in
                         if new { LoginItem.enable() } else { LoginItem.disable() }
                     }
-                Text("When off, getup runs only when launched manually.")
+                Text("When off, Getup runs only when launched manually.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
             Section("Appearance") {
                 Toggle("Show in Dock", isOn: $store.current.showInDock)
-                Text("When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons.")
+                Text("When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -173,7 +173,15 @@ struct SettingsView: View {
 
     private var aboutTab: some View {
         VStack(spacing: 10) {
-            Text("🚶 getup").font(.system(size: 28, weight: .bold))
+            // Pull the actual app icon (Resources/getup.icns surfaced via CFBundleIconFile)
+            // so this matches what Finder, Cmd-Tab, and the Dock show. Falls back silently to
+            // an empty image if the named system image can't be resolved (sandbox edge case).
+            if let icon = NSImage(named: "NSApplicationIcon") {
+                Image(nsImage: icon)
+                    .resizable()
+                    .frame(width: 96, height: 96)
+            }
+            Text("Getup").font(.system(size: 28, weight: .bold))
             Text("Hourly stretch reminders for macOS")
                 .foregroundStyle(.secondary)
             Text("v0.1").font(.caption).foregroundStyle(.secondary)

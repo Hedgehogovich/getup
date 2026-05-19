@@ -54,8 +54,8 @@ struct WizardView: View {
     /// has a stale `AppleLanguages` override from a previous session.
     private var languageStep: some View {
         VStack(spacing: 18) {
-            Text("🚶").font(.system(size: 64))
-            Text("Welcome to getup", bundle: localeBundle).font(.title.bold())
+            appIconHeader
+            Text("Welcome to Getup", bundle: localeBundle).font(.title.bold())
             Text("Hourly stretch reminders for macOS", bundle: localeBundle)
                 .foregroundStyle(.secondary)
 
@@ -91,8 +91,8 @@ struct WizardView: View {
     /// Step 2 — render against `localeBundle` so labels appear in the just-picked language.
     private var audioStep: some View {
         VStack(spacing: 18) {
-            Text("🚶").font(.system(size: 64))
-            Text("Welcome to getup", bundle: localeBundle).font(.title.bold())
+            appIconHeader
+            Text("Welcome to Getup", bundle: localeBundle).font(.title.bold())
             Text("Hourly stretch reminders for macOS", bundle: localeBundle)
                 .foregroundStyle(.secondary)
 
@@ -142,7 +142,7 @@ struct WizardView: View {
     /// sound file exists yet, so a returning user with default mode hears something at xx:50.
     private var voiceStep: some View {
         VStack(spacing: 14) {
-            Text("🚶").font(.system(size: 64))
+            appIconHeader
             Text("Pick a voice and phrase", bundle: localeBundle).font(.title.bold())
             Text("This is what I will say each hour.", bundle: localeBundle)
                 .foregroundStyle(.secondary)
@@ -218,5 +218,17 @@ struct WizardView: View {
         let pair = LocaleHelper.defaultLoopDefaults(forLanguage: language, available: voices)
         store.current.customPhrase = pair.phrase
         if let v = pair.voice { store.current.voice = v }
+    }
+
+    /// Shared header for all three wizard steps — pulls the app's actual icon (`getup.icns` via
+    /// CFBundleIconFile) so the wizard greets users with the same brand mark they see in Finder
+    /// and the Dock. Replaces the placeholder 🚶 emoji we used pre-Step-10.
+    @ViewBuilder
+    private var appIconHeader: some View {
+        if let icon = NSImage(named: "NSApplicationIcon") {
+            Image(nsImage: icon)
+                .resizable()
+                .frame(width: 80, height: 80)
+        }
     }
 }

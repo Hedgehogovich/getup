@@ -1,9 +1,9 @@
-/* getup — Greek */
+/* Getup — Greek */
 
 "Stretch now" = "Τέντωμα τώρα";
 "Settings…" = "Ρυθμίσεις…";
 "Audio mode" = "Λειτουργία ήχου";
-"Quit getup" = "Έξοδος από το getup";
+"Quit Getup" = "Έξοδος από το Getup";
 
 "Headphones only" = "Μόνο ακουστικά";
 "Always (any output)" = "Πάντα (οποιαδήποτε έξοδος)";
@@ -42,7 +42,7 @@
 "Restart now to apply" = "Επανεκκίνηση για εφαρμογή";
 
 /* First-run wizard (Step 8) */
-"Welcome to getup" = "Καλώς ήρθες στο getup";
+"Welcome to Getup" = "Καλώς ήρθες στο Getup";
 "When should I play audio?" = "Πότε να παίζει ήχος;";
 "Get started" = "Ξεκίνα";
 
@@ -52,9 +52,9 @@
 /* Startup section (login item toggle) */
 "Startup" = "Εκκίνηση";
 "Run at startup" = "Εκκίνηση κατά τη σύνδεση";
-"When off, getup runs only when launched manually." = "Όταν είναι εκτός, το getup τρέχει μόνο με χειροκίνητη εκκίνηση.";
+"When off, Getup runs only when launched manually." = "Όταν είναι εκτός, το Getup τρέχει μόνο με χειροκίνητη εκκίνηση.";
 
 /* Appearance section (Dock visibility toggle) */
 "Appearance" = "Εμφάνιση";
 "Show in Dock" = "Εμφάνιση στο Dock";
-"When on, getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Όταν είναι ενεργό, το getup εμφανίζεται και στο Dock και στο ⌘Tab. Χρήσιμο όταν η εγκοπή της κάμερας κρύβει εικονίδια της γραμμής μενού.";
+"When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Όταν είναι ενεργό, το Getup εμφανίζεται και στο Dock και στο ⌘Tab. Χρήσιμο όταν η εγκοπή της κάμερας κρύβει εικονίδια της γραμμής μενού.";
