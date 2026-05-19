@@ -220,9 +220,7 @@ struct WizardView: View {
         if let v = pair.voice { store.current.voice = v }
     }
 
-    /// Shared header for all three wizard steps — pulls the app's actual icon (`getup.icns` via
-    /// CFBundleIconFile) so the wizard greets users with the same brand mark they see in Finder
-    /// and the Dock. Replaces the placeholder 🚶 emoji we used pre-Step-10.
+    /// Shared header for all three wizard steps — same brand mark Finder / Dock show.
     @ViewBuilder
     private var appIconHeader: some View {
         if let icon = NSImage(named: "NSApplicationIcon") {

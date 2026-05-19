@@ -10,8 +10,6 @@ enum LoginItem {
             .appendingPathComponent("Library/LaunchAgents/\(label).plist")
     }
 
-    /// True when a LaunchAgent plist is on disk for our label. Source of truth for the
-    /// "Run at startup" toggle — we don't keep a separate Settings field.
     static var isInstalled: Bool {
         FileManager.default.fileExists(atPath: plistURL.path)
     }

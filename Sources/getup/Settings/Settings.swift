@@ -1,7 +1,7 @@
 import Foundation
 
 struct Settings: Codable, Equatable {
-    var audioMode: AudioMode = .headphonesOnly  // safe default until first-run wizard ships
+    var audioMode: AudioMode = .headphonesOnly  // headphones-only is the safe default for shared spaces
     var fireMinute: Int = 50                    // matches Apple Watch Stand reminders
     var volume: Double = 0.7                    // 0.0 ... 1.0; applied to AVAudioPlayer
     var voice: String = "Zarvox"                // `say -v <voice>` — must exist locally

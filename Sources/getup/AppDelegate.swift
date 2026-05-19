@@ -16,10 +16,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         applyActivationPolicy(showInDock: settings.current.showInDock)
 
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        // SF Symbol = native menu-bar look. `isTemplate = true` makes AppKit render it in the
-        // single colour the menu bar wants (light/dark mode aware, inverts on hover, dims when
-        // disabled). Falls back to the original emoji glyph if the symbol can't be resolved —
-        // belt-and-braces for hypothetical OS variants where `figure.walk.motion` was removed.
+        // `isTemplate = true` lets AppKit recolor for dark mode / hover / disabled states.
         if let img = NSImage(systemSymbolName: "figure.walk.motion", accessibilityDescription: "Getup") {
             img.isTemplate = true
             statusItem.button?.image = img
@@ -29,14 +26,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         rebuildMenu()
 
-        // refresh menu checkmark when audioMode changes from the Settings window
         audioModeCancellable = settings.$current
             .map(\.audioMode)
             .removeDuplicates()
             .dropFirst()
             .sink { [weak self] _ in self?.rebuildMenu() }
 
-        // toggle Dock presence + ⌘Tab when user flips the Show-in-Dock setting
         dockPolicyCancellable = settings.$current
             .map(\.showInDock)
             .removeDuplicates()
@@ -53,35 +48,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         scheduler.start()
 
-        // Show wizard for fresh installs. Returning users were marked complete in SettingsStore.init.
         wizard.showIfNeeded(store: settings) { [weak self] in
-            // Audio mode may have just changed — refresh menu checkmark.
+            // Wizard may have changed audio mode — refresh menu checkmark.
             self?.rebuildMenu()
         }
     }
 
-    /// Dock-icon click (and ⌘Tab activation when Dock is hidden) opens Settings.
+    /// Dock-icon click opens Settings.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         openSettings()
         return true
     }
 
-    /// Right-click on the Dock icon mirrors the status-bar menu so the Dock-mode user
-    /// has the same quick actions without going to the menu bar.
+    /// Right-click on Dock icon mirrors the status-bar menu.
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
         buildMenu()
     }
 
-    /// `LSUIElement = true` ships in Info.plist as the baseline (menu-bar-only). At runtime
-    /// we promote to `.regular` when the user opts into the Dock — this overrides LSUIElement
-    /// without re-launch. Demoting back to `.accessory` removes the Dock icon immediately.
-    ///
-    /// Gotcha: transitioning a running app from `.regular` to `.accessory` causes AppKit to
-    /// hide the app's windows (the demoted app is treated like a background-only app, which
-    /// shouldn't be "frontmost"). The user toggling Show-in-Dock OFF is doing so FROM the
-    /// Settings window — so without intervention, the window they're looking at vanishes.
-    /// We capture visible windows before the switch, then re-front them on the next runloop
-    /// so the Settings (or Wizard) window stays put.
+    /// Switching from `.regular` to `.accessory` at runtime hides the app's visible windows
+    /// (the demoted app is treated as background-only). User toggles this from Settings, so
+    /// without re-fronting the window vanishes underneath them. Capture-then-restore.
     private func applyActivationPolicy(showInDock: Bool) {
         let visibleBefore = NSApp.windows.filter { $0.isVisible }
         NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
@@ -111,7 +97,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
 
-        // Audio mode quick-pick submenu (also reachable from Settings window)
         let audioRoot = NSMenuItem(title: String(localized: "Audio mode"),
                                    action: nil, keyEquivalent: "")
         let audioSub = NSMenu()

@@ -3,8 +3,8 @@ import Foundation
 /// Shared filesystem paths. Centralized so the audio loader, the loop writer, the wizard
 /// safety-net, and the LaunchAgent installer all agree on locations and extension priority.
 enum AppPaths {
-    /// `~/Library/Application Support/getup`. Holds settings (no — those are in UserDefaults),
-    /// the loop audio file, and stdout/stderr logs from launchd.
+    /// `~/Library/Application Support/getup`. Holds the loop audio file and launchd stdout/stderr
+    /// logs. Settings themselves live in UserDefaults, not here.
     static var supportDir: URL {
         FileManager.default.homeDirectoryForCurrentUser
             .appendingPathComponent("Library/Application Support/getup")
