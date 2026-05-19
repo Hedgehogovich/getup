@@ -37,6 +37,8 @@
 /* About tab */
 "Hourly stretch reminders for macOS" = "Hourly stretch reminders for macOS";
 "Open support folder" = "Open support folder";
+"Copy logs" = "Copy logs";
+"Copied ✓" = "Copied ✓";
 
 /* Overlay */
 "GET UP & STRETCH" = "GET UP & STRETCH";

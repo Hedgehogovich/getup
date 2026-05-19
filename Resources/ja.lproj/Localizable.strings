@@ -31,6 +31,8 @@
 
 "Hourly stretch reminders for macOS" = "macOS 用 1 時間ごとのストレッチ通知";
 "Open support folder" = "サポートフォルダを開く";
+"Copy logs" = "ログをコピー";
+"Copied ✓" = "コピーしました ✓";
 
 "GET UP & STRETCH" = "立ってストレッチ！";
 "click anywhere or press Esc to dismiss" = "クリックまたは Esc で閉じる";

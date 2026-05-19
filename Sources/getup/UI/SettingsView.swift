@@ -9,6 +9,7 @@ struct SettingsView: View {
     @State private var languageRestartPending = false
     @State private var pickerLanguage: String? = nil
     @State private var openAtLogin: Bool = LoginItem.isInstalled
+    @State private var logsCopied = false
 
     private let fireMinuteOptions = [0, 15, 30, 45, 50]
 
@@ -176,15 +177,48 @@ struct SettingsView: View {
             Text("Getup").font(.system(size: 28, weight: .bold))
             Text("Hourly stretch reminders for macOS")
                 .foregroundStyle(.secondary)
-            Text("v0.1").font(.caption).foregroundStyle(.secondary)
+            Text(versionLabel).font(.caption).foregroundStyle(.secondary)
             Spacer().frame(height: 8)
-            Button("Open support folder") { openSupportFolder() }
+            HStack(spacing: 12) {
+                Button("Open support folder") { openSupportFolder() }
+                Button(logsCopied ? "Copied ✓" : "Copy logs") { copyDiagnostics() }
+                    .disabled(logsCopied)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.top, 16)
     }
 
+    private var versionLabel: String {
+        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "?"
+        let b = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "?"
+        return "v\(v) (\(b))"
+    }
+
     private func openSupportFolder() {
         NSWorkspace.shared.open(AppPaths.supportDir)
+    }
+
+    private func copyDiagnostics() {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(buildDiagnosticReport(), forType: .string)
+        logsCopied = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { logsCopied = false }
+    }
+
+    private func buildDiagnosticReport() -> String {
+        var out = "Getup \(versionLabel)\n"
+        out += "macOS \(ProcessInfo.processInfo.operatingSystemVersionString)\n"
+        out += String(repeating: "—", count: 40) + "\n"
+        let log = AppPaths.stderrLog
+        if let data = try? Data(contentsOf: log),
+           let text = String(data: data, encoding: .utf8) {
+            // Last 500 lines keeps the paste tractable for bug reports.
+            let tail = text.split(separator: "\n", omittingEmptySubsequences: false).suffix(500)
+            out += tail.joined(separator: "\n")
+        } else {
+            out += "(no log file at \(log.path))"
+        }
+        return out
     }
 }

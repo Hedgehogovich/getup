@@ -31,6 +31,8 @@
 
 "Hourly stretch reminders for macOS" = "Rappels d'étirement horaires pour macOS";
 "Open support folder" = "Ouvrir le dossier de l'application";
+"Copy logs" = "Copier les journaux";
+"Copied ✓" = "Copié ✓";
 
 "GET UP & STRETCH" = "LEVEZ-VOUS ET ÉTIREZ-VOUS";
 "click anywhere or press Esc to dismiss" = "cliquez ou appuyez sur Échap pour fermer";
