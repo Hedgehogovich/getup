@@ -2,9 +2,12 @@ import Foundation
 
 @MainActor
 final class StretchScheduler {
+    static let defaultGraceSeconds: TimeInterval = 5 * 60
+
     private let fireMinute: @MainActor () -> Int   // closure so live setting changes affect the next fire.
     private let onFire: @MainActor () -> Void
     private var timer: Timer?
+    private var intendedFireDate: Date?
 
     init(fireMinute: @escaping @MainActor () -> Int, onFire: @escaping @MainActor () -> Void) {
         self.fireMinute = fireMinute
@@ -25,9 +28,15 @@ final class StretchScheduler {
         return fire
     }
 
+    /// Timer may fire long after `intended` (sleep / hibernation / blocked runloop). Drop stale fires.
+    static func shouldFire(now: Date, intended: Date, graceSeconds: TimeInterval) -> Bool {
+        now.timeIntervalSince(intended) <= graceSeconds
+    }
+
     private func scheduleNext() {
         let now = Date()
         let fire = Self.nextFireDate(after: now, fireMinute: fireMinute())
+        intendedFireDate = fire
         let interval = fire.timeIntervalSince(now)
         NSLog("getup: next fire in \(Int(interval))s (\(fire))")
 
@@ -40,7 +49,14 @@ final class StretchScheduler {
     }
 
     private func fire() {
-        onFire()
+        let now = Date()
+        if let intended = intendedFireDate,
+           Self.shouldFire(now: now, intended: intended, graceSeconds: Self.defaultGraceSeconds) {
+            onFire()
+        } else if let intended = intendedFireDate {
+            NSLog("getup: skipped stale fire — \(Int(now.timeIntervalSince(intended)))s past intended \(intended)")
+        }
+        intendedFireDate = nil
         scheduleNext()
     }
 }

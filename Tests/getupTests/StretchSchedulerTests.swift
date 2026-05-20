@@ -65,3 +65,38 @@ struct StretchSchedulerTests {
         #expect(fire == Self.date(2026, 5, 6, 10, 59, 0))
     }
 }
+
+@Suite("StretchScheduler.shouldFire — grace window")
+struct StretchSchedulerShouldFireTests {
+    @Test func firesOnTime() {
+        let intended = Date()
+        let now = intended.addingTimeInterval(2)
+        #expect(StretchScheduler.shouldFire(now: now, intended: intended, graceSeconds: 300))
+    }
+
+    @Test func firesAtExactGraceBoundary() {
+        let intended = Date()
+        let now = intended.addingTimeInterval(300)
+        #expect(StretchScheduler.shouldFire(now: now, intended: intended, graceSeconds: 300))
+    }
+
+    @Test func skipsBeyondGrace() {
+        let intended = Date()
+        let now = intended.addingTimeInterval(301)
+        #expect(!StretchScheduler.shouldFire(now: now, intended: intended, graceSeconds: 300))
+    }
+
+    @Test func skipsFarFutureWake() {
+        // Mac asleep through xx:50, wakes hours later — Timer fires immediately.
+        let intended = Date()
+        let now = intended.addingTimeInterval(13_000)
+        #expect(!StretchScheduler.shouldFire(now: now, intended: intended, graceSeconds: 300))
+    }
+
+    @Test func firesIfEarly() {
+        // Defensive: Timer fires slightly before intended (shouldn't, but don't drop it).
+        let intended = Date()
+        let now = intended.addingTimeInterval(-5)
+        #expect(StretchScheduler.shouldFire(now: now, intended: intended, graceSeconds: 300))
+    }
+}

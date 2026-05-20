@@ -13,6 +13,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var audioModeCancellable: AnyCancellable?
     private var dockPolicyCancellable: AnyCancellable?
     private var snoozeTimer: Timer?
+    private var snoozeIntendedFireDate: Date?
     private let snoozeInterval: TimeInterval = 10 * 60
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -150,9 +151,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func armSnooze() {
         snoozeTimer?.invalidate()
+        let intended = Date().addingTimeInterval(snoozeInterval)
+        snoozeIntendedFireDate = intended
         snoozeTimer = Timer.scheduledTimer(withTimeInterval: snoozeInterval, repeats: false) { [weak self] _ in
-            MainActor.assumeIsolated { self?.fireOverlay() }
+            MainActor.assumeIsolated { self?.snoozeFired() }
         }
+    }
+
+    private func snoozeFired() {
+        let now = Date()
+        defer { snoozeIntendedFireDate = nil }
+        guard let intended = snoozeIntendedFireDate else { return }
+        guard StretchScheduler.shouldFire(now: now,
+                                          intended: intended,
+                                          graceSeconds: StretchScheduler.defaultGraceSeconds) else {
+            NSLog("getup: skipped stale snooze — \(Int(now.timeIntervalSince(intended)))s past intended \(intended)")
+            return
+        }
+        fireOverlay()
     }
 
     @objc private func setAudioMode(_ sender: NSMenuItem) {
