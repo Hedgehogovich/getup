@@ -139,17 +139,20 @@ Each language is a `Resources/<code>.lproj/Localizable.strings` file:
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+[PolyForm Noncommercial 1.0.0](LICENSE) — free for personal, hobby, educational, and other noncommercial use. Source is open, modifications and forks are welcome for noncommercial purposes. Selling Getup or a modified version, hosting it as a paid service, or bundling it into a commercial product requires a separate commercial license — open an issue or reach out.
+
+The name **Getup** and the app icon are trademarks of Yuri Chachilo. Forks must be renamed and re-iconed before redistribution.
 
 ## Roadmap
 
 - [x] SwiftPM target + unit tests
 - [x] App icon
 - [x] GitHub Actions CI
-- [x] MIT license
+- [x] License (PolyForm Noncommercial 1.0.0)
 - [x] Custom audio file picker in Settings
 - [ ] First tagged GitHub release
 - [ ] Apple Developer Program (codesign + notarize)
 - [ ] Sparkle auto-update
+- [ ] Homebrew Cask
 - [ ] Sandboxed App Store target with `SMAppService` for the login item
 - [ ] Distribution via Gumroad
