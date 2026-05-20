@@ -71,3 +71,10 @@
 "Appearance" = "外観";
 "Show in Dock" = "Dock に表示";
 "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "オンにすると、Getup は Dock と ⌘Tab にも表示されます。カメラのノッチでメニューバーのアイコンが隠れるときに便利です。";
+
+/* Wizard step 3 — voice & phrase */
+"Pick a voice and phrase" = "音声とフレーズを選んでね";
+"This is what I will say each hour." = "毎時このフレーズを話します。";
+
+/* First-run loop phrase — spoken aloud each hour. */
+"defaultPhrase" = "運動プロトコルを起動しました。立ち上がってストレッチしてください。抵抗は無駄です。";

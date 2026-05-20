@@ -18,15 +18,7 @@ struct LocalizationCompletenessTests {
             .appendingPathComponent("Resources")
     }
 
-    /// Keys that are intentionally left untranslated in some locales — currently only
-    /// the loop phrase + wizard step 3 strings, which fall back to English by design
-    /// for el / ja / zh-Hans (HANDOFF.md "i18n completeness" note: defaultPhrase deferred
-    /// pending Localizable.xcstrings migration; step-3 strings deferred alongside).
-    private static let deferredPerLocale: [String: Set<String>] = [
-        "el": ["defaultPhrase", "Pick a voice and phrase", "This is what I will say each hour."],
-        "ja": ["defaultPhrase", "Pick a voice and phrase", "This is what I will say each hour."],
-        "zh-Hans": ["defaultPhrase", "Pick a voice and phrase", "This is what I will say each hour."],
-    ]
+    private static let deferredPerLocale: [String: Set<String>] = [:]
 
     private static func loadKeys(_ url: URL) -> Set<String>? {
         guard let dict = NSDictionary(contentsOf: url) as? [String: String] else { return nil }

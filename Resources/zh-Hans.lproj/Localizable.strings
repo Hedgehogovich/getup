@@ -71,3 +71,10 @@
 "Appearance" = "外观";
 "Show in Dock" = "在程序坞中显示";
 "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "开启后，Getup 也会出现在程序坞和 ⌘Tab 中。当摄像头凹槽遮挡菜单栏图标时很有用。";
+
+/* Wizard step 3 — voice & phrase */
+"Pick a voice and phrase" = "选择语音和短语";
+"This is what I will say each hour." = "我每小时会说这句话。";
+
+/* First-run loop phrase — spoken aloud each hour. */
+"defaultPhrase" = "运动协议已启动。请站起来伸展。抵抗是徒劳的。";

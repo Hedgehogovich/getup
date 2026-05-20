@@ -71,3 +71,10 @@
 "Appearance" = "Εμφάνιση";
 "Show in Dock" = "Εμφάνιση στο Dock";
 "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Όταν είναι ενεργό, το Getup εμφανίζεται και στο Dock και στο ⌘Tab. Χρήσιμο όταν η εγκοπή της κάμερας κρύβει εικονίδια της γραμμής μενού.";
+
+/* Wizard step 3 — voice & phrase */
+"Pick a voice and phrase" = "Διάλεξε φωνή και φράση";
+"This is what I will say each hour." = "Αυτό θα λέω κάθε ώρα.";
+
+/* First-run loop phrase — spoken aloud each hour. */
+"defaultPhrase" = "Πρωτόκολλο κίνησης ενεργοποιήθηκε. Σήκω και τεντώσου. Η αντίσταση είναι μάταιη.";
