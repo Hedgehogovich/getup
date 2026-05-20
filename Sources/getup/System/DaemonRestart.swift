@@ -4,6 +4,7 @@ import Foundation
 enum DaemonRestart {
     /// Detached `launchctl kickstart -k` after we've quit — brings up a fresh process that
     /// re-reads `AppleLanguages` at startup (the only way to apply a language switch live).
+    @MainActor
     static func restart() {
         let uid = getuid()
         let task = Process()
@@ -13,7 +14,8 @@ enum DaemonRestart {
             NSLog("getup: failed to spawn restart task: \(error)")
             return
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(200))
             NSApp.terminate(nil)
         }
     }

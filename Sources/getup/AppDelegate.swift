@@ -2,6 +2,7 @@ import AppKit
 import Combine
 import Foundation
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private let overlay = OverlayController()
@@ -71,7 +72,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let visibleBefore = NSApp.windows.filter { $0.isVisible }
         NSApp.setActivationPolicy(showInDock ? .regular : .accessory)
         guard !showInDock else { return }
-        DispatchQueue.main.async {
+        Task { @MainActor in
             for w in visibleBefore where !w.isVisible {
                 w.makeKeyAndOrderFront(nil)
             }
@@ -150,7 +151,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func armSnooze() {
         snoozeTimer?.invalidate()
         snoozeTimer = Timer.scheduledTimer(withTimeInterval: snoozeInterval, repeats: false) { [weak self] _ in
-            self?.fireOverlay()
+            MainActor.assumeIsolated { self?.fireOverlay() }
         }
     }
 

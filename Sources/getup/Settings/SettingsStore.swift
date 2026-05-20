@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 final class SettingsStore: ObservableObject {
     @Published var current: Settings {
         didSet {

@@ -61,7 +61,7 @@ enum SaySynth {
     }
 
     /// Writes `sound.aiff` and removes other extensions so the audio loader picks this one.
-    static func saveLoop(voice: String, phrase: String, completion: @escaping (Bool) -> Void) {
+    static func saveLoop(voice: String, phrase: String, completion: @escaping @Sendable (Bool) -> Void) {
         DispatchQueue.global().async {
             let dir = AppPaths.supportDir
             try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)

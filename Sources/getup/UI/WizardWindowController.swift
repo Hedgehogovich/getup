@@ -1,6 +1,7 @@
 import AppKit
 import SwiftUI
 
+@MainActor
 final class WizardWindowController: NSObject, NSWindowDelegate {
     private var window: NSWindow?
     private var onComplete: (() -> Void)?

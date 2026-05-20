@@ -2,6 +2,7 @@ import AppKit
 import AVFoundation
 import Foundation
 
+@MainActor
 final class OverlayController {
     private var windows: [NSWindow] = []
     private var audioPlayer: AVAudioPlayer?
@@ -15,7 +16,7 @@ final class OverlayController {
     func show(audioMode: AudioMode, volume: Double, autoDismissSeconds: Int? = nil) {
         guard !isShowing else { return }
 
-        MainActor.assumeIsolated { PreviewPlayer.shared.stop() }
+        PreviewPlayer.shared.stop()
 
         let screens = NSScreen.screens
         for screen in screens {
@@ -32,7 +33,7 @@ final class OverlayController {
         localKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             if event.keyCode == 53 {
                 // Removing the monitor inside its own callback is unsafe.
-                DispatchQueue.main.async { self?.dismiss() }
+                Task { @MainActor in self?.dismiss() }
                 return nil
             }
             return event
@@ -43,7 +44,7 @@ final class OverlayController {
         if let secs = autoDismissSeconds, secs > 0 {
             autoDismissTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(secs),
                                                    repeats: false) { [weak self] _ in
-                self?.dismiss()
+                MainActor.assumeIsolated { self?.dismiss() }
             }
         }
     }

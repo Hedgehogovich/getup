@@ -34,7 +34,7 @@ final class PreviewPlayer: ObservableObject {
         current = p
         isPlaying = true
         p.terminationHandler = { [weak self] proc in
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 guard let self else { return }
                 if self.current === proc {
                     self.current = nil

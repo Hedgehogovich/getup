@@ -1,11 +1,12 @@
 import Foundation
 
+@MainActor
 final class StretchScheduler {
-    private let fireMinute: () -> Int   // closure so live setting changes affect the next fire.
-    private let onFire: () -> Void
+    private let fireMinute: @MainActor () -> Int   // closure so live setting changes affect the next fire.
+    private let onFire: @MainActor () -> Void
     private var timer: Timer?
 
-    init(fireMinute: @escaping () -> Int, onFire: @escaping () -> Void) {
+    init(fireMinute: @escaping @MainActor () -> Int, onFire: @escaping @MainActor () -> Void) {
         self.fireMinute = fireMinute
         self.onFire = onFire
     }
@@ -31,7 +32,9 @@ final class StretchScheduler {
         NSLog("getup: next fire in \(Int(interval))s (\(fire))")
 
         timer?.invalidate()
-        let t = Timer(timeInterval: interval, repeats: false) { [weak self] _ in self?.fire() }
+        let t = Timer(timeInterval: interval, repeats: false) { [weak self] _ in
+            MainActor.assumeIsolated { self?.fire() }
+        }
         RunLoop.main.add(t, forMode: .common)
         timer = t
     }

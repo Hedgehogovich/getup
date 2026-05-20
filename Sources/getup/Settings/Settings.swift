@@ -1,6 +1,6 @@
 import Foundation
 
-struct Settings: Codable, Equatable {
+struct Settings: Codable, Equatable, Sendable {
     var audioMode: AudioMode = .headphonesOnly
     var fireMinute: Int = 50
     var volume: Double = 0.7

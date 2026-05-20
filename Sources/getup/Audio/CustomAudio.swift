@@ -10,6 +10,7 @@ enum CustomAudio {
 
     /// Standard macOS Open dialog filtered to audio types. Returns nil on cancel.
     /// Caller hands the URL to `install(from:)` which validates the extension.
+    @MainActor
     static func showOpenPanel() -> URL? {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false

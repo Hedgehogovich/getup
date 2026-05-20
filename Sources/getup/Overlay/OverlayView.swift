@@ -51,20 +51,20 @@ final class OverlayView: NSView {
     }
 
     @objc private func snoozeClicked() {
-        DispatchQueue.main.async { [weak self] in self?.onSnooze?() }
+        Task { @MainActor [weak self] in self?.onSnooze?() }
     }
 
     override func mouseDown(with event: NSEvent) {
         // Closing the window inside its own event handler segfaults — defer.
-        DispatchQueue.main.async { [weak self] in self?.onDismiss?() }
+        Task { @MainActor [weak self] in self?.onDismiss?() }
     }
 
     override func keyDown(with event: NSEvent) {
         switch event.keyCode {
         case 53:  // Esc
-            DispatchQueue.main.async { [weak self] in self?.onDismiss?() }
+            Task { @MainActor [weak self] in self?.onDismiss?() }
         case 1:   // 'S'
-            DispatchQueue.main.async { [weak self] in self?.onSnooze?() }
+            Task { @MainActor [weak self] in self?.onSnooze?() }
         default:
             super.keyDown(with: event)
         }
