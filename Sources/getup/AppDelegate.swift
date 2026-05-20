@@ -131,7 +131,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func fireOverlay() {
         overlay.show(audioMode: settings.current.audioMode,
-                     volume: settings.current.volume)
+                     volume: settings.current.volume,
+                     autoDismissSeconds: settings.current.overlayAutoDismissSeconds)
     }
 
     private func armSnooze() {

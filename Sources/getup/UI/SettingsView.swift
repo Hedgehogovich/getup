@@ -16,6 +16,7 @@ struct SettingsView: View {
     @State private var customAudioErrorMessage = ""
 
     private let fireMinuteOptions = [0, 15, 30, 45, 50]
+    private let autoDismissOptions = [5, 10, 15, 30, 60]
 
     private var availableLanguages: [String] { LocaleHelper.availableLanguages }
     private static func nativeName(_ code: String) -> String { LocaleHelper.nativeName(code) }
@@ -84,6 +85,18 @@ struct SettingsView: View {
             Section("Appearance") {
                 Toggle("Show in Dock", isOn: $store.current.showInDock)
                 Text("When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            Section("Overlay") {
+                Picker("Auto-dismiss", selection: $store.current.overlayAutoDismissSeconds) {
+                    Text("Never").tag(Int?.none)
+                    ForEach(autoDismissOptions, id: \.self) { secs in
+                        Text(String(format: NSLocalizedString("%d s", comment: "auto-dismiss seconds picker option"), secs))
+                            .tag(Int?.some(secs))
+                    }
+                }
+                Text("Auto-close the hourly reminder after this delay. Audio stops too.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

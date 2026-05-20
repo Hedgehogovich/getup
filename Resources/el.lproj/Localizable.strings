@@ -73,6 +73,13 @@
 "Show in Dock" = "Εμφάνιση στο Dock";
 "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Όταν είναι ενεργό, το Getup εμφανίζεται και στο Dock και στο ⌘Tab. Χρήσιμο όταν η εγκοπή της κάμερας κρύβει εικονίδια της γραμμής μενού.";
 
+/* Overlay section (auto-dismiss timer) */
+"Overlay" = "Υπενθύμιση";
+"Auto-dismiss" = "Αυτόματο κλείσιμο";
+"Never" = "Ποτέ";
+"%d s" = "%d δ";
+"Auto-close the hourly reminder after this delay. Audio stops too." = "Κλείνει την υπενθύμιση μετά από αυτό το διάστημα. Σταματά και ο ήχος.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Διάλεξε φωνή και φράση";
 "This is what I will say each hour." = "Αυτό θα λέω κάθε ώρα.";

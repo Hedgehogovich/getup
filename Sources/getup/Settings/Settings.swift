@@ -10,6 +10,7 @@ struct Settings: Codable, Equatable {
     var showInDock: Bool = false
     var useCustomAudio: Bool = false
     var customAudioFilename: String? = nil
+    var overlayAutoDismissSeconds: Int? = nil   // nil = manual dismiss only
 
     init() {}
 
@@ -26,5 +27,6 @@ struct Settings: Codable, Equatable {
         self.showInDock          = try c.decodeIfPresent(Bool.self,      forKey: .showInDock)          ?? d.showInDock
         self.useCustomAudio      = try c.decodeIfPresent(Bool.self,      forKey: .useCustomAudio)      ?? d.useCustomAudio
         self.customAudioFilename = try c.decodeIfPresent(String.self,    forKey: .customAudioFilename)
+        self.overlayAutoDismissSeconds = try c.decodeIfPresent(Int.self, forKey: .overlayAutoDismissSeconds)
     }
 }

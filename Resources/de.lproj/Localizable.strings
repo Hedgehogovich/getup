@@ -73,6 +73,13 @@
 "Show in Dock" = "Im Dock anzeigen";
 "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "Wenn aktiv, erscheint Getup auch im Dock und in ⌘Tab. Hilfreich, wenn die Kamerakerbe Menüleistensymbole verdeckt.";
 
+/* Overlay section (auto-dismiss timer) */
+"Overlay" = "Overlay";
+"Auto-dismiss" = "Automatisch schließen";
+"Never" = "Nie";
+"%d s" = "%d s";
+"Auto-close the hourly reminder after this delay. Audio stops too." = "Schließt die Erinnerung nach dieser Zeit. Audio stoppt ebenfalls.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Stimme und Satz wählen";
 "This is what I will say each hour." = "Das sage ich jede Stunde.";

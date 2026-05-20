@@ -87,3 +87,10 @@
 "Appearance" = "Appearance";
 "Show in Dock" = "Show in Dock";
 "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons.";
+
+/* Overlay section (auto-dismiss timer) */
+"Overlay" = "Overlay";
+"Auto-dismiss" = "Auto-dismiss";
+"Never" = "Never";
+"%d s" = "%d s";
+"Auto-close the hourly reminder after this delay. Audio stops too." = "Auto-close the hourly reminder after this delay. Audio stops too.";

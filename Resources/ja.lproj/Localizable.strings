@@ -73,6 +73,13 @@
 "Show in Dock" = "Dock に表示";
 "When on, Getup also appears in the Dock and ⌘Tab. Useful when the camera notch hides menu-bar icons." = "オンにすると、Getup は Dock と ⌘Tab にも表示されます。カメラのノッチでメニューバーのアイコンが隠れるときに便利です。";
 
+/* Overlay section (auto-dismiss timer) */
+"Overlay" = "リマインダー";
+"Auto-dismiss" = "自動的に閉じる";
+"Never" = "しない";
+"%d s" = "%d秒";
+"Auto-close the hourly reminder after this delay. Audio stops too." = "この時間が経過したらリマインダーを自動的に閉じます。音声も止まります。";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "音声とフレーズを選んでね";
 "This is what I will say each hour." = "毎時このフレーズを話します。";

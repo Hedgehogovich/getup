@@ -6,12 +6,13 @@ final class OverlayController {
     private var windows: [NSWindow] = []
     private var audioPlayer: AVAudioPlayer?
     private var localKeyMonitor: Any?
+    private var autoDismissTimer: Timer?
 
     var onSnooze: (() -> Void)?
 
     var isShowing: Bool { !windows.isEmpty }
 
-    func show(audioMode: AudioMode, volume: Double) {
+    func show(audioMode: AudioMode, volume: Double, autoDismissSeconds: Int? = nil) {
         guard !isShowing else { return }
 
         MainActor.assumeIsolated { PreviewPlayer.shared.stop() }
@@ -38,9 +39,18 @@ final class OverlayController {
         }
 
         playAudio(mode: audioMode, volume: volume)
+
+        if let secs = autoDismissSeconds, secs > 0 {
+            autoDismissTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(secs),
+                                                   repeats: false) { [weak self] _ in
+                self?.dismiss()
+            }
+        }
     }
 
     func dismiss() {
+        autoDismissTimer?.invalidate()
+        autoDismissTimer = nil
         for w in windows { w.orderOut(nil); w.close() }
         windows.removeAll()
         audioPlayer?.stop()

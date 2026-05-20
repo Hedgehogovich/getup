@@ -22,6 +22,7 @@ struct SettingsCodableTests {
         s.showInDock = true
         s.useCustomAudio = true
         s.customAudioFilename = "bell.mp3"
+        s.overlayAutoDismissSeconds = 15
         let data = try JSONEncoder().encode(s)
         let decoded = try JSONDecoder().decode(Settings.self, from: data)
         #expect(decoded == s)
@@ -84,6 +85,23 @@ struct SettingsCodableTests {
         #expect(decoded.useCustomAudio == false)
         #expect(decoded.customAudioFilename == nil)
         #expect(decoded.voice == "Zarvox")
+    }
+
+    /// Forward-compat: overlayAutoDismissSeconds added in v0.2 era. Pre-feature JSON
+    /// must decode and default the field to nil (= manual dismiss only).
+    @Test func decodesLegacyJSONMissingOverlayAutoDismiss() throws {
+        let json = Data("""
+        {
+          "audioMode": "always",
+          "fireMinute": 50,
+          "volume": 0.7,
+          "voice": "Zarvox",
+          "customPhrase": "hi",
+          "useCustomAudio": false
+        }
+        """.utf8)
+        let decoded = try JSONDecoder().decode(Settings.self, from: json)
+        #expect(decoded.overlayAutoDismissSeconds == nil)
     }
 
     @Test func decodingGarbageThrows() {
