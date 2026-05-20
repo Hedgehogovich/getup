@@ -5,6 +5,7 @@ import Testing
 /// Tests use a unique-per-suite `UserDefaults` so they don't touch the real
 /// `com.ychachilo.getup` domain or contaminate each other.
 @Suite("SettingsStore — persistence + migration + first-run flag")
+@MainActor
 struct SettingsStoreTests {
     private static func makeDefaults() -> (UserDefaults, String) {
         let suite = "test-getup-\(UUID().uuidString)"
