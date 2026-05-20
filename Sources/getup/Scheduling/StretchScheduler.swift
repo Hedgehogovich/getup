@@ -16,6 +16,9 @@ final class StretchScheduler {
 
     func start() { scheduleNext() }
 
+    /// Re-arm against the current `fireMinute()` value. Call after a live setting change.
+    func reschedule() { scheduleNext() }
+
     /// Next `xx:<fireMinute>:00` strictly after `now`. Pure for unit tests. fireMinute clamped to 0...59.
     static func nextFireDate(after now: Date, fireMinute: Int, calendar: Calendar = .current) -> Date {
         var comps = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: now)

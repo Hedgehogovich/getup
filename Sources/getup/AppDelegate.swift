@@ -12,6 +12,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var scheduler: StretchScheduler!
     private var audioModeCancellable: AnyCancellable?
     private var dockPolicyCancellable: AnyCancellable?
+    private var fireMinuteCancellable: AnyCancellable?
     private var snoozeTimer: Timer?
     private var snoozeIntendedFireDate: Date?
     private let snoozeInterval: TimeInterval = 10 * 60
@@ -49,6 +50,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             onFire: { [weak self] in self?.fireOverlay() }
         )
         scheduler.start()
+
+        // @Published emits on willSet — defer one runloop turn so the closure inside
+        // reschedule reads the committed (didSet) value, not the still-old one.
+        fireMinuteCancellable = settings.$current
+            .map(\.fireMinute)
+            .removeDuplicates()
+            .dropFirst()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.scheduler.reschedule() }
 
         wizard.showIfNeeded(store: settings) { [weak self] in
             self?.rebuildMenu()
