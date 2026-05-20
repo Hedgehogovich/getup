@@ -126,13 +126,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func stretchNow() {
-        fireOverlay()
+        showOverlay()   // manual trigger bypasses quiet hours
     }
 
     private func fireOverlay() {
-        overlay.show(audioMode: settings.current.audioMode,
-                     volume: settings.current.volume,
-                     autoDismissSeconds: settings.current.overlayAutoDismissSeconds)
+        let s = settings.current
+        if s.quietHoursEnabled,
+           QuietHours.isWithin(now: Date(),
+                               startMinutes: s.quietHoursStartMinutes,
+                               endMinutes: s.quietHoursEndMinutes) {
+            return
+        }
+        showOverlay()
+    }
+
+    private func showOverlay() {
+        let s = settings.current
+        overlay.show(audioMode: s.audioMode,
+                     volume: s.volume,
+                     autoDismissSeconds: s.overlayAutoDismissSeconds)
     }
 
     private func armSnooze() {

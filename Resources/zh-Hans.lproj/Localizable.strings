@@ -80,6 +80,13 @@
 "%d s" = "%d 秒";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "经过此延迟后自动关闭提醒。音频也会停止。";
 
+/* Quiet hours section */
+"Quiet hours" = "免打扰时段";
+"Enable quiet hours" = "启用免打扰时段";
+"Start" = "开始";
+"End" = "结束";
+"Skip the hourly reminder between these times. Manual “Stretch now” still works." = "在此时段内跳过提醒。手动“立即拉伸”仍然有效。";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "选择语音和短语";
 "This is what I will say each hour." = "我每小时会说这句话。";

@@ -100,6 +100,20 @@ struct SettingsView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            Section("Quiet hours") {
+                Toggle("Enable quiet hours", isOn: $store.current.quietHoursEnabled)
+                if store.current.quietHoursEnabled {
+                    DatePicker("Start",
+                               selection: minutesBinding(\.quietHoursStartMinutes),
+                               displayedComponents: .hourAndMinute)
+                    DatePicker("End",
+                               selection: minutesBinding(\.quietHoursEndMinutes),
+                               displayedComponents: .hourAndMinute)
+                }
+                Text("Skip the hourly reminder between these times. Manual “Stretch now” still works.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
         }
         .formStyle(.grouped)
         .onAppear {
@@ -222,6 +236,19 @@ struct SettingsView: View {
             }
         }
         .disabled(previewDisabled(generated: generated))
+    }
+
+    private func minutesBinding(_ keyPath: WritableKeyPath<Settings, Int>) -> Binding<Date> {
+        Binding(
+            get: {
+                let start = Calendar.current.startOfDay(for: Date())
+                return Calendar.current.date(byAdding: .minute, value: store.current[keyPath: keyPath], to: start) ?? start
+            },
+            set: { newDate in
+                let c = Calendar.current.dateComponents([.hour, .minute], from: newDate)
+                store.current[keyPath: keyPath] = (c.hour ?? 0) * 60 + (c.minute ?? 0)
+            }
+        )
     }
 
     private func previewDisabled(generated: Bool) -> Bool {

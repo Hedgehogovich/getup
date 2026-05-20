@@ -80,6 +80,13 @@
 "%d s" = "%d s";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "Schließt die Erinnerung nach dieser Zeit. Audio stoppt ebenfalls.";
 
+/* Quiet hours section */
+"Quiet hours" = "Ruhezeit";
+"Enable quiet hours" = "Ruhezeit aktivieren";
+"Start" = "Start";
+"End" = "Ende";
+"Skip the hourly reminder between these times. Manual “Stretch now” still works." = "Erinnerungen in diesem Zeitraum überspringen. „Jetzt strecken“ funktioniert weiterhin.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Stimme und Satz wählen";
 "This is what I will say each hour." = "Das sage ich jede Stunde.";

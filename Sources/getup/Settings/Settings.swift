@@ -11,6 +11,9 @@ struct Settings: Codable, Equatable {
     var useCustomAudio: Bool = false
     var customAudioFilename: String? = nil
     var overlayAutoDismissSeconds: Int? = nil   // nil = manual dismiss only
+    var quietHoursEnabled: Bool = false
+    var quietHoursStartMinutes: Int = 22 * 60   // minutes since midnight (10:00 PM)
+    var quietHoursEndMinutes: Int = 7 * 60      // minutes since midnight (7:00 AM)
 
     init() {}
 
@@ -28,5 +31,8 @@ struct Settings: Codable, Equatable {
         self.useCustomAudio      = try c.decodeIfPresent(Bool.self,      forKey: .useCustomAudio)      ?? d.useCustomAudio
         self.customAudioFilename = try c.decodeIfPresent(String.self,    forKey: .customAudioFilename)
         self.overlayAutoDismissSeconds = try c.decodeIfPresent(Int.self, forKey: .overlayAutoDismissSeconds)
+        self.quietHoursEnabled       = try c.decodeIfPresent(Bool.self,  forKey: .quietHoursEnabled)       ?? d.quietHoursEnabled
+        self.quietHoursStartMinutes  = try c.decodeIfPresent(Int.self,   forKey: .quietHoursStartMinutes)  ?? d.quietHoursStartMinutes
+        self.quietHoursEndMinutes    = try c.decodeIfPresent(Int.self,   forKey: .quietHoursEndMinutes)    ?? d.quietHoursEndMinutes
     }
 }

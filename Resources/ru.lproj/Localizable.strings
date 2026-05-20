@@ -80,6 +80,13 @@
 "%d s" = "%d с";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "Закрывает напоминание через это время. Звук тоже останавливается.";
 
+/* Quiet hours section */
+"Quiet hours" = "Тихие часы";
+"Enable quiet hours" = "Включить тихие часы";
+"Start" = "Начало";
+"End" = "Конец";
+"Skip the hourly reminder between these times. Manual “Stretch now” still works." = "Пропускать напоминание в этом интервале. «Размяться сейчас» по-прежнему работает.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Выберите голос и фразу";
 "This is what I will say each hour." = "Вот что я буду говорить каждый час.";

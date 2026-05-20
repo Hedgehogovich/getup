@@ -23,6 +23,9 @@ struct SettingsCodableTests {
         s.useCustomAudio = true
         s.customAudioFilename = "bell.mp3"
         s.overlayAutoDismissSeconds = 15
+        s.quietHoursEnabled = true
+        s.quietHoursStartMinutes = 22 * 60
+        s.quietHoursEndMinutes = 6 * 60
         let data = try JSONEncoder().encode(s)
         let decoded = try JSONDecoder().decode(Settings.self, from: data)
         #expect(decoded == s)
@@ -102,6 +105,22 @@ struct SettingsCodableTests {
         """.utf8)
         let decoded = try JSONDecoder().decode(Settings.self, from: json)
         #expect(decoded.overlayAutoDismissSeconds == nil)
+    }
+
+    @Test func decodesLegacyJSONMissingQuietHours() throws {
+        let json = Data("""
+        {
+          "audioMode": "always",
+          "fireMinute": 50,
+          "volume": 0.7,
+          "voice": "Zarvox",
+          "customPhrase": "hi"
+        }
+        """.utf8)
+        let decoded = try JSONDecoder().decode(Settings.self, from: json)
+        #expect(decoded.quietHoursEnabled == false)
+        #expect(decoded.quietHoursStartMinutes == 22 * 60)
+        #expect(decoded.quietHoursEndMinutes == 7 * 60)
     }
 
     @Test func decodingGarbageThrows() {

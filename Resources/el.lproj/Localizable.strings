@@ -80,6 +80,13 @@
 "%d s" = "%d δ";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "Κλείνει την υπενθύμιση μετά από αυτό το διάστημα. Σταματά και ο ήχος.";
 
+/* Quiet hours section */
+"Quiet hours" = "Ώρες ησυχίας";
+"Enable quiet hours" = "Ενεργοποίηση ωρών ησυχίας";
+"Start" = "Έναρξη";
+"End" = "Λήξη";
+"Skip the hourly reminder between these times. Manual “Stretch now” still works." = "Παρακάμπτει την υπενθύμιση σε αυτό το διάστημα. Το «Τέντωμα τώρα» δουλεύει κανονικά.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Διάλεξε φωνή και φράση";
 "This is what I will say each hour." = "Αυτό θα λέω κάθε ώρα.";

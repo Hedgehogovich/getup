@@ -80,6 +80,13 @@
 "%d s" = "%d秒";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "この時間が経過したらリマインダーを自動的に閉じます。音声も止まります。";
 
+/* Quiet hours section */
+"Quiet hours" = "サイレント時間";
+"Enable quiet hours" = "サイレント時間を有効にする";
+"Start" = "開始";
+"End" = "終了";
+"Skip the hourly reminder between these times. Manual “Stretch now” still works." = "この時間帯はリマインダーをスキップします。「今すぐストレッチ」は引き続き使えます。";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "音声とフレーズを選んでね";
 "This is what I will say each hour." = "毎時このフレーズを話します。";
