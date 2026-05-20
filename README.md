@@ -57,9 +57,9 @@ Open **Settings…** from the menu bar (or <kbd>⌘,</kbd>).
 
 | Tab | Controls |
 |-----|----------|
-| **General** | Fire minute (`xx:00` / `xx:15` / `xx:30` / `xx:45` / `xx:50`), language, run-at-startup toggle |
-| **Audio** | Mode, volume, voice picker, phrase, preview |
-| **About** | Version, log folder, audio folder |
+| **General** | Fire minute (`xx:00` / `xx:15` / `xx:30` / `xx:45` / `xx:50`), language, run-at-startup, show-in-Dock |
+| **Audio** | Mode, volume, voice + phrase OR custom audio file, Preview / Stop |
+| **About** | Version, **Open support folder**, **Copy logs** (last 500 lines to clipboard) |
 
 Settings persist automatically — there's no save button. Editing the voice or phrase regenerates the spoken loop after about a second of inactivity.
 
@@ -75,13 +75,16 @@ Settings persist automatically — there's no save button. Editing the voice or 
 
 ### Custom audio file
 
-Drop your own sound instead of using the synthesized one:
+Two routes:
+
+1. **In-app picker** — Settings → Audio → **Use custom audio file…**. Standard macOS Open dialog filtered to audio types. The Audio tab swaps the voice/phrase controls for a status line + Preview / **Use generated audio instead** button.
+2. **Manual drop** — same support folder, same naming:
 
 ```
 ~/Library/Application Support/getup/sound.{aiff,mp3,m4a,wav}
 ```
 
-The loader picks the first match in that order. The auto-generated file is `sound.aiff`, so a manually placed `.mp3`, `.m4a`, or `.wav` always wins.
+The loader picks the first match in that order. The auto-generated file is `sound.aiff`, so a manually placed `.mp3`, `.m4a`, or `.wav` always wins. The picker route copies your file into the support folder under the right name and wipes any stale `sound.*` so the loader can't get confused.
 
 ### Languages
 
@@ -136,14 +139,17 @@ Each language is a `Resources/<code>.lproj/Localizable.strings` file:
 
 ## License
 
-To be decided before the first tagged release.
+MIT — see [LICENSE](LICENSE).
 
 ## Roadmap
 
 - [x] SwiftPM target + unit tests
 - [x] App icon
 - [x] GitHub Actions CI
+- [x] MIT license
+- [x] Custom audio file picker in Settings
 - [ ] First tagged GitHub release
 - [ ] Apple Developer Program (codesign + notarize)
+- [ ] Sparkle auto-update
 - [ ] Sandboxed App Store target with `SMAppService` for the login item
 - [ ] Distribution via Gumroad
