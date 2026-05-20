@@ -1,6 +1,7 @@
 import AppKit
 import AVFoundation
 import Foundation
+import SwiftUI
 
 @MainActor
 final class OverlayController {
@@ -31,12 +32,20 @@ final class OverlayController {
         }
 
         localKeyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
-            if event.keyCode == 53 {
-                // Removing the monitor inside its own callback is unsafe.
+            switch event.keyCode {
+            case 53:   // Esc — removing monitor inside its own callback is unsafe.
                 Task { @MainActor in self?.dismiss() }
                 return nil
+            case 1:    // 'S' — snooze
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.dismiss()
+                    self.onSnooze?()
+                }
+                return nil
+            default:
+                return event
             }
-            return event
         }
 
         playAudio(mode: audioMode, volume: volume)
@@ -89,14 +98,22 @@ final class OverlayController {
         win.hidesOnDeactivate = false
         win.isReleasedWhenClosed = false   // we hold the ref; default true would over-release on close().
 
-        let view = OverlayView(frame: NSRect(x: 0, y: 0, width: cardW, height: cardH))
-        view.onDismiss = { [weak self] in self?.dismiss() }
-        view.onSnooze = { [weak self] in
-            self?.dismiss()
-            self?.onSnooze?()
-        }
-        win.contentView = view
-        win.initialFirstResponder = view
+        let content = OverlayContentView(
+            onDismiss: { [weak self] in
+                Task { @MainActor in self?.dismiss() }
+            },
+            onSnooze: { [weak self] in
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.dismiss()
+                    self.onSnooze?()
+                }
+            }
+        )
+        let host = NSHostingView(rootView: content)
+        host.frame = NSRect(x: 0, y: 0, width: cardW, height: cardH)
+        host.autoresizingMask = [.width, .height]
+        win.contentView = host
         return win
     }
 
