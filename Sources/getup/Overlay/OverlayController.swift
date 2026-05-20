@@ -7,6 +7,8 @@ final class OverlayController {
     private var audioPlayer: AVAudioPlayer?
     private var localKeyMonitor: Any?
 
+    var onSnooze: (() -> Void)?
+
     var isShowing: Bool { !windows.isEmpty }
 
     func show(audioMode: AudioMode, volume: Double) {
@@ -52,7 +54,7 @@ final class OverlayController {
     private func makeWindow(for screen: NSScreen) -> NSWindow {
         let frame = screen.frame
         let cardW: CGFloat = 520
-        let cardH: CGFloat = 150
+        let cardH: CGFloat = 190
         // contentRect is in GLOBAL coords. Don't pass `screen:` — it would double-offset by screen.origin.
         let x = frame.origin.x + (frame.width - cardW) / 2
         let y = frame.origin.y + frame.height - cardH - 90
@@ -78,6 +80,10 @@ final class OverlayController {
 
         let view = OverlayView(frame: NSRect(x: 0, y: 0, width: cardW, height: cardH))
         view.onDismiss = { [weak self] in self?.dismiss() }
+        view.onSnooze = { [weak self] in
+            self?.dismiss()
+            self?.onSnooze?()
+        }
         win.contentView = view
         win.initialFirstResponder = view
         return win

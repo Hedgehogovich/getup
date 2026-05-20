@@ -11,6 +11,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var scheduler: StretchScheduler!
     private var audioModeCancellable: AnyCancellable?
     private var dockPolicyCancellable: AnyCancellable?
+    private var snoozeTimer: Timer?
+    private let snoozeInterval: TimeInterval = 10 * 60
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         LogRotation.rotateIfNeeded()
@@ -38,13 +40,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             .dropFirst()
             .sink { [weak self] show in self?.applyActivationPolicy(showInDock: show) }
 
+        overlay.onSnooze = { [weak self] in self?.armSnooze() }
+
         scheduler = StretchScheduler(
             fireMinute: { [weak self] in self?.settings.current.fireMinute ?? 50 },
-            onFire: { [weak self] in
-                guard let self else { return }
-                self.overlay.show(audioMode: self.settings.current.audioMode,
-                                  volume: self.settings.current.volume)
-            }
+            onFire: { [weak self] in self?.fireOverlay() }
         )
         scheduler.start()
 
@@ -126,8 +126,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func stretchNow() {
+        fireOverlay()
+    }
+
+    private func fireOverlay() {
         overlay.show(audioMode: settings.current.audioMode,
                      volume: settings.current.volume)
+    }
+
+    private func armSnooze() {
+        snoozeTimer?.invalidate()
+        snoozeTimer = Timer.scheduledTimer(withTimeInterval: snoozeInterval, repeats: false) { [weak self] _ in
+            self?.fireOverlay()
+        }
     }
 
     @objc private func setAudioMode(_ sender: NSMenuItem) {

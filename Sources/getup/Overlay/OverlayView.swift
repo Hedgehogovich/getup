@@ -2,6 +2,7 @@ import AppKit
 
 final class OverlayView: NSView {
     var onDismiss: (() -> Void)?
+    var onSnooze: (() -> Void)?
 
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -32,12 +33,25 @@ final class OverlayView: NSView {
         hint.translatesAutoresizingMaskIntoConstraints = false
         addSubview(hint)
 
+        let snooze = NSButton(title: String(localized: "Snooze 10 min"),
+                              target: self,
+                              action: #selector(snoozeClicked))
+        snooze.bezelStyle = .rounded
+        snooze.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(snooze)
+
         NSLayoutConstraint.activate([
             title.centerXAnchor.constraint(equalTo: centerXAnchor),
-            title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -12),
+            title.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -20),
             hint.centerXAnchor.constraint(equalTo: centerXAnchor),
-            hint.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 14),
+            hint.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 10),
+            snooze.centerXAnchor.constraint(equalTo: centerXAnchor),
+            snooze.topAnchor.constraint(equalTo: hint.bottomAnchor, constant: 10),
         ])
+    }
+
+    @objc private func snoozeClicked() {
+        DispatchQueue.main.async { [weak self] in self?.onSnooze?() }
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -46,9 +60,12 @@ final class OverlayView: NSView {
     }
 
     override func keyDown(with event: NSEvent) {
-        if event.keyCode == 53 {
+        switch event.keyCode {
+        case 53:  // Esc
             DispatchQueue.main.async { [weak self] in self?.onDismiss?() }
-        } else {
+        case 1:   // 'S'
+            DispatchQueue.main.async { [weak self] in self?.onSnooze?() }
+        default:
             super.keyDown(with: event)
         }
     }
