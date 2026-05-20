@@ -9,15 +9,33 @@ final class OverlayController {
     private var audioPlayer: AVAudioPlayer?
     private var localKeyMonitor: Any?
     private var autoDismissTimer: Timer?
+    private var stashedWindows: [NSWindow] = []
+    private var previousFrontmostApp: NSRunningApplication?
+    private var hideFromScreenCapture = true
 
     var onSnooze: (() -> Void)?
 
     var isShowing: Bool { !windows.isEmpty }
 
-    func show(audioMode: AudioMode, volume: Double, autoDismissSeconds: Int? = nil) {
+    func show(audioMode: AudioMode,
+              volume: Double,
+              autoDismissSeconds: Int? = nil,
+              hideFromScreenCapture: Bool = true) {
         guard !isShowing else { return }
 
+        self.hideFromScreenCapture = hideFromScreenCapture
         PreviewPlayer.shared.stop()
+
+        // Capture the foreground app so we can restore it on dismiss — otherwise the user
+        // returns to our app instead of whatever they were using when the overlay fired.
+        let me = NSRunningApplication.current.processIdentifier
+        let front = NSWorkspace.shared.frontmostApplication
+        previousFrontmostApp = (front?.processIdentifier == me) ? nil : front
+
+        // NSApp.activate brings ALL app windows forward (incl. Settings in dock mode).
+        // Stash visible non-overlay windows so they don't pop into focus.
+        stashedWindows = NSApp.windows.filter { $0.isVisible && !($0 is OverlayWindow) }
+        for w in stashedWindows { w.orderOut(nil) }
 
         let screens = NSScreen.screens
         for screen in screens {
@@ -69,6 +87,12 @@ final class OverlayController {
             NSEvent.removeMonitor(m)
             localKeyMonitor = nil
         }
+        for w in stashedWindows { w.orderFront(nil) }
+        stashedWindows.removeAll()
+        if let prev = previousFrontmostApp {
+            prev.activate(options: [])
+            previousFrontmostApp = nil
+        }
     }
 
     private func makeWindow(for screen: NSScreen) -> NSWindow {
@@ -90,8 +114,8 @@ final class OverlayController {
         win.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
         win.backgroundColor = .clear
         win.isOpaque = false
-        win.hasShadow = true
-        win.sharingType = .none   // hides from Teams / QuickTime / any screen capture.
+        win.hasShadow = false   // AppKit shadow follows window rect; SwiftUI shadow follows the rounded card instead.
+        win.sharingType = hideFromScreenCapture ? .none : .readOnly   // .none hides from Teams / QuickTime / any screen capture.
         win.ignoresMouseEvents = false
         win.isMovable = false
         win.acceptsMouseMovedEvents = false
@@ -113,6 +137,10 @@ final class OverlayController {
         let host = NSHostingView(rootView: content)
         host.frame = NSRect(x: 0, y: 0, width: cardW, height: cardH)
         host.autoresizingMask = [.width, .height]
+        // Without this, hosting view paints opaque in the corners outside the rounded card,
+        // and the window's drop shadow follows the rectangle instead of the rounded shape.
+        host.wantsLayer = true
+        host.layer?.backgroundColor = NSColor.clear.cgColor
         win.contentView = host
         return win
     }

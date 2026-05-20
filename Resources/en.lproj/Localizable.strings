@@ -100,3 +100,8 @@
 "Start" = "Start";
 "End" = "End";
 "Skip the hourly reminder between these times. Manual “Stretch now” still works." = "Skip the hourly reminder between these times. Manual “Stretch now” still works.";
+
+/* Privacy section */
+"Privacy" = "Privacy";
+"Hide from screen sharing" = "Hide from screen sharing";
+"When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools." = "When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools.";

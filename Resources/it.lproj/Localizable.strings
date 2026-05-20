@@ -86,6 +86,11 @@
 "End" = "Fine";
 "Skip the hourly reminder between these times. Manual “Stretch now” still works." = "Salta il promemoria in questo intervallo. “Stiracchiati ora” funziona comunque.";
 
+/* Privacy section */
+"Privacy" = "Privacy";
+"Hide from screen sharing" = "Nascondi dalla condivisione schermo";
+"When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools." = "Quando attivo, l'avviso è invisibile a Teams, QuickTime e altri strumenti di acquisizione schermo.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Scegli una voce e una frase";
 "This is what I will say each hour." = "Questo è ciò che dirò ogni ora.";

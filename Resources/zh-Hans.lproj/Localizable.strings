@@ -86,6 +86,11 @@
 "End" = "结束";
 "Skip the hourly reminder between these times. Manual “Stretch now” still works." = "在此时段内跳过提醒。手动“立即拉伸”仍然有效。";
 
+/* Privacy section */
+"Privacy" = "隐私";
+"Hide from screen sharing" = "对屏幕共享隐藏";
+"When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools." = "开启后，Teams、QuickTime 等屏幕录制工具将看不到此提醒。";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "选择语音和短语";
 "This is what I will say each hour." = "我每小时会说这句话。";

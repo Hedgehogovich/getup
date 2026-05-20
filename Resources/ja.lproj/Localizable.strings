@@ -86,6 +86,11 @@
 "End" = "終了";
 "Skip the hourly reminder between these times. Manual “Stretch now” still works." = "この時間帯はリマインダーをスキップします。「今すぐストレッチ」は引き続き使えます。";
 
+/* Privacy section */
+"Privacy" = "プライバシー";
+"Hide from screen sharing" = "画面共有から隠す";
+"When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools." = "オンにすると、Teams や QuickTime などの画面録画ツールからオーバーレイが見えなくなります。";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "音声とフレーズを選んでね";
 "This is what I will say each hour." = "毎時このフレーズを話します。";

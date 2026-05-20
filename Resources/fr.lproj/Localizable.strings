@@ -86,6 +86,11 @@
 "End" = "Fin";
 "Skip the hourly reminder between these times. Manual “Stretch now” still works." = "Ignore le rappel entre ces heures. « Étirez-vous maintenant » fonctionne toujours.";
 
+/* Privacy section */
+"Privacy" = "Confidentialité";
+"Hide from screen sharing" = "Masquer du partage d'écran";
+"When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools." = "Lorsque cette option est activée, le rappel est invisible pour Teams, QuickTime et autres outils de capture d'écran.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Choisissez une voix et une phrase";
 "This is what I will say each hour." = "Voici ce que je dirai toutes les heures.";

@@ -156,7 +156,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let s = settings.current
         overlay.show(audioMode: s.audioMode,
                      volume: s.volume,
-                     autoDismissSeconds: s.overlayAutoDismissSeconds)
+                     autoDismissSeconds: s.overlayAutoDismissSeconds,
+                     hideFromScreenCapture: s.hideFromScreenCapture)
     }
 
     private func armSnooze() {

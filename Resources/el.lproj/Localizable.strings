@@ -86,6 +86,11 @@
 "End" = "Λήξη";
 "Skip the hourly reminder between these times. Manual “Stretch now” still works." = "Παρακάμπτει την υπενθύμιση σε αυτό το διάστημα. Το «Τέντωμα τώρα» δουλεύει κανονικά.";
 
+/* Privacy section */
+"Privacy" = "Απόρρητο";
+"Hide from screen sharing" = "Απόκρυψη από κοινή χρήση οθόνης";
+"When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools." = "Όταν είναι ενεργό, η ειδοποίηση είναι αόρατη στο Teams, QuickTime και άλλα εργαλεία λήψης οθόνης.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Διάλεξε φωνή και φράση";
 "This is what I will say each hour." = "Αυτό θα λέω κάθε ώρα.";

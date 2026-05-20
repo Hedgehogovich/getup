@@ -14,6 +14,7 @@ struct Settings: Codable, Equatable, Sendable {
     var quietHoursEnabled: Bool = false
     var quietHoursStartMinutes: Int = 22 * 60   // minutes since midnight (10:00 PM)
     var quietHoursEndMinutes: Int = 7 * 60      // minutes since midnight (7:00 AM)
+    var hideFromScreenCapture: Bool = true      // when true, sharingType = .none hides overlay from Teams/QuickTime/etc.
 
     init() {}
 
@@ -34,5 +35,6 @@ struct Settings: Codable, Equatable, Sendable {
         self.quietHoursEnabled       = try c.decodeIfPresent(Bool.self,  forKey: .quietHoursEnabled)       ?? d.quietHoursEnabled
         self.quietHoursStartMinutes  = try c.decodeIfPresent(Int.self,   forKey: .quietHoursStartMinutes)  ?? d.quietHoursStartMinutes
         self.quietHoursEndMinutes    = try c.decodeIfPresent(Int.self,   forKey: .quietHoursEndMinutes)    ?? d.quietHoursEndMinutes
+        self.hideFromScreenCapture   = try c.decodeIfPresent(Bool.self,  forKey: .hideFromScreenCapture)   ?? d.hideFromScreenCapture
     }
 }

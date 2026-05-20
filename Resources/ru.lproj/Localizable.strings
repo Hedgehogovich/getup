@@ -86,6 +86,11 @@
 "End" = "Конец";
 "Skip the hourly reminder between these times. Manual “Stretch now” still works." = "Пропускать напоминание в этом интервале. «Размяться сейчас» по-прежнему работает.";
 
+/* Privacy section */
+"Privacy" = "Конфиденциальность";
+"Hide from screen sharing" = "Скрывать от записи экрана";
+"When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools." = "Когда включено, напоминание невидимо для Teams, QuickTime и других программ записи экрана.";
+
 /* Wizard step 3 — voice & phrase */
 "Pick a voice and phrase" = "Выберите голос и фразу";
 "This is what I will say each hour." = "Вот что я буду говорить каждый час.";

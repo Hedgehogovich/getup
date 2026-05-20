@@ -97,6 +97,12 @@ struct SettingsView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+            Section("Privacy") {
+                Toggle("Hide from screen sharing", isOn: $store.current.hideFromScreenCapture)
+                Text("When on, the overlay is invisible to Teams, QuickTime, and other screen-capture tools.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
             Section("Quiet hours") {
                 Toggle("Enable quiet hours", isOn: $store.current.quietHoursEnabled)
                 if store.current.quietHoursEnabled {
