@@ -8,7 +8,7 @@ A macOS menu-bar app that pops a full-screen reminder once an hour and gets out 
 
 ## Why
 
-You sit too much. Apple Watch's Stand reminder helps if you wear one. Calendar nudges get muted. Notifications get trained out. Getup is impossible to ignore for half a second and trivial to dismiss — that's the whole point.
+You sit too much. A smart wearable's stand reminder helps if you wear one. Calendar nudges get muted. Notifications get trained out. Getup is impossible to ignore for half a second and trivial to dismiss — that's the whole point.
 
 ## Features
 

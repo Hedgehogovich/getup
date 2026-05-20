@@ -48,9 +48,6 @@ struct SettingsView: View {
                         Text(String(format: "xx:%02d", m)).tag(m)
                     }
                 }
-                Text("Apple Watch Stand reminders fire at xx:50.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
             Section("Language") {
                 Picker("Language", selection: $pickerLanguage) {
