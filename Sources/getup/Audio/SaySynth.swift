@@ -41,18 +41,13 @@ enum SaySynth {
 
     @discardableResult
     static func preview(voice: String, phrase: String) -> Process? {
-        NSLog("getup: SaySynth.preview voice=\(voice) phraseLen=\(phrase.count)")
         let p = Process()
         p.launchPath = "/usr/bin/say"
         p.arguments = ["-v", voice, phrase]
-        p.terminationHandler = { task in
-            NSLog("getup: SaySynth.preview ended status=\(task.terminationStatus)")
-        }
         do {
             try p.run()
-            NSLog("getup: SaySynth.preview launched pid=\(p.processIdentifier)")
         } catch {
-            NSLog("getup: SaySynth.preview FAILED: \(error.localizedDescription)")
+            NSLog("getup: SaySynth.preview failed: \(error.localizedDescription)")
             return nil
         }
         return p
@@ -61,14 +56,8 @@ enum SaySynth {
     /// Wizard safety net: if the user X-closes before step 3, this still writes a default
     /// sound.aiff so they hear audio at xx:50. Never overwrites a user-placed sound file.
     static func saveLoopIfMissing(voice: String, phrase: String) {
-        let exists = AppPaths.soundFileCandidates.contains { FileManager.default.fileExists(atPath: $0.path) }
-        guard !exists else {
-            NSLog("getup: SaySynth.saveLoopIfMissing — existing sound file found, skipping")
-            return
-        }
-        saveLoop(voice: voice, phrase: phrase) { ok in
-            NSLog("getup: SaySynth.saveLoopIfMissing wrote default sound.aiff ok=\(ok)")
-        }
+        guard AppPaths.existingSoundFile == nil else { return }
+        saveLoop(voice: voice, phrase: phrase) { _ in }
     }
 
     /// Writes `sound.aiff` and removes other extensions so the audio loader picks this one.

@@ -15,12 +15,10 @@ final class OverlayController {
         MainActor.assumeIsolated { PreviewPlayer.shared.stop() }
 
         let screens = NSScreen.screens
-        NSLog("getup: showing on \(screens.count) screen(s), audioMode=\(audioMode.rawValue), volume=\(volume)")
-        for (i, screen) in screens.enumerated() {
+        for screen in screens {
             let win = makeWindow(for: screen)
             windows.append(win)
             win.orderFrontRegardless()
-            NSLog("getup:   screen[\(i)] \(screen.localizedName) frame=\(screen.frame) winFrame=\(win.frame)")
         }
 
         if let first = windows.first {
@@ -86,35 +84,27 @@ final class OverlayController {
     }
 
     private func playAudio(mode: AudioMode, volume: Double) {
-        let isHP = isHeadphoneOutput()
-        NSLog("getup: playAudio mode=\(mode.rawValue) volume=\(volume) headphones=\(isHP)")
         switch mode {
         case .silent:
-            NSLog("getup: silent mode -> no audio")
             return
         case .headphonesOnly:
-            guard isHP else {
-                NSLog("getup: speakers active, headphonesOnly mode -> skipping audio")
-                return
-            }
+            guard isHeadphoneOutput() else { return }
         case .always:
             break
         }
-        guard let url = AppPaths.soundFileCandidates.first(where: { FileManager.default.fileExists(atPath: $0.path) }) else {
+        guard let url = AppPaths.existingSoundFile else {
             NSLog("getup: no sound file in \(AppPaths.supportDir.path)")
             return
         }
-        NSLog("getup: loading \(url.path)")
         do {
             let player = try AVAudioPlayer(contentsOf: url)
             player.numberOfLoops = -1
             player.volume = Float(max(0, min(1, volume)))
             player.prepareToPlay()
-            let ok = player.play()
-            NSLog("getup: AVAudioPlayer.play() -> \(ok), duration=\(player.duration)s")
+            player.play()
             audioPlayer = player
         } catch {
-            NSLog("getup: AVAudioPlayer LOAD error: \(error)")
+            NSLog("getup: AVAudioPlayer load error: \(error)")
         }
     }
 }
