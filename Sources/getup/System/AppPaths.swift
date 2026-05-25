@@ -22,6 +22,17 @@ enum AppPaths {
         supportDir.appendingPathComponent("sound.aiff")
     }
 
+    /// Custom overlay media. First match wins. GIFs/videos preserved as-is.
+    static let mediaExtensions = ["png", "jpg", "jpeg", "gif", "mp4", "mov"]
+
+    static var mediaFileCandidates: [URL] {
+        mediaExtensions.map { supportDir.appendingPathComponent("overlay.\($0)") }
+    }
+
+    static var existingMediaFile: URL? {
+        mediaFileCandidates.first { FileManager.default.fileExists(atPath: $0.path) }
+    }
+
     static var stdoutLog: URL { supportDir.appendingPathComponent("getup.log") }
     static var stderrLog: URL { supportDir.appendingPathComponent("getup.err") }
 }

@@ -15,6 +15,8 @@ struct Settings: Codable, Equatable, Sendable {
     var quietHoursStartMinutes: Int = 22 * 60   // minutes since midnight (10:00 PM)
     var quietHoursEndMinutes: Int = 7 * 60      // minutes since midnight (7:00 AM)
     var hideFromScreenCapture: Bool = true      // when true, sharingType = .none hides overlay from Teams/QuickTime/etc.
+    var overlayMediaEnabled: Bool = false
+    var overlayMediaFilename: String? = nil
 
     init() {}
 
@@ -36,5 +38,7 @@ struct Settings: Codable, Equatable, Sendable {
         self.quietHoursStartMinutes  = try c.decodeIfPresent(Int.self,   forKey: .quietHoursStartMinutes)  ?? d.quietHoursStartMinutes
         self.quietHoursEndMinutes    = try c.decodeIfPresent(Int.self,   forKey: .quietHoursEndMinutes)    ?? d.quietHoursEndMinutes
         self.hideFromScreenCapture   = try c.decodeIfPresent(Bool.self,  forKey: .hideFromScreenCapture)   ?? d.hideFromScreenCapture
+        self.overlayMediaEnabled     = try c.decodeIfPresent(Bool.self,  forKey: .overlayMediaEnabled)     ?? d.overlayMediaEnabled
+        self.overlayMediaFilename    = try c.decodeIfPresent(String.self, forKey: .overlayMediaFilename)
     }
 }
