@@ -94,6 +94,16 @@
 "%d s" = "%d s";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "Auto-close the hourly reminder after this delay. Audio stops too.";
 
+/* Custom overlay media (image / GIF / video) */
+"Custom media…" = "Custom media…";
+"Remove custom media" = "Remove custom media";
+"Show an image, GIF, or video in the overlay. Supports PNG, JPG, GIF, MP4, MOV." = "Show an image, GIF, or video in the overlay. Supports PNG, JPG, GIF, MP4, MOV.";
+"Using custom media: %@" = "Using custom media: %@";
+"Choose an image, GIF, or video to show during the reminder." = "Choose an image, GIF, or video to show during the reminder.";
+"Unsupported media format" = "Unsupported media format";
+"Use PNG, JPG, GIF, MP4, or MOV." = "Use PNG, JPG, GIF, MP4, or MOV.";
+"Could not install media" = "Could not install media";
+
 /* Quiet hours section */
 "Quiet hours" = "Quiet hours";
 "Enable quiet hours" = "Enable quiet hours";

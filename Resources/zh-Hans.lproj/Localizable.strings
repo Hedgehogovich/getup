@@ -79,6 +79,16 @@
 "%d s" = "%d 秒";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "经过此延迟后自动关闭提醒。音频也会停止。";
 
+/* Custom overlay media (image / GIF / video) */
+"Custom media…" = "自定义媒体…";
+"Remove custom media" = "移除自定义媒体";
+"Show an image, GIF, or video in the overlay. Supports PNG, JPG, GIF, MP4, MOV." = "在提醒中显示图片、GIF 或视频。支持 PNG、JPG、GIF、MP4、MOV。";
+"Using custom media: %@" = "正在使用自定义媒体：%@";
+"Choose an image, GIF, or video to show during the reminder." = "选择提醒时显示的图片、GIF 或视频。";
+"Unsupported media format" = "不支持的媒体格式";
+"Use PNG, JPG, GIF, MP4, or MOV." = "请使用 PNG、JPG、GIF、MP4 或 MOV。";
+"Could not install media" = "无法安装媒体";
+
 /* Quiet hours section */
 "Quiet hours" = "免打扰时段";
 "Enable quiet hours" = "启用免打扰时段";

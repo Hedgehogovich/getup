@@ -79,6 +79,16 @@
 "%d s" = "%d s";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "Cierra el recordatorio tras este tiempo. El audio también se detiene.";
 
+/* Custom overlay media (image / GIF / video) */
+"Custom media…" = "Medios personalizados…";
+"Remove custom media" = "Quitar medios personalizados";
+"Show an image, GIF, or video in the overlay. Supports PNG, JPG, GIF, MP4, MOV." = "Muestra una imagen, GIF o vídeo en el aviso. Admite PNG, JPG, GIF, MP4, MOV.";
+"Using custom media: %@" = "Medios personalizados: %@";
+"Choose an image, GIF, or video to show during the reminder." = "Elige una imagen, GIF o vídeo para el recordatorio.";
+"Unsupported media format" = "Formato de medio no compatible";
+"Use PNG, JPG, GIF, MP4, or MOV." = "Usa PNG, JPG, GIF, MP4 o MOV.";
+"Could not install media" = "No se pudieron instalar los medios";
+
 /* Quiet hours section */
 "Quiet hours" = "Horas silenciosas";
 "Enable quiet hours" = "Activar horas silenciosas";

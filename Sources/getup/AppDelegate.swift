@@ -154,10 +154,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showOverlay() {
         let s = settings.current
+        let media = s.overlayMediaEnabled ? AppPaths.existingMediaFile : nil
         overlay.show(audioMode: s.audioMode,
                      volume: s.volume,
                      autoDismissSeconds: s.overlayAutoDismissSeconds,
-                     hideFromScreenCapture: s.hideFromScreenCapture)
+                     hideFromScreenCapture: s.hideFromScreenCapture,
+                     mediaURL: media)
     }
 
     private func armSnooze() {

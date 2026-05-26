@@ -12,6 +12,7 @@ final class OverlayController {
     private var stashedWindows: [NSWindow] = []
     private var previousFrontmostApp: NSRunningApplication?
     private var hideFromScreenCapture = true
+    private var mediaURL: URL?
 
     var onSnooze: (() -> Void)?
 
@@ -20,10 +21,12 @@ final class OverlayController {
     func show(audioMode: AudioMode,
               volume: Double,
               autoDismissSeconds: Int? = nil,
-              hideFromScreenCapture: Bool = true) {
+              hideFromScreenCapture: Bool = true,
+              mediaURL: URL? = nil) {
         guard !isShowing else { return }
 
         self.hideFromScreenCapture = hideFromScreenCapture
+        self.mediaURL = mediaURL
         PreviewPlayer.shared.stop()
 
         // Capture the foreground app so we can restore it on dismiss — otherwise the user
@@ -98,7 +101,7 @@ final class OverlayController {
     private func makeWindow(for screen: NSScreen) -> NSWindow {
         let frame = screen.frame
         let cardW: CGFloat = 520
-        let cardH: CGFloat = 190
+        let cardH: CGFloat = mediaURL == nil ? 190 : 460
         // contentRect is in GLOBAL coords. Don't pass `screen:` — it would double-offset by screen.origin.
         let x = frame.origin.x + (frame.width - cardW) / 2
         let y = frame.origin.y + frame.height - cardH - 90
@@ -132,7 +135,8 @@ final class OverlayController {
                     self.dismiss()
                     self.onSnooze?()
                 }
-            }
+            },
+            mediaURL: mediaURL
         )
         let host = NSHostingView(rootView: content)
         host.frame = NSRect(x: 0, y: 0, width: cardW, height: cardH)

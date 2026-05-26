@@ -96,6 +96,20 @@ struct SettingsView: View {
                 Text("Auto-close the hourly reminder after this delay. Audio stops too.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+
+                if store.current.overlayMediaEnabled {
+                    Text(String(format: NSLocalizedString("Using custom media: %@",
+                                                          comment: "Caption beneath the custom media button"),
+                                store.current.overlayMediaFilename ?? "—"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Button("Remove custom media") { revertOverlayMedia() }
+                } else {
+                    Button("Custom media…") { pickOverlayMedia() }
+                    Text("Show an image, GIF, or video in the overlay. Supports PNG, JPG, GIF, MP4, MOV.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
             }
             Section("Privacy") {
                 Toggle("Hide from screen sharing", isOn: $store.current.hideFromScreenCapture)
@@ -298,6 +312,41 @@ struct SettingsView: View {
         store.current = next
         SaySynth.saveLoopIfMissing(voice: store.current.voice,
                                    phrase: store.current.customPhrase)
+    }
+
+    private func pickOverlayMedia() {
+        guard let url = CustomMedia.showOpenPanel() else { return }
+        do {
+            let filename = try CustomMedia.install(from: url)
+            var next = store.current
+            next.overlayMediaFilename = filename
+            next.overlayMediaEnabled = true
+            store.current = next
+        } catch CustomMedia.InstallError.unsupportedExtension {
+            customAudioErrorTitle = NSLocalizedString("Unsupported media format",
+                                                      comment: "Alert title when picked overlay media isn't supported")
+            customAudioErrorMessage = NSLocalizedString("Use PNG, JPG, GIF, MP4, or MOV.",
+                                                        comment: "Alert body for unsupported overlay media format")
+            showCustomAudioError = true
+        } catch CustomMedia.InstallError.ioFailure(let detail) {
+            customAudioErrorTitle = NSLocalizedString("Could not install media",
+                                                      comment: "Alert title when overlay media copy fails")
+            customAudioErrorMessage = detail
+            showCustomAudioError = true
+        } catch {
+            customAudioErrorTitle = NSLocalizedString("Could not install media",
+                                                      comment: "Alert title when overlay media copy fails")
+            customAudioErrorMessage = error.localizedDescription
+            showCustomAudioError = true
+        }
+    }
+
+    private func revertOverlayMedia() {
+        CustomMedia.revertToDefault()
+        var next = store.current
+        next.overlayMediaEnabled = false
+        next.overlayMediaFilename = nil
+        store.current = next
     }
 
     @ViewBuilder

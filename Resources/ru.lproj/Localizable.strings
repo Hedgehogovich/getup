@@ -79,6 +79,16 @@
 "%d s" = "%d с";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "Закрывает напоминание через это время. Звук тоже останавливается.";
 
+/* Custom overlay media (image / GIF / video) */
+"Custom media…" = "Свой медиафайл…";
+"Remove custom media" = "Удалить свой медиафайл";
+"Show an image, GIF, or video in the overlay. Supports PNG, JPG, GIF, MP4, MOV." = "Показывает картинку, GIF или видео в напоминании. Поддерживаются PNG, JPG, GIF, MP4, MOV.";
+"Using custom media: %@" = "Свой медиафайл: %@";
+"Choose an image, GIF, or video to show during the reminder." = "Выбери картинку, GIF или видео для напоминания.";
+"Unsupported media format" = "Формат не поддерживается";
+"Use PNG, JPG, GIF, MP4, or MOV." = "Используй PNG, JPG, GIF, MP4 или MOV.";
+"Could not install media" = "Не удалось установить медиафайл";
+
 /* Quiet hours section */
 "Quiet hours" = "Тихие часы";
 "Enable quiet hours" = "Включить тихие часы";

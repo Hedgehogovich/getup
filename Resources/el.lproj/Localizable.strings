@@ -79,6 +79,16 @@
 "%d s" = "%d δ";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "Κλείνει την υπενθύμιση μετά από αυτό το διάστημα. Σταματά και ο ήχος.";
 
+/* Custom overlay media (image / GIF / video) */
+"Custom media…" = "Προσαρμοσμένο μέσο…";
+"Remove custom media" = "Αφαίρεση προσαρμοσμένου μέσου";
+"Show an image, GIF, or video in the overlay. Supports PNG, JPG, GIF, MP4, MOV." = "Εμφανίζει εικόνα, GIF ή βίντεο στην υπενθύμιση. Υποστηρίζει PNG, JPG, GIF, MP4, MOV.";
+"Using custom media: %@" = "Προσαρμοσμένο μέσο: %@";
+"Choose an image, GIF, or video to show during the reminder." = "Επίλεξε εικόνα, GIF ή βίντεο για την υπενθύμιση.";
+"Unsupported media format" = "Μη υποστηριζόμενη μορφή μέσου";
+"Use PNG, JPG, GIF, MP4, or MOV." = "Χρησιμοποίησε PNG, JPG, GIF, MP4 ή MOV.";
+"Could not install media" = "Αποτυχία εγκατάστασης μέσου";
+
 /* Quiet hours section */
 "Quiet hours" = "Ώρες ησυχίας";
 "Enable quiet hours" = "Ενεργοποίηση ωρών ησυχίας";

@@ -79,6 +79,16 @@
 "%d s" = "%d秒";
 "Auto-close the hourly reminder after this delay. Audio stops too." = "この時間が経過したらリマインダーを自動的に閉じます。音声も止まります。";
 
+/* Custom overlay media (image / GIF / video) */
+"Custom media…" = "カスタムメディア…";
+"Remove custom media" = "カスタムメディアを削除";
+"Show an image, GIF, or video in the overlay. Supports PNG, JPG, GIF, MP4, MOV." = "リマインダーに画像、GIF、動画を表示します。PNG、JPG、GIF、MP4、MOV に対応。";
+"Using custom media: %@" = "カスタムメディア: %@";
+"Choose an image, GIF, or video to show during the reminder." = "リマインダーで表示する画像、GIF、または動画を選んでね。";
+"Unsupported media format" = "未対応のメディア形式";
+"Use PNG, JPG, GIF, MP4, or MOV." = "PNG、JPG、GIF、MP4 または MOV を使ってね。";
+"Could not install media" = "メディアをインストールできませんでした";
+
 /* Quiet hours section */
 "Quiet hours" = "サイレント時間";
 "Enable quiet hours" = "サイレント時間を有効にする";

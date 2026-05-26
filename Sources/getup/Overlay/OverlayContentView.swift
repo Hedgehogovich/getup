@@ -1,4 +1,6 @@
 import AppKit
+import AVFoundation
+import AVKit
 import SwiftUI
 
 private struct GlassBackground: NSViewRepresentable {
@@ -15,6 +17,7 @@ private struct GlassBackground: NSViewRepresentable {
 struct OverlayContentView: View {
     let onDismiss: () -> Void
     let onSnooze: () -> Void
+    var mediaURL: URL? = nil
 
     @State private var visible = false
 
@@ -45,6 +48,12 @@ struct OverlayContentView: View {
                 )
 
             VStack(spacing: 14) {
+                if let url = mediaURL {
+                    MediaView(url: url)
+                        .frame(maxWidth: .infinity, maxHeight: 260)
+                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                }
+
                 Text("🚶  " + String(localized: "GET UP & STRETCH"))
                     .font(.system(size: 32, weight: .heavy))
                     .foregroundStyle(.white)
@@ -57,7 +66,7 @@ struct OverlayContentView: View {
                 GlassButton(title: String(localized: "Snooze 10 min"), action: onSnooze)
                     .padding(.top, 4)
             }
-            .padding(.horizontal, 24)
+            .padding(20)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -89,4 +98,68 @@ private struct GlassButton: View {
         .onHover { hovering = $0 }
         .animation(.easeOut(duration: 0.15), value: hovering)
     }
+}
+
+/// Routes by extension: image / GIF / video.
+private struct MediaView: View {
+    let url: URL
+
+    var body: some View {
+        let ext = url.pathExtension.lowercased()
+        switch ext {
+        case "mp4", "mov":
+            VideoMediaView(url: url)
+        case "gif":
+            // NSImageView handles animated GIFs natively when `animates = true`.
+            AnimatedImageView(url: url)
+        default:
+            if let img = NSImage(contentsOf: url) {
+                Image(nsImage: img)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            } else {
+                Color.clear
+            }
+        }
+    }
+}
+
+private struct AnimatedImageView: NSViewRepresentable {
+    let url: URL
+
+    func makeNSView(context: Context) -> NSImageView {
+        let v = NSImageView()
+        v.imageScaling = .scaleProportionallyUpOrDown
+        v.animates = true
+        v.image = NSImage(contentsOf: url)
+        return v
+    }
+    func updateNSView(_ nsView: NSImageView, context: Context) {
+        if nsView.image == nil { nsView.image = NSImage(contentsOf: url) }
+    }
+}
+
+private struct VideoMediaView: NSViewRepresentable {
+    let url: URL
+
+    func makeNSView(context: Context) -> AVPlayerView {
+        let player = AVPlayer(url: url)
+        player.isMuted = true
+        let view = AVPlayerView()
+        view.player = player
+        view.controlsStyle = .none
+        view.videoGravity = .resizeAspect
+        // Loop forever via end-of-item notification + seek-to-zero.
+        NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem,
+            queue: .main
+        ) { _ in
+            player.seek(to: .zero)
+            player.play()
+        }
+        player.play()
+        return view
+    }
+    func updateNSView(_ nsView: AVPlayerView, context: Context) {}
 }
