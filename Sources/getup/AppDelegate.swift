@@ -15,7 +15,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var fireMinuteCancellable: AnyCancellable?
     private var snoozeTimer: Timer?
     private var snoozeIntendedFireDate: Date?
-    private let snoozeInterval: TimeInterval = 10 * 60
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         LogRotation.rotateIfNeeded()
@@ -142,13 +141,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func fireOverlay() {
-        let s = settings.current
-        if s.quietHoursEnabled,
-           QuietHours.isWithin(now: Date(),
-                               startMinutes: s.quietHoursStartMinutes,
-                               endMinutes: s.quietHoursEndMinutes) {
-            return
-        }
+        guard OverlayDispatch.shouldFire(now: Date(), settings: settings.current) else { return }
         showOverlay()
     }
 
@@ -164,9 +157,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func armSnooze() {
         snoozeTimer?.invalidate()
-        let intended = Date().addingTimeInterval(snoozeInterval)
+        let now = Date()
+        let intended = SnoozeDecision.fireDate(from: now, snoozeMinutes: SnoozeDecision.defaultSnoozeMinutes)
         snoozeIntendedFireDate = intended
-        snoozeTimer = Timer.scheduledTimer(withTimeInterval: snoozeInterval, repeats: false) { [weak self] _ in
+        snoozeTimer = Timer.scheduledTimer(withTimeInterval: intended.timeIntervalSince(now),
+                                           repeats: false) { [weak self] _ in
             MainActor.assumeIsolated { self?.snoozeFired() }
         }
     }
