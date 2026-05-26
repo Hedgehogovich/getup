@@ -20,7 +20,7 @@ final class StretchScheduler {
     func reschedule() { scheduleNext() }
 
     /// Next `xx:<fireMinute>:00` strictly after `now`. Pure for unit tests. fireMinute clamped to 0...59.
-    static func nextFireDate(after now: Date, fireMinute: Int, calendar: Calendar = .current) -> Date {
+    nonisolated static func nextFireDate(after now: Date, fireMinute: Int, calendar: Calendar = .current) -> Date {
         var comps = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: now)
         comps.minute = max(0, min(59, fireMinute))
         comps.second = 0
@@ -32,7 +32,7 @@ final class StretchScheduler {
     }
 
     /// Timer may fire long after `intended` (sleep / hibernation / blocked runloop). Drop stale fires.
-    static func shouldFire(now: Date, intended: Date, graceSeconds: TimeInterval) -> Bool {
+    nonisolated static func shouldFire(now: Date, intended: Date, graceSeconds: TimeInterval) -> Bool {
         now.timeIntervalSince(intended) <= graceSeconds
     }
 
