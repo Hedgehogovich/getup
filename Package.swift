@@ -4,6 +4,9 @@ import PackageDescription
 let package = Package(
     name: "getup",
     platforms: [.macOS(.v14)],
+    dependencies: [
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.19.2"),
+    ],
     targets: [
         .executableTarget(
             name: "getup",
@@ -16,7 +19,10 @@ let package = Package(
         // Xcode-bundled. Local CLT users `swift build` the executable; CI runs the suite.
         .testTarget(
             name: "getupTests",
-            dependencies: ["getup"],
+            dependencies: [
+                "getup",
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
+            ],
             path: "Tests/getupTests"
         ),
     ]
