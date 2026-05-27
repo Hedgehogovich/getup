@@ -3,14 +3,28 @@ import SwiftUI
 struct WizardView: View {
     @ObservedObject var store: SettingsStore
     let onComplete: (_ languageChanged: Bool) -> Void
+    var initialStep: Step = .language
+    var initialBundle: Bundle? = nil
 
-    @State private var step: Step = .language
+    @State private var step: Step
     @State private var pickedLanguage: String? = nil
-    @State private var localeBundle: Bundle = .main
+    @State private var localeBundle: Bundle
     @State private var openAtLogin: Bool = LoginItem.isInstalled
     @State private var voices: [SayVoice] = []
 
     enum Step { case language, audio, voice }
+
+    init(store: SettingsStore,
+         onComplete: @escaping (_ languageChanged: Bool) -> Void,
+         initialStep: Step = .language,
+         initialBundle: Bundle? = nil) {
+        self.store = store
+        self.onComplete = onComplete
+        self.initialStep = initialStep
+        self.initialBundle = initialBundle
+        self._step = State(initialValue: initialStep)
+        self._localeBundle = State(initialValue: initialBundle ?? .main)
+    }
 
     var body: some View {
         Group {
@@ -23,6 +37,8 @@ struct WizardView: View {
         .frame(width: 420, height: 460)
         .onAppear {
             pickedLanguage = store.current.language
+            // Skip auto-resolution when caller seeded a bundle (snapshot tests do this).
+            guard initialBundle == nil else { return }
             // Cocoa caches Bundle.main's localization at process startup from AppleLanguages, so
             // a stale override forces step 1 into the wrong language. Bundle.preferredLocalizations
             // resolves to the system preference even with cruft in our domain.
