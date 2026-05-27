@@ -19,17 +19,20 @@ struct OverlayContentView: View {
     let onSnooze: () -> Void
     var mediaURL: URL? = nil
     var initiallyVisible: Bool = false
+    var bundle: Bundle = .main
 
     @State private var visible: Bool
 
     init(onDismiss: @escaping () -> Void,
          onSnooze: @escaping () -> Void,
          mediaURL: URL? = nil,
-         initiallyVisible: Bool = false) {
+         initiallyVisible: Bool = false,
+         bundle: Bundle = .main) {
         self.onDismiss = onDismiss
         self.onSnooze = onSnooze
         self.mediaURL = mediaURL
         self.initiallyVisible = initiallyVisible
+        self.bundle = bundle
         self._visible = State(initialValue: initiallyVisible)
     }
 
@@ -67,16 +70,16 @@ struct OverlayContentView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                 }
 
-                Text("🚶  " + String(localized: "GET UP & STRETCH"))
+                Text("🚶  " + String(localized: "GET UP & STRETCH", bundle: bundle))
                     .font(.system(size: 32, weight: .heavy))
                     .foregroundStyle(.white)
                     .shadow(color: .black.opacity(0.35), radius: 3, x: 0, y: 1)
 
-                Text(String(localized: "click anywhere or press Esc to dismiss"))
+                Text(String(localized: "click anywhere or press Esc to dismiss", bundle: bundle))
                     .font(.system(size: 13, weight: .regular))
                     .foregroundStyle(Color.white.opacity(0.78))
 
-                GlassButton(title: String(localized: "Snooze 10 min"), action: onSnooze)
+                GlassButton(title: String(localized: "Snooze 10 min", bundle: bundle), action: onSnooze)
                     .padding(.top, 4)
             }
             .padding(20)
