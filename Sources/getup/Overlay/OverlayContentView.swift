@@ -18,8 +18,20 @@ struct OverlayContentView: View {
     let onDismiss: () -> Void
     let onSnooze: () -> Void
     var mediaURL: URL? = nil
+    var initiallyVisible: Bool = false
 
-    @State private var visible = false
+    @State private var visible: Bool
+
+    init(onDismiss: @escaping () -> Void,
+         onSnooze: @escaping () -> Void,
+         mediaURL: URL? = nil,
+         initiallyVisible: Bool = false) {
+        self.onDismiss = onDismiss
+        self.onSnooze = onSnooze
+        self.mediaURL = mediaURL
+        self.initiallyVisible = initiallyVisible
+        self._visible = State(initialValue: initiallyVisible)
+    }
 
     var body: some View {
         ZStack {
@@ -31,6 +43,7 @@ struct OverlayContentView: View {
         .contentShape(Rectangle())
         .onTapGesture { onDismiss() }
         .onAppear {
+            guard !initiallyVisible else { return }
             withAnimation(.spring(response: 0.42, dampingFraction: 0.72)) {
                 visible = true
             }
