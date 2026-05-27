@@ -28,7 +28,20 @@ jobs:
         run: swift build -c release
 
       - name: Test
+        id: test
         run: swift test --parallel
+
+      # Snapshot lib writes recorded PNGs to <test-file-dir>/__Snapshots__/ on missing-baseline
+      # failure. Uploading on test-step failure lets the dev download, eyeball, commit, re-push.
+      - name: Upload snapshot artifacts on failure
+        if: failure() && steps.test.conclusion == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-baselines
+          path: |
+            Tests/getupTests/**/__Snapshots__/**
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Assemble app bundle
         env:
