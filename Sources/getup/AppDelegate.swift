@@ -6,12 +6,14 @@ import Foundation
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private let overlay = OverlayController()
-    private let settings: SettingsStore = {
+    private let settings: SettingsStore = AppDelegate.makeSettings()
+
+    private static func makeSettings() -> SettingsStore {
         if let suite = TestMode.defaultsSuite, let ud = UserDefaults(suiteName: suite) {
             return SettingsStore(defaults: ud, legacySuiteName: nil, customAudioDetector: { nil })
         }
         return SettingsStore()
-    }()
+    }
     private let settingsWindow = SettingsWindowController()
     private let wizard = WizardWindowController()
     private var scheduler: StretchScheduler!

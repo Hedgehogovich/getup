@@ -4,7 +4,7 @@ Stand up every hour. Stretch. Sit back down. Repeat.
 
 A macOS menu-bar app that pops a full-screen reminder once an hour and gets out of the way.
 
-> **Status:** pre-release (v0.1). Builds from source. Signed binaries shipping once Apple paperwork lands.
+> **Status:** v0.1.0 released. Unsigned — right-click → Open to bypass Gatekeeper. Signed binaries shipping once Apple paperwork lands.
 
 ## Why
 
@@ -24,7 +24,7 @@ You sit too much. A smart wearable's stand reminder helps if you wear one. Calen
 ## Requirements
 
 - macOS 14 (Sonoma) or later, Apple Silicon or Intel
-- Command Line Tools for the build step (Xcode itself isn't required to install or run)
+- Swift 6.2 or later — Command Line Tools or Xcode (Xcode itself isn't required to install or run)
 
 ## Install
 
@@ -57,7 +57,7 @@ Open **Settings…** from the menu bar (or <kbd>⌘,</kbd>).
 
 | Tab | Controls |
 |-----|----------|
-| **General** | Fire minute (`xx:00` / `xx:15` / `xx:30` / `xx:45` / `xx:50`), language, run-at-startup, show-in-Dock |
+| **General** | Fire minute (`xx:00` / `xx:15` / `xx:30` / `xx:45` / `xx:50`), snooze duration (5–30 min), language, run-at-startup, show-in-Dock |
 | **Audio** | Mode, volume, voice + phrase OR custom audio file, Preview / Stop |
 | **About** | Version, **Open support folder**, **Copy logs** (last 500 lines to clipboard) |
 
@@ -150,7 +150,7 @@ The name **Getup** and the app icon are trademarks of Yuri Chachilo. Forks must 
 - [x] GitHub Actions CI
 - [x] License (PolyForm Noncommercial 1.0.0)
 - [x] Custom audio file picker in Settings
-- [ ] First tagged GitHub release
+- [x] First tagged GitHub release (v0.1.0)
 - [ ] Apple Developer Program (codesign + notarize)
 - [ ] Sparkle auto-update
 - [ ] Homebrew Cask
