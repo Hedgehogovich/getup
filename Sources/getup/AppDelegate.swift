@@ -6,7 +6,12 @@ import Foundation
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var statusItem: NSStatusItem!
     private let overlay = OverlayController()
-    private let settings = SettingsStore()
+    private let settings: SettingsStore = {
+        if let suite = TestMode.defaultsSuite, let ud = UserDefaults(suiteName: suite) {
+            return SettingsStore(defaults: ud, legacySuiteName: nil, customAudioDetector: { nil })
+        }
+        return SettingsStore()
+    }()
     private let settingsWindow = SettingsWindowController()
     private let wizard = WizardWindowController()
     private var scheduler: StretchScheduler!
@@ -17,6 +22,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var snoozeIntendedFireDate: Date?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        if TestMode.isActive { writeTestStatusAndExit() }
         LogRotation.rotateIfNeeded()
         applyActivationPolicy(showInDock: settings.current.showInDock)
 
@@ -189,5 +195,23 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func openSettings() {
         settingsWindow.show(store: settings)
+    }
+
+    private func writeTestStatusAndExit() -> Never {
+        let s = settings.current
+        let status = TestModeStatus(
+            pid: ProcessInfo.processInfo.processIdentifier,
+            fireMinute: s.fireMinute,
+            snoozeMinutes: s.snoozeMinutes,
+            audioMode: s.audioMode.rawValue,
+            volume: s.volume,
+            showInDock: s.showInDock,
+            isFirstRun: settings.isFirstRun
+        )
+        if let path = TestMode.outputPath,
+           let data = try? JSONEncoder().encode(status) {
+            try? data.write(to: URL(fileURLWithPath: path))
+        }
+        exit(0)
     }
 }
