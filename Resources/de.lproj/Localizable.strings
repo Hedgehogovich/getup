@@ -47,7 +47,9 @@
 
 "GET UP & STRETCH" = "AUFSTEHEN & STRECKEN";
 "click anywhere or press Esc to dismiss" = "klicken oder Esc drücken zum Schließen";
-"Snooze 10 min" = "10 Min. später";
+"Snooze %d min" = "%d Min. später";
+"Snooze" = "Schlummern";
+"How long to wait after pressing Snooze." = "Wie lange nach dem Schlummern gewartet wird.";
 
 /* Language picker (added in Step 3 follow-up) */
 "Language" = "Sprache";

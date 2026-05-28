@@ -16,6 +16,7 @@ struct SettingsView: View {
     @State private var customAudioErrorMessage = ""
 
     private let fireMinuteOptions = [0, 15, 30, 45, 50]
+    private let snoozeOptions = [5, 10, 15, 20, 30]
     private let autoDismissOptions = [5, 10, 15, 30, 60]
 
     private var availableLanguages: [String] { LocaleHelper.availableLanguages }
@@ -48,6 +49,16 @@ struct SettingsView: View {
                         Text(String(format: "xx:%02d", m)).tag(m)
                     }
                 }
+            }
+            Section("Snooze") {
+                Picker("Snooze duration", selection: $store.current.snoozeMinutes) {
+                    ForEach(snoozeOptions, id: \.self) { m in
+                        Text("\(m) min").tag(m)
+                    }
+                }
+                Text("How long to wait after pressing Snooze.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
             Section("Language") {
                 Picker("Language", selection: $pickerLanguage) {

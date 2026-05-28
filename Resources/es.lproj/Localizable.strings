@@ -47,7 +47,9 @@
 
 "GET UP & STRETCH" = "LEVÁNTATE Y ESTÍRATE";
 "click anywhere or press Esc to dismiss" = "haz clic o pulsa Esc para cerrar";
-"Snooze 10 min" = "Aplazar 10 min";
+"Snooze %d min" = "Aplazar %d min";
+"Snooze" = "Aplazar";
+"How long to wait after pressing Snooze." = "Cuánto tiempo esperar después de aplazar.";
 
 /* Language picker (added in Step 3 follow-up) */
 "Language" = "Idioma";

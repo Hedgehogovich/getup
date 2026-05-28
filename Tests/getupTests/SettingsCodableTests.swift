@@ -26,6 +26,7 @@ struct SettingsCodableTests {
         s.quietHoursEnabled = true
         s.quietHoursStartMinutes = 22 * 60
         s.quietHoursEndMinutes = 6 * 60
+        s.snoozeMinutes = 20
         let data = try JSONEncoder().encode(s)
         let decoded = try JSONDecoder().decode(Settings.self, from: data)
         #expect(decoded == s)
@@ -121,6 +122,27 @@ struct SettingsCodableTests {
         #expect(decoded.quietHoursEnabled == false)
         #expect(decoded.quietHoursStartMinutes == 22 * 60)
         #expect(decoded.quietHoursEndMinutes == 7 * 60)
+    }
+
+    @Test func decodesLegacyJSONMissingSnoozeMinutes() throws {
+        let json = Data("""
+        {
+          "audioMode": "headphonesOnly",
+          "fireMinute": 50,
+          "volume": 0.7,
+          "voice": "Zarvox",
+          "customPhrase": "test",
+          "showInDock": false,
+          "useCustomAudio": false,
+          "quietHoursEnabled": false,
+          "quietHoursStartMinutes": 1320,
+          "quietHoursEndMinutes": 420,
+          "hideFromScreenCapture": true,
+          "overlayMediaEnabled": false
+        }
+        """.utf8)
+        let decoded = try JSONDecoder().decode(Settings.self, from: json)
+        #expect(decoded.snoozeMinutes == 10)
     }
 
     @Test func decodingGarbageThrows() {

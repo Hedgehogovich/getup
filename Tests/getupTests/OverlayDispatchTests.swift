@@ -76,6 +76,12 @@ struct SnoozeDecisionTests {
         #expect(fire.timeIntervalSince(now) == 600)
     }
 
+    @Test func customSnoozeAdvancesCorrectly() {
+        let now = Date(timeIntervalSince1970: 1_700_000_000)
+        let fire = SnoozeDecision.fireDate(from: now, snoozeMinutes: 20)
+        #expect(fire.timeIntervalSince(now) == 1200)
+    }
+
     @Test func zeroOrNegativeClampsToOneMinute() {
         let now = Date()
         #expect(SnoozeDecision.fireDate(from: now, snoozeMinutes: 0).timeIntervalSince(now) == 60)

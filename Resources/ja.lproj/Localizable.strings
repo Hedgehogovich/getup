@@ -47,7 +47,9 @@
 
 "GET UP & STRETCH" = "立ってストレッチ！";
 "click anywhere or press Esc to dismiss" = "クリックまたは Esc で閉じる";
-"Snooze 10 min" = "10分後に再通知";
+"Snooze %d min" = "%d分後に再通知";
+"Snooze" = "スヌーズ";
+"How long to wait after pressing Snooze." = "スヌーズ後の待機時間。";
 
 /* Language picker (added in Step 3 follow-up) */
 "Language" = "言語";

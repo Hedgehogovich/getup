@@ -47,7 +47,9 @@
 
 "GET UP & STRETCH" = "ВСТАНЬ И РАЗОМНИСЬ";
 "click anywhere or press Esc to dismiss" = "кликните или нажмите Esc, чтобы закрыть";
-"Snooze 10 min" = "Отложить 10 мин";
+"Snooze %d min" = "Отложить %d мин";
+"Snooze" = "Отложить";
+"How long to wait after pressing Snooze." = "Сколько ждать после нажатия «Отложить».";
 
 /* Language picker (added in Step 3 follow-up) */
 "Language" = "Язык";

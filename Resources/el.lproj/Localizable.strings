@@ -47,7 +47,9 @@
 
 "GET UP & STRETCH" = "ΣΗΚΩ ΚΑΙ ΤΕΝΤΩΣΟΥ";
 "click anywhere or press Esc to dismiss" = "κάνε κλικ ή πάτα Esc για κλείσιμο";
-"Snooze 10 min" = "Αναβολή 10 λεπτών";
+"Snooze %d min" = "Αναβολή %d λεπτών";
+"Snooze" = "Αναβολή";
+"How long to wait after pressing Snooze." = "Πόσο να περιμένει μετά την αναβολή.";
 
 /* Language picker (added in Step 3 follow-up) */
 "Language" = "Γλώσσα";

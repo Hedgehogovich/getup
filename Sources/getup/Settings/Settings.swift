@@ -17,6 +17,7 @@ struct Settings: Codable, Equatable, Sendable {
     var hideFromScreenCapture: Bool = true      // when true, sharingType = .none hides overlay from Teams/QuickTime/etc.
     var overlayMediaEnabled: Bool = false
     var overlayMediaFilename: String? = nil
+    var snoozeMinutes: Int = 10
 
     init() {}
 
@@ -40,5 +41,6 @@ struct Settings: Codable, Equatable, Sendable {
         self.hideFromScreenCapture   = try c.decodeIfPresent(Bool.self,  forKey: .hideFromScreenCapture)   ?? d.hideFromScreenCapture
         self.overlayMediaEnabled     = try c.decodeIfPresent(Bool.self,  forKey: .overlayMediaEnabled)     ?? d.overlayMediaEnabled
         self.overlayMediaFilename    = try c.decodeIfPresent(String.self, forKey: .overlayMediaFilename)
+        self.snoozeMinutes           = try c.decodeIfPresent(Int.self,   forKey: .snoozeMinutes)           ?? d.snoozeMinutes
     }
 }

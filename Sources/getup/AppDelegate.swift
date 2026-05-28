@@ -150,6 +150,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let media = s.overlayMediaEnabled ? AppPaths.existingMediaFile : nil
         overlay.show(audioMode: s.audioMode,
                      volume: s.volume,
+                     snoozeMinutes: s.snoozeMinutes,
                      autoDismissSeconds: s.overlayAutoDismissSeconds,
                      hideFromScreenCapture: s.hideFromScreenCapture,
                      mediaURL: media)
@@ -158,7 +159,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func armSnooze() {
         snoozeTimer?.invalidate()
         let now = Date()
-        let intended = SnoozeDecision.fireDate(from: now, snoozeMinutes: SnoozeDecision.defaultSnoozeMinutes)
+        let intended = SnoozeDecision.fireDate(from: now, snoozeMinutes: settings.current.snoozeMinutes)
         snoozeIntendedFireDate = intended
         snoozeTimer = Timer.scheduledTimer(withTimeInterval: intended.timeIntervalSince(now),
                                            repeats: false) { [weak self] _ in

@@ -13,6 +13,7 @@ final class OverlayController {
     private var previousFrontmostApp: NSRunningApplication?
     private var hideFromScreenCapture = true
     private var mediaURL: URL?
+    private var snoozeMinutes: Int = 10
 
     var onSnooze: (() -> Void)?
 
@@ -20,6 +21,7 @@ final class OverlayController {
 
     func show(audioMode: AudioMode,
               volume: Double,
+              snoozeMinutes: Int = 10,
               autoDismissSeconds: Int? = nil,
               hideFromScreenCapture: Bool = true,
               mediaURL: URL? = nil) {
@@ -27,6 +29,7 @@ final class OverlayController {
 
         self.hideFromScreenCapture = hideFromScreenCapture
         self.mediaURL = mediaURL
+        self.snoozeMinutes = snoozeMinutes
         PreviewPlayer.shared.stop()
 
         // Capture the foreground app so we can restore it on dismiss — otherwise the user
@@ -136,7 +139,8 @@ final class OverlayController {
                     self.onSnooze?()
                 }
             },
-            mediaURL: mediaURL
+            mediaURL: mediaURL,
+            snoozeMinutes: snoozeMinutes
         )
         let host = NSHostingView(rootView: content)
         host.frame = NSRect(x: 0, y: 0, width: cardW, height: cardH)
