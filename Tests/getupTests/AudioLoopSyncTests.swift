@@ -38,31 +38,30 @@ struct AudioLoopSyncTests {
         sync.schedule(voice: "Alex", phrase: "one")
         sync.schedule(voice: "Alex", phrase: "two")
         sync.schedule(voice: "Alex", phrase: "three")
-        // Wait past debounce + fade.
-        try await Task.sleep(for: .milliseconds(200))
+        // 1 s gives the main-actor cooperative scheduler plenty of headroom on loaded CI runners.
+        try await Task.sleep(for: .milliseconds(1000))
         #expect(rec.calls.count == 1)
         #expect(rec.calls.first?.phrase == "three")
     }
 
     @Test func successTransitionsToSucceededThenIdle() async throws {
-        // Wider fade window than other timing tests — virtualized CI macOS runners exhibit
-        // ~20–50 ms of Task.sleep jitter, which routinely pushed the t=60 ms read past a
-        // 30+50=80 ms fade-end and into `.idle`. 250 ms fade gives a comfortable read window.
-        let (sync, _) = Self.make(debounceMS: 30, fadeMS: 250, result: true)
+        // 2 s fade — the 500 ms read lands well inside the succeeded window on any CI runner;
+        // 3 s second read lands well past the 2050 ms fade-end.
+        let (sync, _) = Self.make(debounceMS: 30, fadeMS: 2000, result: true)
         sync.schedule(voice: "Alex", phrase: "hello")
-        try await Task.sleep(for: .milliseconds(100))   // past debounce + jitter, before fade end
+        try await Task.sleep(for: .milliseconds(500))    // past debounce, before fade end
         #expect(sync.status == .succeeded)
-        try await Task.sleep(for: .milliseconds(350))   // past fade + jitter
+        try await Task.sleep(for: .milliseconds(3000))   // past fade
         #expect(sync.status == .idle)
     }
 
     @Test func failureSticks() async throws {
         let (sync, _) = Self.make(debounceMS: 30, fadeMS: 30, result: false)
         sync.schedule(voice: "Alex", phrase: "hello")
-        try await Task.sleep(for: .milliseconds(60))
+        try await Task.sleep(for: .milliseconds(400))    // past debounce + CI jitter
         #expect(sync.status == .failed)
-        // Failure does NOT auto-fade — give time, status should still be .failed
-        try await Task.sleep(for: .milliseconds(80))
+        // Failure does NOT auto-fade — give time, status should still be .failed.
+        try await Task.sleep(for: .milliseconds(200))
         #expect(sync.status == .failed)
     }
 
