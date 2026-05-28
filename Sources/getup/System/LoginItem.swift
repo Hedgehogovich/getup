@@ -14,10 +14,7 @@ enum LoginItem {
     }
 
     static func enable() {
-        guard let exec = Bundle.main.executablePath else {
-            NSLog("getup: LoginItem.enable — Bundle.main.executablePath nil")
-            return
-        }
+        guard let exec = Bundle.main.executablePath else { return }
         let supportDir = AppPaths.supportDir
         let logPath = AppPaths.stdoutLog.path
         let errPath = AppPaths.stderrLog.path
@@ -61,13 +58,8 @@ enum LoginItem {
             let p = Process()
             p.launchPath = "/bin/launchctl"
             p.arguments = ["bootstrap", "gui/\(getuid())", plistURL.path]
-            do { try p.run(); p.waitUntilExit() } catch {
-                NSLog("getup: launchctl bootstrap failed: \(error.localizedDescription)")
-            }
-            NSLog("getup: LoginItem enabled (plist=\(plistURL.path), bootstrap exit=\(p.terminationStatus))")
-        } catch {
-            NSLog("getup: LoginItem.enable write failed: \(error)")
-        }
+            try? p.run(); p.waitUntilExit()
+        } catch { }
     }
 
     // No `bootout` — that would kill the running daemon mid-toggle. Plist removal stops auto-start next login.
@@ -76,9 +68,6 @@ enum LoginItem {
             if FileManager.default.fileExists(atPath: plistURL.path) {
                 try FileManager.default.removeItem(at: plistURL)
             }
-            NSLog("getup: LoginItem disabled (plist removed; current session continues)")
-        } catch {
-            NSLog("getup: LoginItem.disable failed: \(error)")
-        }
+        } catch { }
     }
 }
