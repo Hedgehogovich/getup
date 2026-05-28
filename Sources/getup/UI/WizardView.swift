@@ -11,6 +11,7 @@ struct WizardView: View {
     @State private var localeBundle: Bundle
     @State private var openAtLogin: Bool = LoginItem.isInstalled
     @State private var voices: [SayVoice] = []
+    @ObservedObject private var preview = PreviewPlayer.shared
 
     enum Step { case language, audio, voice }
 
@@ -169,10 +170,18 @@ struct WizardView: View {
                     .textFieldStyle(.roundedBorder)
 
                 Button {
-                    SaySynth.preview(voice: store.current.voice,
-                                     phrase: store.current.customPhrase)
+                    if preview.isPlaying {
+                        preview.stop()
+                    } else {
+                        preview.playSay(voice: store.current.voice,
+                                        phrase: store.current.customPhrase)
+                    }
                 } label: {
-                    Label { Text("Preview", bundle: localeBundle) } icon: { Image(systemName: "play.fill") }
+                    Label {
+                        Text("Preview", bundle: localeBundle)
+                    } icon: {
+                        Image(systemName: preview.isPlaying ? "stop.fill" : "play.fill")
+                    }
                 }
                 .disabled(store.current.customPhrase.isEmpty)
                 .padding(.top, 2)

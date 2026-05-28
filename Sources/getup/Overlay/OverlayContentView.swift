@@ -158,24 +158,25 @@ private struct AnimatedImageView: NSViewRepresentable {
 private struct VideoMediaView: NSViewRepresentable {
     let url: URL
 
+    func makeCoordinator() -> Coordinator { Coordinator() }
+
     func makeNSView(context: Context) -> AVPlayerView {
-        let player = AVPlayer(url: url)
+        let item = AVPlayerItem(url: url)
+        let player = AVQueuePlayer()
         player.isMuted = true
+        // AVPlayerLooper must be retained; Coordinator holds it so it lives with the view.
+        context.coordinator.looper = AVPlayerLooper(player: player, templateItem: item)
         let view = AVPlayerView()
         view.player = player
         view.controlsStyle = .none
         view.videoGravity = .resizeAspect
-        // Loop forever via end-of-item notification + seek-to-zero.
-        NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: player.currentItem,
-            queue: .main
-        ) { _ in
-            player.seek(to: .zero)
-            player.play()
-        }
         player.play()
         return view
     }
+
     func updateNSView(_ nsView: AVPlayerView, context: Context) {}
+
+    final class Coordinator {
+        var looper: AVPlayerLooper?
+    }
 }
