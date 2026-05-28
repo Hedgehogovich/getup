@@ -32,6 +32,12 @@ jobs:
         run: swift test --parallel
 
       # Snapshot tests use record: .all — PNGs always written; Argos owns visual diffing.
+      - name: Setup pnpm
+        if: always()
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Upload snapshots to Argos
         if: always()
         env:
