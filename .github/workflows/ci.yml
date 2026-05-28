@@ -31,17 +31,12 @@ jobs:
         id: test
         run: swift test --parallel
 
-      # Snapshot lib writes recorded PNGs to <test-file-dir>/__Snapshots__/ on missing-baseline
-      # failure. Uploading on test-step failure lets the dev download, eyeball, commit, re-push.
-      - name: Upload snapshot artifacts on failure
-        if: failure() && steps.test.conclusion == 'failure'
-        uses: actions/upload-artifact@v4
-        with:
-          name: snapshot-baselines
-          path: |
-            Tests/getupTests/**/__Snapshots__/**
-          if-no-files-found: ignore
-          retention-days: 14
+      # Snapshot tests use record: .all — PNGs always written; Argos owns visual diffing.
+      - name: Upload snapshots to Argos
+        if: always()
+        env:
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+        run: pnpm dlx @argos-ci/cli@5.0.3 upload --token "$ARGOS_TOKEN" Tests/getupTests/Snapshots/__Snapshots__
 
       - name: Assemble app bundle
         env:

@@ -5,12 +5,11 @@ import Testing
 @testable import getup
 
 /// Snapshot test for WizardView across en/ru/el locales × language/audio/voice steps.
-/// First-run flow is locale-driven, so locale coverage matters here.
-///
-/// Voices async-load via `say -v ?`; tests render before that completes, so the voice-step
-/// picker shows only the seeded `store.current.voice`. Deterministic per CI run.
+/// Voices async-load via `say -v ?`; tests render before that completes so voice-step
+/// picker shows only the seeded voice — deterministic. `.all` mode always writes PNGs;
+/// Argos CI integration owns visual diffing + approval.
 @MainActor
-@Suite(.snapshots(record: .missing))
+@Suite(.snapshots(record: .all))
 struct WizardViewSnapshotTests {
     static let size = CGSize(width: 420, height: 460)
 

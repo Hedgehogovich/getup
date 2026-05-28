@@ -5,13 +5,9 @@ import Testing
 @testable import getup
 
 /// Snapshot test for OverlayContentView across en/ru/el locales.
-///
-/// First CI run after a new variant lands here will fail with missing-baseline,
-/// uploads __Snapshots__/*.png as a workflow artifact, dev reviews and commits
-/// baselines, re-pushes. `.missing` record mode means subsequent diffs surface
-/// as a failure without auto-overwriting the baseline.
+/// `.all` mode always writes PNGs; Argos CI integration owns visual diffing + approval.
 @MainActor
-@Suite(.snapshots(record: .missing))
+@Suite(.snapshots(record: .all))
 struct OverlayContentViewSnapshotTests {
     static let plainSize = CGSize(width: 600, height: 460)
     static let mediaSize = CGSize(width: 600, height: 720)
