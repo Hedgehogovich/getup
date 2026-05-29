@@ -24,7 +24,7 @@ You sit too much. A smart wearable's stand reminder helps if you wear one. Calen
 ## Requirements
 
 - macOS 14 (Sonoma) or later, Apple Silicon or Intel
-- Swift 6.2 or later — Command Line Tools or Xcode (Xcode itself isn't required to install or run)
+- Swift 6.1 or later — Command Line Tools or Xcode (Xcode itself isn't required to install or run)
 
 ## Install
 
