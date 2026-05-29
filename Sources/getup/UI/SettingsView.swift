@@ -24,16 +24,14 @@ struct SettingsView: View {
     private static func nativeName(_ code: String) -> String { LocaleHelper.nativeName(code) }
 
     private var scheduleSummary: String {
-        let interval = max(1, store.current.fireIntervalMinutes)
-        let anchor = max(0, min(59, store.current.fireMinute))
-        if interval > 60 {
-            let minute = String(format: ":%02d", anchor)
-            return String(format: NSLocalizedString("Rings at %@ every 2 hours.", comment: "schedule summary for the 120-minute interval"), minute)
+        switch SchedulePattern.make(intervalMinutes: store.current.fireIntervalMinutes, anchorMinute: store.current.fireMinute) {
+        case .everyTwoHours(let minute):
+            return String(format: NSLocalizedString("Rings at %@ every 2 hours.", comment: "schedule summary for the 120-minute interval"),
+                          String(format: ":%02d", minute))
+        case .hourly(let mins):
+            let list = ListFormatter.localizedString(byJoining: mins.map { String(format: ":%02d", $0) })
+            return String(format: NSLocalizedString("Rings at %@ each hour.", comment: "schedule summary listing ring minutes"), list)
         }
-        let phase = anchor % interval
-        let mins = stride(from: phase, to: 60, by: interval).map { String(format: ":%02d", $0) }
-        let list = ListFormatter.localizedString(byJoining: mins)
-        return String(format: NSLocalizedString("Rings at %@ each hour.", comment: "schedule summary listing ring minutes"), list)
     }
 
     var body: some View {
