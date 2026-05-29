@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.0](https://github.com/Hedgehogovich/getup/compare/v0.1.0...v0.2.0) (2026-05-29)
+
+
+### Features
+
+* B1 configurable snooze duration (5–30 min picker in Settings) ([4e716b4](https://github.com/Hedgehogovich/getup/commit/4e716b4cb09b9ad12f375dd6a616441338ba9087))
+* B2 configurable reminder interval (5–120 min, anchored) ([6b8e876](https://github.com/Hedgehogovich/getup/commit/6b8e876a8855e845406237ca0349eb0bd620aa00))
+
+
+### Bug Fixes
+
+* fix VideoMediaView observer leak and wizard preview process leak ([b8dd9c5](https://github.com/Hedgehogovich/getup/commit/b8dd9c5cf2ba06dc1404c0fbf993f0498b558126))
+
 ## 0.1.0 (2026-05-26)
 
 
