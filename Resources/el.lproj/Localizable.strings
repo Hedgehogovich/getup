@@ -14,7 +14,11 @@
 "About" = "Σχετικά";
 
 "Schedule" = "Πρόγραμμα";
-"Fire at minute" = "Ενεργοποίηση στο λεπτό";
+"Anchor minute" = "Λεπτό αναφοράς";
+"Reminder interval" = "Διάστημα υπενθύμισης";
+"%d min" = "%d λεπτά";
+"Rings at %@ each hour." = "Χτυπά κάθε ώρα στο %@.";
+"Rings at %@ every 2 hours." = "Χτυπά κάθε 2 ώρες στο %@.";
 
 "When to play audio" = "Πότε να παίζει ήχος";
 "Mode" = "Λειτουργία";

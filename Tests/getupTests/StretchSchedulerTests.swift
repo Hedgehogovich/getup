@@ -64,6 +64,48 @@ struct StretchSchedulerTests {
         // 99 → clamped to 59
         #expect(fire == Self.date(2026, 5, 6, 10, 59, 0))
     }
+
+    @Test func explicitInterval60_matchesLegacyBehavior() {
+        let now = Self.date(2026, 5, 6, 10, 30, 0)
+        let fire = StretchScheduler.nextFireDate(after: now, fireMinute: 50, intervalMinutes: 60, calendar: Self.utc)
+        #expect(fire == Self.date(2026, 5, 6, 10, 50, 0))
+    }
+
+    @Test func interval90_evenSpacingFromGridPoint() {
+        let now = Self.date(2026, 5, 6, 0, 50, 0)
+        let fire = StretchScheduler.nextFireDate(after: now, fireMinute: 50, intervalMinutes: 90, calendar: Self.utc)
+        #expect(fire == Self.date(2026, 5, 6, 2, 20, 0))
+    }
+
+    @Test func interval90_crossesMidnightSeamlessly() {
+        let now = Self.date(2026, 5, 6, 23, 20, 0)
+        let fire = StretchScheduler.nextFireDate(after: now, fireMinute: 50, intervalMinutes: 90, calendar: Self.utc)
+        #expect(fire == Self.date(2026, 5, 7, 0, 50, 0))
+    }
+
+    @Test func interval120_crossesMidnightSeamlessly() {
+        let now = Self.date(2026, 5, 6, 23, 30, 0)
+        let fire = StretchScheduler.nextFireDate(after: now, fireMinute: 0, intervalMinutes: 120, calendar: Self.utc)
+        #expect(fire == Self.date(2026, 5, 7, 0, 0, 0))
+    }
+
+    @Test func interval15_phaseDerivedFromFireMinute() {
+        let now = Self.date(2026, 5, 6, 10, 7, 0)
+        let fire = StretchScheduler.nextFireDate(after: now, fireMinute: 50, intervalMinutes: 15, calendar: Self.utc)
+        #expect(fire == Self.date(2026, 5, 6, 10, 20, 0))
+    }
+
+    @Test func interval10_repeatsOnTheTens() {
+        let now = Self.date(2026, 5, 6, 10, 7, 0)
+        let fire = StretchScheduler.nextFireDate(after: now, fireMinute: 30, intervalMinutes: 10, calendar: Self.utc)
+        #expect(fire == Self.date(2026, 5, 6, 10, 10, 0))
+    }
+
+    @Test func interval20_phaseDerivedFromFireMinute() {
+        let now = Self.date(2026, 5, 6, 10, 15, 0)
+        let fire = StretchScheduler.nextFireDate(after: now, fireMinute: 50, intervalMinutes: 20, calendar: Self.utc)
+        #expect(fire == Self.date(2026, 5, 6, 10, 30, 0))
+    }
 }
 
 @Suite("StretchScheduler.shouldFire — grace window")

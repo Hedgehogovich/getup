@@ -3,6 +3,7 @@ import Foundation
 struct Settings: Codable, Equatable, Sendable {
     var audioMode: AudioMode = .headphonesOnly
     var fireMinute: Int = 50
+    var fireIntervalMinutes: Int = 60
     var volume: Double = 0.7
     var voice: String = "Zarvox"
     var customPhrase: String = "Movement protocol initiated. Please stand and stretch. Resistance is futile."
@@ -27,6 +28,7 @@ struct Settings: Codable, Equatable, Sendable {
         let d = Settings()
         self.audioMode           = try c.decodeIfPresent(AudioMode.self, forKey: .audioMode)           ?? d.audioMode
         self.fireMinute          = try c.decodeIfPresent(Int.self,       forKey: .fireMinute)          ?? d.fireMinute
+        self.fireIntervalMinutes = try c.decodeIfPresent(Int.self,       forKey: .fireIntervalMinutes) ?? d.fireIntervalMinutes
         self.volume              = try c.decodeIfPresent(Double.self,    forKey: .volume)              ?? d.volume
         self.voice               = try c.decodeIfPresent(String.self,    forKey: .voice)               ?? d.voice
         self.customPhrase        = try c.decodeIfPresent(String.self,    forKey: .customPhrase)        ?? d.customPhrase

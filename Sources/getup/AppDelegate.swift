@@ -19,7 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var scheduler: StretchScheduler!
     private var audioModeCancellable: AnyCancellable?
     private var dockPolicyCancellable: AnyCancellable?
-    private var fireMinuteCancellable: AnyCancellable?
+    private var scheduleCancellable: AnyCancellable?
     private var snoozeTimer: Timer?
     private var snoozeIntendedFireDate: Date?
 
@@ -54,14 +54,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         scheduler = StretchScheduler(
             fireMinute: { [weak self] in self?.settings.current.fireMinute ?? 50 },
+            fireInterval: { [weak self] in self?.settings.current.fireIntervalMinutes ?? 60 },
             onFire: { [weak self] in self?.fireOverlay() }
         )
         scheduler.start()
 
         // @Published emits on willSet — defer one runloop turn so the closure inside
         // reschedule reads the committed (didSet) value, not the still-old one.
-        fireMinuteCancellable = settings.$current
-            .map(\.fireMinute)
+        scheduleCancellable = settings.$current
+            .map { [$0.fireMinute, $0.fireIntervalMinutes] }
             .removeDuplicates()
             .dropFirst()
             .receive(on: DispatchQueue.main)
@@ -204,6 +205,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let status = TestModeStatus(
             pid: ProcessInfo.processInfo.processIdentifier,
             fireMinute: s.fireMinute,
+            fireIntervalMinutes: s.fireIntervalMinutes,
             snoozeMinutes: s.snoozeMinutes,
             audioMode: s.audioMode.rawValue,
             volume: s.volume,

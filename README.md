@@ -40,7 +40,7 @@ A signed `.dmg` is on the roadmap; for now, source-build is the only path.
 
 ## Usage
 
-The first launch walks you through three screens: language, audio mode + run-at-startup, voice + phrase + preview. After that, Getup lives in your menu bar and fires once an hour at the configured minute.
+The first launch walks you through three screens: language, audio mode + run-at-startup, voice + phrase + preview. After that, Getup lives in your menu bar and fires at the configured interval, anchored to the chosen minute.
 
 When the reminder appears: click anywhere or press <kbd>Esc</kbd> to dismiss.
 
@@ -57,7 +57,7 @@ Open **Settings…** from the menu bar (or <kbd>⌘,</kbd>).
 
 | Tab | Controls |
 |-----|----------|
-| **General** | Fire minute (`xx:00` / `xx:15` / `xx:30` / `xx:45` / `xx:50`), snooze duration (5–30 min), language, run-at-startup, show-in-Dock |
+| **General** | Reminder interval (5 / 10 / 15 / 20 / 30 / 60 / 120 min), anchor minute (`xx:00` / `xx:15` / `xx:30` / `xx:45` / `xx:50`), snooze duration (5–30 min), language, run-at-startup, show-in-Dock |
 | **Audio** | Mode, volume, voice + phrase OR custom audio file, Preview / Stop |
 | **About** | Version, **Open support folder**, **Copy logs** (last 500 lines to clipboard) |
 

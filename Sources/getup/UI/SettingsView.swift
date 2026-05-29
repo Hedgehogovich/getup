@@ -16,11 +16,25 @@ struct SettingsView: View {
     @State private var customAudioErrorMessage = ""
 
     private let fireMinuteOptions = [0, 15, 30, 45, 50]
+    private let intervalOptions = [5, 10, 15, 20, 30, 60, 120]
     private let snoozeOptions = [5, 10, 15, 20, 30]
     private let autoDismissOptions = [5, 10, 15, 30, 60]
 
     private var availableLanguages: [String] { LocaleHelper.availableLanguages }
     private static func nativeName(_ code: String) -> String { LocaleHelper.nativeName(code) }
+
+    private var scheduleSummary: String {
+        let interval = max(1, store.current.fireIntervalMinutes)
+        let anchor = max(0, min(59, store.current.fireMinute))
+        if interval > 60 {
+            let minute = String(format: ":%02d", anchor)
+            return String(format: NSLocalizedString("Rings at %@ every 2 hours.", comment: "schedule summary for the 120-minute interval"), minute)
+        }
+        let phase = anchor % interval
+        let mins = stride(from: phase, to: 60, by: interval).map { String(format: ":%02d", $0) }
+        let list = ListFormatter.localizedString(byJoining: mins)
+        return String(format: NSLocalizedString("Rings at %@ each hour.", comment: "schedule summary listing ring minutes"), list)
+    }
 
     var body: some View {
         TabView {
@@ -44,16 +58,24 @@ struct SettingsView: View {
     private var generalTab: some View {
         Form {
             Section("Schedule") {
-                Picker("Fire at minute", selection: $store.current.fireMinute) {
+                Picker("Reminder interval", selection: $store.current.fireIntervalMinutes) {
+                    ForEach(intervalOptions, id: \.self) { m in
+                        Text(String(format: NSLocalizedString("%d min", comment: "minutes picker option"), m)).tag(m)
+                    }
+                }
+                Picker("Anchor minute", selection: $store.current.fireMinute) {
                     ForEach(fireMinuteOptions, id: \.self) { m in
                         Text(String(format: "xx:%02d", m)).tag(m)
                     }
                 }
+                Text(scheduleSummary)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
             Section("Snooze") {
                 Picker("Snooze duration", selection: $store.current.snoozeMinutes) {
                     ForEach(snoozeOptions, id: \.self) { m in
-                        Text("\(m) min").tag(m)
+                        Text(String(format: NSLocalizedString("%d min", comment: "minutes picker option"), m)).tag(m)
                     }
                 }
                 Text("How long to wait after pressing Snooze.")

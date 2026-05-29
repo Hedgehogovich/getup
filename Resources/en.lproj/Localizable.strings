@@ -18,7 +18,11 @@
 
 /* General tab */
 "Schedule" = "Schedule";
-"Fire at minute" = "Fire at minute";
+"Anchor minute" = "Anchor minute";
+"Reminder interval" = "Reminder interval";
+"%d min" = "%d min";
+"Rings at %@ each hour." = "Rings at %@ each hour.";
+"Rings at %@ every 2 hours." = "Rings at %@ every 2 hours.";
 
 /* Audio tab */
 "When to play audio" = "When to play audio";

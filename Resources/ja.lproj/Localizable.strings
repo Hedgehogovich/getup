@@ -14,7 +14,11 @@
 "About" = "情報";
 
 "Schedule" = "スケジュール";
-"Fire at minute" = "発火する分";
+"Anchor minute" = "基準の分";
+"Reminder interval" = "リマインダー間隔";
+"%d min" = "%d 分";
+"Rings at %@ each hour." = "毎時 %@ に鳴ります。";
+"Rings at %@ every 2 hours." = "2時間ごとに %@ に鳴ります。";
 
 "When to play audio" = "音を鳴らす条件";
 "Mode" = "モード";

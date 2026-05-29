@@ -11,6 +11,11 @@ struct SettingsCodableTests {
         #expect(decoded == s)
     }
 
+    @Test func decodesEmptyJSONToDefaults() throws {
+        let decoded = try JSONDecoder().decode(Settings.self, from: Data("{}".utf8))
+        #expect(decoded == Settings())
+    }
+
     @Test func mutatedRoundTrip() throws {
         var s = Settings()
         s.audioMode = .always
@@ -27,6 +32,7 @@ struct SettingsCodableTests {
         s.quietHoursStartMinutes = 22 * 60
         s.quietHoursEndMinutes = 6 * 60
         s.snoozeMinutes = 20
+        s.fireIntervalMinutes = 90
         let data = try JSONEncoder().encode(s)
         let decoded = try JSONDecoder().decode(Settings.self, from: data)
         #expect(decoded == s)

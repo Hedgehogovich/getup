@@ -14,7 +14,11 @@
 "About" = "À propos";
 
 "Schedule" = "Planification";
-"Fire at minute" = "Déclencher à la minute";
+"Anchor minute" = "Minute d'ancrage";
+"Reminder interval" = "Intervalle de rappel";
+"%d min" = "%d min";
+"Rings at %@ each hour." = "Sonne chaque heure à %@.";
+"Rings at %@ every 2 hours." = "Sonne toutes les 2 heures à %@.";
 
 "When to play audio" = "Quand jouer le son";
 "Mode" = "Mode";

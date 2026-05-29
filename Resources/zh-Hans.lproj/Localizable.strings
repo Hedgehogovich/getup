@@ -14,7 +14,11 @@
 "About" = "关于";
 
 "Schedule" = "时间";
-"Fire at minute" = "触发分钟";
+"Anchor minute" = "基准分钟";
+"Reminder interval" = "提醒间隔";
+"%d min" = "%d 分钟";
+"Rings at %@ each hour." = "每小时在 %@ 响铃。";
+"Rings at %@ every 2 hours." = "每2小时在 %@ 响铃。";
 
 "When to play audio" = "何时播放音频";
 "Mode" = "模式";

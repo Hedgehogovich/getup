@@ -72,6 +72,7 @@ struct E2ETests {
     func launchReportsDefaultSettings() async throws {
         let status = try await launch()
         #expect(status.fireMinute == 50)
+        #expect(status.fireIntervalMinutes == 60)
         #expect(status.snoozeMinutes == 10)
         #expect(status.audioMode == "headphonesOnly")
         #expect(status.showInDock == false)

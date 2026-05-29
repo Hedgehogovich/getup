@@ -11,6 +11,7 @@ enum TestMode {
 struct TestModeStatus: Codable {
     let pid: Int32
     let fireMinute: Int
+    let fireIntervalMinutes: Int
     let snoozeMinutes: Int
     let audioMode: String
     let volume: Double

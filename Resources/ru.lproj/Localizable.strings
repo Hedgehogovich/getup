@@ -14,7 +14,11 @@
 "About" = "О программе";
 
 "Schedule" = "Расписание";
-"Fire at minute" = "Срабатывать на минуте";
+"Anchor minute" = "Опорная минута";
+"Reminder interval" = "Интервал напоминаний";
+"%d min" = "%d мин";
+"Rings at %@ each hour." = "Звонит каждый час в %@.";
+"Rings at %@ every 2 hours." = "Звонит каждые 2 часа в %@.";
 
 "When to play audio" = "Когда воспроизводить звук";
 "Mode" = "Режим";
